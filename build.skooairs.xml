@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?> 
+
+ <project basedir="." default="all" name="SkooAirs Builder">
+  <property environment="env" /> 
+  <!-- <property file="build.library.properties" />  -->
+
+ <target name="all">
+ <echo>******************************************************</echo> 
+ <echo>*****               Uralys 2010                   ****</echo> 
+ <echo>*****             SkooAirs Builder                ****</echo> 
+ <echo>*****            Author : Chris Dugne             ****</echo> 
+ <echo>******************************************************</echo> 
+
+ <echo>Creating folders to build</echo> 
+ 
+ <mkdir dir="build/library"/> 	
+ 	
+ <echo>Converting files to .as</echo> 
+ 	
+ <copy todir="build/">
+ 	    <fileset dir="flex.src"/>
+ 	    <globmapper from="*.hx" to="*.as"/>
+ </copy>
+
+ <copy todir="build/">
+	 <fileset dir="flex/view"/>
+ </copy>
+ 
+ <!-- ===========================================  -->
+ <!-- moving the mains from apps to the build root -->
+ <copy todir="build/">
+	 <fileset dir="build/apps/"/>
+ </copy>
+ <!-- ===========================================  -->
+ 
+
+ <echo>Copying ressources</echo> 
+ 
+ <copy todir="build/library">
+ 	    <fileset dir="flex/library"/>
+ </copy>
+ 	
+
+ 	
+ <echo>Compiling : mxmlc</echo> 
+ <echo>******************************************************</echo> 
+ 	 	
+   <!--<arg value="- -keep-generated-actionscript"/>-->
+  <exec executable="mxmlc">
+    <arg value="build/Main.mxml"/>
+    <arg value="-services"/>
+    <arg value="/Users/mad/Projects/SkooAirs/war/WEB-INF/flex/services-config.xml"/>
+    <arg value="-source-path"/>
+    <arg value="build/"/>
+    <arg value="-include-libraries"/>
+    <arg value="build/library/GraphAPI_Web_1_0.swc"/>
+    <arg value="-o"/>
+    <arg value="war/skooairs.swf"/>
+  	
+  	<arg value="-default-frame-rate"/>
+    <arg value="24"/>
+    
+  	<arg value="-default-background-color"/>
+    <arg value="#ffffff"/>
+  </exec>
+
+ <echo>******************************************************</echo> 
+
+<echo>Deleting build files</echo> 
+  <delete dir="build"/>
+ 
+ <echo>******************************************************</echo> 
+ 	   
+ 	
+  </target>
+  
+</project>

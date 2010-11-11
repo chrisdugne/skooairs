@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:qs="qs.controls.*"
+				xmlns:custom="custom.*">
+
+		<!-- ========================================================================== -->
+
+	   <fx:Script source="../com/skooairs/forms/Home.as"/>
+		
+		<fx:Declarations>
+			<s:Scale3D id="scale" scaleXBy="-.25" scaleYBy="-.35"
+						duration="360"
+						repeatCount="2"
+            			repeatBehavior="reverse"/>
+			
+		</fx:Declarations>
+		
+		<!-- ========================================================================== -->
+		
+		<mx:Image source="resources/images/skooairs.png" 
+					x="120" y="75"/>
+					
+		<s:VGroup x="180" y="190">
+			<mx:Button label="{Translations.NEW_GAME.getItemAt(Session.LANGUAGE)}"
+						 styleName="bigButtonStyle"
+						 visible="{initDone}"
+						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+						 click="MusicPlayer.getInstance().playOkSound();newGame()"/>
+			<s:HGroup>
+				<mx:Spacer width="80"/>
+				<mx:Button label="{Translations.BOARD.getItemAt(Session.LANGUAGE)}" 
+						styleName="bigButtonStyle"
+						 visible="{initDone}"
+						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+						click="MusicPlayer.getInstance().playOkSound();scores()"/>
+			</s:HGroup>
+			
+		</s:VGroup>
+		
+</mx:Canvas>

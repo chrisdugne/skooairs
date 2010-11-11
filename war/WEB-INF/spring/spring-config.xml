@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- ============================================================================================================================== -->
+	<!--  (MainDao) -->
+	
+	<bean id="mainDao" class="com.skooairs.dao.impl.MainDAO"/>
+
+	<!--  end of MainDao -->
+	<!-- ============================================================================================================================== -->
+	<!--  (InitDao) -->
+	
+	<bean id="initDao" 
+			class="com.skooairs.dao.impl.InitDAO"
+			parent="mainDao"/>
+	
+	<!--  end of InitDao -->
+	<!-- ============================================================================================================================== -->
+	<!--  (Service) -->
+	<!-- SERVICE PARENT : (Service) -->
+	
+	<bean id="service"
+		class="com.skooairs.services.impl.Service">
+	</bean>
+	
+	<!-- end of Service -->
+	<!-- ============================================================================================================================== -->
+	<!--  (PlayerService) -->
+		
+	<bean id="playerDao" 
+		class="com.skooairs.dao.impl.PlayerDAO"
+		parent="mainDao"/>
+
+	<bean id="playerDomain" class="com.skooairs.domain.impl.PlayerManager">
+		<constructor-arg index="0">
+			<ref bean="playerDao" />
+		</constructor-arg>
+	</bean>
+	
+	<bean id="playerServiceBean" 
+		class="com.skooairs.services.impl.PlayerService"
+		parent="service">
+		<constructor-arg index="0">
+			<ref bean="playerDomain" />
+		</constructor-arg>
+	</bean>
+	
+	<!--  end of PlayerService -->
+	<!-- ============================================================================================================================== -->
+
+</beans>

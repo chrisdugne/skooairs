@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+     
+<s:Group	xmlns:fx="http://ns.adobe.com/mxml/2009"  
+			xmlns:mx="library://ns.adobe.com/flex/mx"  
+			xmlns:s="library://ns.adobe.com/flex/spark"
+			xmlns:custom="custom.*" 
+			width="720"
+			height="560">
+							
+	<!--  ================================================================================================== -->
+	
+	<s:Rect height="100%" width="100%" radiusX="5" radiusY="5">
+	      <s:stroke>
+	          <s:SolidColorStroke id="borderStroke" color="{Numbers.BLACK}" weight="2"/>
+	      </s:stroke>
+	      <s:fill>
+	      	<mx:LinearGradient>
+				<mx:entries>
+					<mx:GradientEntry color="0x00000" ratio="1" alpha="0.9"/>
+				</mx:entries>
+			</mx:LinearGradient>
+	      </s:fill>
+	</s:Rect>
+	
+
+	<fx:Script source="../com/skooairs/windows/Tutorial.as"/>
+		
+	<fx:Declarations>
+		<s:Fade id="fadeEffect"
+			alphaFrom="1" alphaTo="0"
+			effectStart="{continueButton.enabled=false}"
+			effectEnd="{step++; appearEffect.play()}"
+			target="{image}"
+            duration="450" />		
+		<s:Fade id="appearEffect"
+			alphaFrom="0" alphaTo="1"
+			effectEnd="{continueButton.enabled=true}"
+			target="{image}"
+            duration="450" />		
+	</fx:Declarations>
+
+	<!--  ================================================================================================== -->
+	
+	<mx:Image source="resources/images/tutos/tuto_{Session.LANGUAGE == 0 ? 'fr' : 'en'}_{step}.png"
+			 id="image"
+			 y="{step > 1 ? 40 : 0}"/>
+	
+	<mx:Button id="continueButton" 
+				label="{Translations.CONTINUE.getItemAt(Session.LANGUAGE)}" 
+				mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+				x="590" top="5" 
+				click="{MusicPlayer.getInstance().playOkSound();continueTuto()}"
+				styleName="littleButtonStyle"/>
+	
+	<mx:Button id="skipButton" 
+				label="{Translations.SKIP.getItemAt(Session.LANGUAGE)}" 
+				mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+				x="30" top="5" 
+				click="{MusicPlayer.getInstance().playOkSound();skip()}"
+				styleName="littleButtonStyle"/>
+	
+</s:Group>

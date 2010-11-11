@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:qs="qs.controls.*"
+				xmlns:custom="custom.*"
+				xmlns:button="buttons.*"
+				clipContent="false">
+
+		<!-- ========================================================================== -->
+
+	    <fx:Script source="../com/skooairs/forms/Play.as"/>
+		
+		<!-- ========================================================================== -->
+	
+		<fx:Declarations>			
+			
+			<mx:RemoteObject id="playerWrapper" 
+				        destination="PlayerWrapper" 
+				        endpoint="{Names.SERVER_AMF_ENDPOINT}">
+		
+				         <mx:method name="getRecord"
+				         			result="onGetRecord(event)"/>
+			</mx:RemoteObject>
+			
+			<s:Move id="nextSquareMover"
+					xFrom="{Session.NEXT_SQUARE_X}"
+					yFrom="{Session.NEXT_SQUARE_Y}"
+					xTo="{Session.WAITING_SQUARE_X}"
+					yTo="{Session.WAITING_SQUARE_Y}"
+					duration="150"/>
+
+			<s:Move id="waitingSquareMoverPrepare"
+					xFrom="{Session.WAITING_SQUARE_X}"
+					yFrom="{Session.WAITING_SQUARE_Y}"
+					xTo="{Session.WAITING_SQUARE_X + 55}"
+					duration="70"/>
+
+			<s:Move id="waitingSquareMover"
+					xFrom="{Session.WAITING_SQUARE_X + 55}"
+					yFrom="{Session.WAITING_SQUARE_Y}"
+					xTo="{Session.CURRENT_SQUARE_X}"
+					yTo="{Session.CURRENT_SQUARE_Y}"
+					effectEnd="{SquareMover.getInstance().waitingMoveDone();}"
+					duration="150"/>
+
+			<s:Move id="currentSquareMover"
+					xFrom="{Session.CURRENT_SQUARE_X}"
+					yFrom="{Session.CURRENT_SQUARE_Y}"
+					xTo="{Session.CURRENT_SHADOW_X}"
+					yTo="{Session.CURRENT_SHADOW_Y}"
+					duration="150"
+					effectEnd="{SquareMover.getInstance().placeNewSquare();}"/>			
+					
+			<s:Scale3D id="boomsScale" scaleXBy="+.5" scaleYBy="+.5"
+					duration="150"
+					targets="{[boomsImage, boomsLabel]}"
+					repeatCount="2"
+           			repeatBehavior="reverse"
+           			effectStart="{Session.BOOM_SCALE_LOCK = true}"
+           			effectEnd="{Session.BOOM_SCALE_LOCK = false}"/>
+					
+			<mx:Parallel id="appearBaseLabelEffect">
+				<s:Fade
+					alphaFrom="1" alphaTo="0"
+	                duration="1500"
+	                effectEnd="{removeLabel()}"/>
+				<s:Move
+					yFrom="200" yTo="150"
+	                duration="1500"/>
+               <s:Scale3D scaleXBy="+4" scaleYBy="+4"
+							duration="1500"/>
+			</mx:Parallel>		
+			<mx:Parallel id="appearBonusLabelEffect">
+				<s:Fade
+					alphaFrom="1" alphaTo="0"
+	                duration="1500"
+	                effectEnd="{removeLabel()}"/>
+				<s:Move
+					yFrom="300" yTo="250"
+	                duration="1500" />
+               <s:Scale3D scaleXBy="+5" scaleYBy="+5"
+							duration="1500"/>
+			</mx:Parallel>		
+		</fx:Declarations>					   
+
+		<!-- ========================================================================== -->
+
+		<s:Group width="100%" height="100%">
+			<mx:Label id="gameTimerLabel" x="430" y="0" styleName="bigGreenStyle" visible="{!Session.GAME_OVER}"/>
+			<mx:Label id="pointsLabel" x="75" y="15" text="{Session.POINTS} pts" styleName="normalGreenStyle" visible="{!Session.GAME_OVER}"/>
+			<mx:Label id="recordLabel" x="85" y="55" text="Record : {Session.POINTS > Session.CURRENT_RECORD ? Session.POINTS : Session.CURRENT_RECORD} pts" styleName="littleGreenStyle" visible="{!Session.GAME_OVER}"/>
+			
+			<mx:Image id="panneau"
+					  source="resources/images/play/panneau.png"
+					  x="42"
+					  y="112"/>
+		
+			<mx:Image id="boomsImage"
+					  source="resources/images/play/boom.png"
+					  x="90"
+					  y="290"/>
+		
+			<mx:Label id="boomsLabel" 
+						x="97" y="320" 
+						text="X {Session.NB_BOOMS}" 
+						styleName="bigGreen2Style"/>
+						
+			<button:PlayButton id="boomButton"
+					  x="75"
+					  y="365"
+					  click="{MusicPlayer.getInstance().playLoadBombSound();boomButtonPushed()}"/>
+
+		<!-- ========================================================================== -->
+
+
+			<s:Group x="210"
+					 y="10"
+					 click="clickHandler(event)"
+					 mouseMove="moveHandler(event)">
+				
+				<mx:Image source="resources/images/play/plateau.png"/>
+
+				<mx:Image id="shadowImage"
+						  alpha="0.2"
+						  x="{Session.CURRENT_SHADOW_X}"
+						  y="{Session.CURRENT_SHADOW_Y}"/>
+
+				<s:Group id="squareContainer" width="100%" height="100%"/>
+				
+			</s:Group>
+
+			<s:Group x="210"
+					 y="10"
+					 id="board"/>
+
+		<!-- ========================================================================== -->
+
+			<mx:Image id="gameOverImage" 
+					  x="160" y="180"
+			 		  visible="{Session.GAME_OVER}"
+			 		  source="resources/images/gameOver.png"/>
+			<mx:Label id="pointsLabelFinal" 
+						right="235" 
+						y="115" 
+						text="{Session.POINTS} pts" 
+						styleName="biggestWhiteStyle" 
+						visible="{Session.GAME_OVER}"/>
+			<mx:Label id="recordLabelFinal" 
+						x="{Session.LANGUAGE == 0 ? 235 : 275}" 
+						y="285" 
+						text="{Translations.NEW_RECORD.getItemAt(Session.LANGUAGE)}" 
+						styleName="biggestWhiteStyle" 
+						visible="{Session.GAME_OVER &amp;&amp; Session.player.playerUID != 'NOT_CONNECTED' &amp;&amp; Session.POINTS > Session.CURRENT_RECORD}"/>
+						
+			<mx:TextInput id="surnameInput" 
+						x="400" y="360"
+						height="30"
+						width="180" 
+						enter="endGame()"
+						text="{Session.player.surname}"
+						visible="{Session.GAME_OVER &amp;&amp; Session.player.playerUID != 'NOT_CONNECTED' &amp;&amp; Session.POINTS > Session.CURRENT_RECORD}"/>
+			
+			<mx:Button visible="{Session.GAME_OVER}"
+						label="{Translations.CONTINUE.getItemAt(Session.LANGUAGE)}"
+					    x="340" y="400"
+						mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+					    styleName="bigButtonStyle"
+						click="{MusicPlayer.getInstance().playOkSound();endGame()}"/>
+						
+			
+			<mx:ProgressBar id="boomProgressBar"
+							x="75"
+							y="360"
+				            barSkin="skins.CustomProgressBarSkin"
+				            label=""
+				            width="{boomButton.width}"
+				 		    visible="{!Session.GAME_OVER}"
+				            mode="manual" />
+			
+			<mx:Button id="exitButton" 
+						x="485" y="505" 
+						label="{Translations.EXIT.getItemAt(Session.LANGUAGE)}" 
+						styleName="littleButtonStyle"
+						mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+						click="MusicPlayer.getInstance().playOkSound();stopGameTimer()" 
+						visible="{!Session.GAME_OVER}"/>
+			
+
+		</s:Group>		
+</mx:Canvas>

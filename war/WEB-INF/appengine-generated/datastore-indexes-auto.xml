@@ -1,0 +1,12 @@
+<!-- Indices written at Sun, 24 Oct 2010 20:16:28 UTC -->
+
+<datastore-indexes>
+
+    <!-- Used 18 times in query history -->
+    <datastore-index kind="BoardDTO" ancestor="false" source="auto">
+        <property name="colors" direction="asc"/>
+        <property name="time" direction="asc"/>
+        <property name="points" direction="desc"/>
+    </datastore-index>
+
+</datastore-indexes>
