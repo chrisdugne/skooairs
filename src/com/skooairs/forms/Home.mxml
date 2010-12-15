@@ -1,27 +1,33 @@
 <?xml version="1.0"?>
 
-<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
-				xmlns:mx="library://ns.adobe.com/flex/mx" 
-				xmlns:s="library://ns.adobe.com/flex/spark"
-				xmlns:qs="qs.controls.*"
-				xmlns:custom="custom.*">
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:qs="qs.controls.*"
+		 xmlns:custom="custom.*"
+		 xmlns:ns1="*"
+		 creationComplete="init()">
 
 		<!-- ========================================================================== -->
 
 	   <fx:Script>
 		   <![CDATA[
-			   import com.skooairs.core.Pager;
-			   import com.skooairs.core.MusicPlayer;
-			   import com.skooairs.utils.Utils;
-			   
-			   import com.skooairs.constants.Session;
 			   import com.skooairs.constants.Names;
 			   import com.skooairs.constants.Numbers;
+			   import com.skooairs.constants.Session;
 			   import com.skooairs.constants.Translations;
+			   import com.skooairs.core.MusicPlayer;
+			   import com.skooairs.core.Pager;
+			   import com.skooairs.utils.Utils;
+			   
+			   import mx.core.UIComponent;
 			   
 			   [Bindable] public var initDone:Boolean = true;
 			   
 			   //-----------------------------------------------------------------------------------//
+			   
+			   private function init():void {
+			   }
 			   
 			   private function newGame():void {
 				   Pager.getInstance().goToView(Numbers.VIEW_SELECTIONS);
@@ -50,30 +56,18 @@
 					
 		<s:VGroup x="180" y="190">
 			<s:Button label="{Translations.NEW_GAME.getItemAt(Session.LANGUAGE)}"
-						 styleName="bigButtonStyle"
-						 skinClass="com.skooairs.components.buttons.SimpleButtonSkin"
-						 visible="{initDone}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 click="MusicPlayer.getInstance().playOkSound();newGame()"/>
-			<s:Button label="{Translations.NEW_GAME.getItemAt(Session.LANGUAGE)}"
-						 styleName="bigButtonStyle"
-						 visible="{initDone}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 click="MusicPlayer.getInstance().playOkSound();newGame()"/>
-			<s:Button label="{Translations.NEW_GAME.getItemAt(Session.LANGUAGE)}"
-						 styleName="bigButtonStyle"
+						 skinClass="com.skooairs.skins.BigButtonSkin"
 						 visible="{initDone}"
 						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 						 click="MusicPlayer.getInstance().playOkSound();newGame()"/>
 			<s:HGroup>
 				<mx:Spacer width="80"/>
 				<s:Button label="{Translations.BOARD.getItemAt(Session.LANGUAGE)}" 
-						styleName="bigButtonStyle"
+						 skinClass="com.skooairs.skins.BigButtonSkin"
 						 visible="{initDone}"
 						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						click="MusicPlayer.getInstance().playOkSound();scores()"/>
+						 click="MusicPlayer.getInstance().playOkSound();scores()"/>
 			</s:HGroup>
-			
 		</s:VGroup>
 		
-</mx:Canvas>
+</s:Group>

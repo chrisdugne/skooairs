@@ -12,7 +12,7 @@ public class Session{
 
 	//=====================================================//
 
-	[Bindable] public static var VERSION:String = "1.0.7";
+	[Bindable] public static var VERSION:String = "1.1.0";
 	[Bindable] public static var FACEBOOK_UID:String = "";
 	
 	public static var FIRST_VIEW:int;
@@ -34,8 +34,8 @@ public class Session{
 	[Bindable] public static var WAITING_SQUARE_X:int = -44;
 	[Bindable] public static var WAITING_SQUARE_Y:int = 447;
 
-	[Bindable] public static var CURRENT_SQUARE_X:int = 228;
-	[Bindable] public static var CURRENT_SQUARE_Y:int = 3;
+	public static var INIT_CURRENT_SQUARE_X:int = 228;
+	public static var INIT_CURRENT_SQUARE_Y:int = 3;
 
 	[Bindable] public static var CURRENT_SHADOW_X:int = Numbers.X.getItemAt(4) as int;
 	[Bindable] public static var CURRENT_SHADOW_Y:int = Numbers.Y.getItemAt(3) as int;

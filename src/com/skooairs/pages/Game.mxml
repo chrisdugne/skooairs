@@ -392,7 +392,9 @@
              backgroundAlpha="0"
              historyManagementEnabled="true">
              
-           	  <forms:Home id="home" initDone="{initDone}"/>
+           	  <s:NavigatorContent>
+				  <forms:Home id="home" initDone="{initDone}"/>
+			  </s:NavigatorContent>
            	  <forms:Selections id="selections"/>
            	  <forms:Play id="play" show="play.reset();"/>
            	  <forms:Boards id="boards" show="boards.refresh();"/>

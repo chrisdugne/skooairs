@@ -121,29 +121,30 @@
 					y="80"
 					styleName="normalGreenStyle"/>
 		<s:VGroup x="95" y="125">
+			<mx:Spacer height="10"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="3"
-					   styleName="bigButtonStyle"
+					   skinClass="com.skooairs.skins.BigButtonSkin"
 					   click="{if(lock)return;colorsMover.yTo=135;colorsMover.play();
 					   		   selectedColors=3;
 					   		   refresh();}"
 					   />
-			<mx:Spacer height="20"/>
+			<mx:Spacer height="47"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="4"
-					   styleName="bigButtonStyle"
+					   skinClass="com.skooairs.skins.BigButtonSkin"
 					   click="{if(lock)return;colorsMover.yTo=237;colorsMover.play();
 					   		   selectedColors=4;
 					   		   refresh();}"
 					   />
-			<mx:Spacer height="20"/>
+			<mx:Spacer height="47"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="5"
-					   styleName="bigButtonStyle"
+					   skinClass="com.skooairs.skins.BigButtonSkin"
 					   click="{if(lock)return;colorsMover.yTo=339;colorsMover.play();
 					   		   selectedColors=5;
 					   		   refresh();}"
 					   />
-			<mx:Spacer height="20"/>
+			<mx:Spacer height="47"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="6"
-					   styleName="bigButtonStyle"
+					   skinClass="com.skooairs.skins.BigButtonSkin"
 					   click="{if(lock)return;colorsMover.yTo=441;colorsMover.play();
 					   		   selectedColors=6;
 					   		   refresh();}"
@@ -151,39 +152,45 @@
 	    </s:VGroup>
 		
 		<s:VGroup x="605" y="115">
+			<mx:Spacer height="13"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="2 min"
-					   styleName="littleButtonStyle"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;timeBorderMover.yTo=128;timeBorderResizer.widthTo=75;timeParallel.play();
 					   		   selectedTime=2;
 					   		   refresh();}"
 					   />
+			<mx:Spacer height="44"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="3 min"
-					   styleName="littleButtonStyle"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;timeBorderMover.yTo=204;timeBorderResizer.widthTo=75;timeParallel.play();
 					   		   selectedTime=3;
 					   		   refresh();}"
 					   />
+			<mx:Spacer height="44"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="5 min"
-					   styleName="littleButtonStyle"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;timeBorderMover.yTo=280;timeBorderResizer.widthTo=75;timeParallel.play();
 					   		   selectedTime=5;
 					   		   refresh();}"
 					   />
+			<mx:Spacer height="44"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="7 min"
-					   styleName="littleButtonStyle"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;timeBorderMover.yTo=355;timeBorderResizer.widthTo=75;timeParallel.play();
 					   		   selectedTime=7;
 					   		   refresh();}"
 					   />
+			<mx:Spacer height="44"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="10 min"
-					   styleName="littleButtonStyle"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;timeBorderMover.yTo=433;timeBorderResizer.widthTo=84;timeParallel.play();
 					   		   selectedTime=10;
 					   		   refresh();}"
 					   />
 			<!-- 
+			<mx:Spacer height="10"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="{Translations.NO_TIME_LIMIT.getItemAt(Session.LANGUAGE)}"
-					   styleName="littleButtonStyle"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;timeBorderMover.yTo=448;timeBorderResizer.widthTo=105;timeParallel.play();
 					   		   selectedTime=0;
 					   		   refresh();}"
@@ -191,17 +198,17 @@
 			-->
 		 </s:VGroup>
 		 
-		 <s:HGroup x="500" y="-10">
+		 <s:HGroup x="500" y="17">
 			<mx:Spacer width="{Session.LANGUAGE == 0 ? 0 : 10}"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="{Translations.WORLD.getItemAt(Session.LANGUAGE)}"
-					   styleName="littleButtonStyle"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{friendsBorderMover.xTo=508;friendsBorderMover.play();
 					   		   selectedGroup=1;
 					   		   refresh();}"
 					   />
 			<mx:Spacer width="{Session.LANGUAGE == 0 ? 6 : -10}"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="{Translations.FRIENDS.getItemAt(Session.LANGUAGE)}"
-					   styleName="littleButtonStyle"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;friendsBorderMover.xTo=603;friendsBorderMover.play();
 					   		   selectedGroup=2;
 					   		   refresh();}"
@@ -275,9 +282,11 @@
 		
 		</s:Group>  
 		
-		<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="{Translations.BACK.getItemAt(Session.LANGUAGE)}" styleName="classicButtonStyle"
-					x="95" y="-20"
-					click="{MusicPlayer.getInstance().playOkSound();Pager.getInstance().goToView(Numbers.VIEW_HOME)}"/>
+		<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+				  label="{Translations.BACK.getItemAt(Session.LANGUAGE)}"
+				  skinClass="com.skooairs.skins.BigButtonSkin"
+				  x="95" y="10"
+				  click="{MusicPlayer.getInstance().playOkSound();Pager.getInstance().goToView(Numbers.VIEW_HOME)}"/>
 		
 		
 		

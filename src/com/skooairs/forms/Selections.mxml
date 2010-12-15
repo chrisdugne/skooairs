@@ -108,268 +108,86 @@
 					target="{colorsBorder}"
 					duration="300"
 		            easer="{elasticEasing}"/>
-		    <!-- 
-			<mx:Parallel id="speedParallel">
-				<s:Move id="speedBorderMover"
-						target="{speedBorder}"
-						duration="300"
-			            easer="{elasticEasing}"/>
-				<s:Resize id="speedBorderResizer"
-						target="{speedBorder}"
-						duration="150"/>
-			</mx:Parallel>
-			-->	
 		</fx:Declarations>
 		
 		<!-- ========================================================================== -->
 	
 		
-		<s:VGroup x="12" y="60">
+		<s:VGroup x="12" y="92">
 			<s:HGroup><mx:Spacer width="55"/><s:Label styleName="bigGreenStyle" text="{Translations.TIME.getItemAt(Session.LANGUAGE)}"/></s:HGroup>
+			<mx:Spacer height="5"/>
 			<s:HGroup>
-				<mx:Spacer width="75"/>
+				<mx:Spacer width="77"/>
 				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 						   label="2 min"
-						   styleName="littleButtonStyle"
+						   skinClass="com.skooairs.skins.LittleButtonSkin"
 						   click="{timeBorderMover.xTo=92;timeBorderResizer.widthTo=75;timeParallel.play();
 						   		   selectedTime='2 min'}"
 						   />
+				<mx:Spacer width="3"/>
 				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 							label="3 min"
-						   styleName="littleButtonStyle"
+						   skinClass="com.skooairs.skins.LittleButtonSkin"
 						   click="{timeBorderMover.xTo=170;timeBorderResizer.widthTo=75;timeParallel.play();
 						   		   selectedTime='3 min'}"
 						   />
+				<mx:Spacer width="3"/>
 				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 				label="5 min"
-						   styleName="littleButtonStyle"
+						   skinClass="com.skooairs.skins.LittleButtonSkin"
 						   click="{timeBorderMover.xTo=252;timeBorderResizer.widthTo=75;timeParallel.play();
 						   		   selectedTime='5 min'}"
 						   />
+				<mx:Spacer width="3"/>
 				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 							label="7 min"
-						   styleName="littleButtonStyle"
+						   skinClass="com.skooairs.skins.LittleButtonSkin"
 						   click="{timeBorderMover.xTo=334;timeBorderResizer.widthTo=75;timeParallel.play();
 						   		   selectedTime='7 min'}"
 						   />
+				<mx:Spacer width="3"/>
 				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 							label="10 min"
-						   styleName="littleButtonStyle"
+						   skinClass="com.skooairs.skins.LittleButtonSkin"
 						   click="{timeBorderMover.xTo=412;timeBorderResizer.widthTo=84;timeParallel.play();
 						   		   selectedTime='10 min'}"
 						   />
-				<!--  
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="{Translations.NO_TIME_LIMIT.getItemAt(Session.LANGUAGE)}"
-						   styleName="littleButtonStyle"
-						   click="{timeBorderMover.xTo=500;timeBorderResizer.widthTo=100;timeParallel.play();
-						   		   selectedTime=Translations.NO_TIME_LIMIT.getItemAt(Session.LANGUAGE) as String}"
-						   />
-				-->
 		    </s:HGroup>
+			<mx:Spacer height="20"/>
 			<s:HGroup><mx:Spacer width="55"/><s:Label styleName="bigGreenStyle" text="{Translations.COLORS.getItemAt(Session.LANGUAGE)}"/></s:HGroup>
+			<mx:Spacer height="20"/>
 			<s:HGroup>
 				<mx:Spacer width="153"/>
 				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 						 label="3"
-						   styleName="bigButtonStyle"
+						  skinClass="com.skooairs.skins.BigButtonSkin"
 						   click="{colorsMover.xTo=167;colorsMover.play();
 						   		   selectedColors='3'}"
 						   />
 				<mx:Spacer width="70"/>
 				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 						 label="4"
-						   styleName="bigButtonStyle"
+						  skinClass="com.skooairs.skins.BigButtonSkin"
 						   click="{colorsMover.xTo=293;colorsMover.play();
 						   		   selectedColors='4'}"
 						   />
 				<mx:Spacer width="70"/>
 				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 						 label="5"
-						   styleName="bigButtonStyle"
+						  skinClass="com.skooairs.skins.BigButtonSkin"
 						   click="{colorsMover.xTo=422;colorsMover.play();
 						   		   selectedColors='5'}"
 						   />
 				<mx:Spacer width="70"/>
 				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 						 label="6"
-						   styleName="bigButtonStyle"
+						  skinClass="com.skooairs.skins.BigButtonSkin"
 						   click="{colorsMover.xTo=547;colorsMover.play();
 						   		   selectedColors='6'}"
 						   />
 		    </s:HGroup>
-		    <!-- 
-			<s:HGroup><mx:Spacer width="55"/><s:Label styleName="bigGreenStyle" text="{Translations.INITIAL_SPEED.getItemAt(Session.LANGUAGE)}"/></s:HGroup>
-			<s:HGroup>
-				<mx:Spacer width="35"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="1"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=48;speedBorderMover.yTo=374;speedParallel.play();
-						   		   selectedSpeed='1'}"
-						   />
-				<mx:Spacer width="5"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="2"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=95;speedBorderMover.yTo=374;speedParallel.play();
-						   		   selectedSpeed='2'}"
-						   />
-				<mx:Spacer width="5"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="3"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=142;speedBorderMover.yTo=374;speedParallel.play();
-						   		   selectedSpeed='3'}"
-						   />
-				<mx:Spacer width="5"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="4"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=189;speedBorderMover.yTo=374;speedParallel.play();
-						   		   selectedSpeed='4'}"
-						   />
-				<mx:Spacer width="5"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="5"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=236;speedBorderMover.yTo=374;speedParallel.play();
-						   		   selectedSpeed='5'}"
-						   />
-				<mx:Spacer width="5"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="6"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=284;speedBorderMover.yTo=374;speedParallel.play();
-						   		   selectedSpeed='6'}"
-						   />
-				<mx:Spacer width="5"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="7"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=332;speedBorderMover.yTo=374;speedParallel.play();
-						   		   selectedSpeed='7'}"
-						   />
-				<mx:Spacer width="5"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="8"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=379;speedBorderMover.yTo=374;speedParallel.play();
-						   		   selectedSpeed='8'}"
-						   />
-				<mx:Spacer width="5"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="9"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=426;speedBorderMover.yTo=374;speedParallel.play();
-						   		   selectedSpeed='9'}"
-						   />
-				<mx:Spacer width="5"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="10"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=478;speedBorderMover.yTo=374;speedParallel.play();
-						   		   selectedSpeed='10'}"
-						   />
-		   </s:HGroup>
-			<s:HGroup>
-				<mx:Spacer width="35"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="11"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=48;speedBorderMover.yTo=449;speedParallel.play();
-						   		   selectedSpeed='11'}"
-						   />
-				<mx:Spacer width="-1"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="12"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=95;speedBorderMover.yTo=449;speedParallel.play();
-						   		   selectedSpeed='12'}"
-						   />
-				<mx:Spacer width="-1"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="13"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=142;speedBorderMover.yTo=449;speedParallel.play();
-						   		   selectedSpeed='13'}"
-						   />
-				<mx:Spacer width="-1"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="14"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=189;speedBorderMover.yTo=449;speedParallel.play();
-						   		   selectedSpeed='14'}"
-						   />
-				<mx:Spacer width="-1"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="15"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=237;speedBorderMover.yTo=449;speedParallel.play();
-						   		   selectedSpeed='15'}"
-						   />
-				<mx:Spacer width="-1"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="16"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=284;speedBorderMover.yTo=449;speedParallel.play();
-						   		   selectedSpeed='16'}"
-						   />
-				<mx:Spacer width="-1"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="17"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=332;speedBorderMover.yTo=449;speedParallel.play();
-						   		   selectedSpeed='17'}"
-						   />
-				<mx:Spacer width="-1"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="18"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=379;speedBorderMover.yTo=449;speedParallel.play();
-						   		   selectedSpeed='18'}"
-						   />
-				<mx:Spacer width="-1"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="19"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=426;speedBorderMover.yTo=449;speedParallel.play();
-						   		   selectedSpeed='19'}"
-						   />
-				<mx:Spacer width="-1"/>
-				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"label="20"
-						   styleName="littleButtonStyle"
-						   click="{speedBorderMover.xTo=478;speedBorderMover.yTo=449;speedParallel.play();
-						   		   selectedSpeed='20'}"
-						   />
-		   </s:HGroup>
-		    -->
-
 		</s:VGroup>
 		
-			
 		<s:Group id="timeBorder"
 				 x="92" y="122" 
 				 height="45" width="75">
@@ -413,29 +231,6 @@
 		    </s:Graphic>
 		
 		</s:Group>  
-
-		<!-- 
-		<s:Group id="speedBorder"
-				 x="48" y="374" 
-				 height="40" width="40">
-				
-			<s:Graphic x="0" y="0">
-		        <s:Rect height="{speedBorder.height}" width="{speedBorder.width}" radiusX="15" radiusY="15">
-		            <s:stroke>
-		                <s:SolidColorStroke color="{Numbers.WHITE}" weight="2"/>
-		            </s:stroke>
-		            <s:fill>
-		            	<mx:LinearGradient>
-					  		<mx:entries>
-					  			<mx:GradientEntry color="0x00000" ratio="1" alpha="0.2"/>
-					  		</mx:entries>
-					  	</mx:LinearGradient>
-		            </s:fill>
-		        </s:Rect>
-		    </s:Graphic>
-		
-		</s:Group>  
- 		-->
  		
 		<s:Group id="resultBorder"
 				 x="350" y="332" 
@@ -456,7 +251,6 @@
 		            </s:fill>
 		        </s:Rect>
 		    </s:Graphic>
-		
 		</s:Group>  
 		
 		<s:Label text="{Translations.TIME.getItemAt(Session.LANGUAGE)}  :   {selectedTime.indexOf( 'min', 0 ) != -1 ? selectedTime : '-'}"
@@ -466,19 +260,15 @@
 				  x="355" y="380" 
 				  styleName="normalGreen2Style"/>
 				  
-				  <!-- 
-		<s:Label text="{Translations.SPEED.getItemAt(Session.LANGUAGE)}  :   {selectedSpeed}"
-				  x="555" y="430" 
-				  styleName="normalGreen2Style"/>
-		 		  -->
-		 		   
 		<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-					label="Go!" styleName="biggestButtonStyle"
-					x="385" y="400"
+					label="Go!" 
+					skinClass="com.skooairs.skins.BigButtonSkin"
+					x="405" y="420"
 					click="MusicPlayer.getInstance().playOkSound();go()"/>
 
 		<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-					label="{Translations.BACK.getItemAt(Session.LANGUAGE)}" styleName="classicButtonStyle"
+					label="{Translations.BACK.getItemAt(Session.LANGUAGE)}" 
+					skinClass="com.skooairs.skins.BigButtonSkin"
 					x="85" y="0"
 					click="{MusicPlayer.getInstance().playOkSound();Pager.getInstance().goToView(Numbers.VIEW_HOME)}"/>
 		

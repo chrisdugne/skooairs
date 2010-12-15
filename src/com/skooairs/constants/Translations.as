@@ -39,7 +39,7 @@ public class Translations{
 	public static var SKIP:ArrayCollection = new ArrayCollection(
 									["Passer",
 									"Skip",
-									"Skip"]);
+									"Skip"]); 
 	[Bindable]
 	public static var LOG_IN_TO_SEE_RECORDS:ArrayCollection = new ArrayCollection(
 									["Vous devez être loggué pour voir et battre vos scores !",

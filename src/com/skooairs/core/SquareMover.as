@@ -63,8 +63,11 @@ public class SquareMover
 		//-----------------------------------------------------------------------------------//
 		
 		// 0,1,2
-		// nextSquare, waitingSquare, currentSquare
+		// nextSquare, waitingSquare
 		private var squares:Array = [];		
+		
+		// currentSquare (le square cache qui sera le depart du placement, et qui sert au calcul de shadowImage)
+		private	var currentSquareImage:Image;
 		
 		//-----------------------------------------------------------------------------------//
 
@@ -91,20 +94,19 @@ public class SquareMover
 			
 			waitingSquareImage.data = new Square(waitingSquareColor, Numbers.CONSTRUCTOR);
 
-			var currentSquareImage:Image = new Image();
-			var currentSquareColor:int = Utils.random(Session.COLORS);
-			currentSquareImage.source = Names.SQUARES_PATH + currentSquareColor+".png";
-			currentSquareImage.x = Session.CURRENT_SQUARE_X;
-			currentSquareImage.y = Session.CURRENT_SQUARE_Y;
 			
-			currentSquareImage.data = new Square(currentSquareColor, Numbers.CONSTRUCTOR);
+			currentSquareImage = new Image();
+			currentSquareImage.x = currentSquareImage.x;
+			currentSquareImage.y = currentSquareImage.y;
+			
 
 			// click ON the image : elle est par dessus le squarecontainer donc le click doit etre ecoute en plus pour ce carre
 			currentSquareImage.addEventListener(MouseEvent.CLICK, clickHandler); 
+			currentSquareImage.visible = false;
 
 			//-----------------------------------------------------------------------------------//
 
-			squares = [nextSquareImage, waitingSquareImage, currentSquareImage];									Session.play.board.removeAllElements();	
+			squares = [nextSquareImage, waitingSquareImage];									Session.play.board.removeAllElements();	
 			Session.play.board.addElement(nextSquareImage);
 			Session.play.board.addElement(waitingSquareImage);
 			Session.play.board.addElement(currentSquareImage);
@@ -112,8 +114,8 @@ public class SquareMover
 			//-----------------------------------------------------------------------------------//
 
 			Session.play.shadowImage.source = Names.SQUARES_PATH 
-											  +	(squares[2].data.status == Numbers.DESTRUCTOR ? 'boom_': '')
-											  + squares[2].data.color
+											  +	(squares[1].data.status == Numbers.DESTRUCTOR ? 'boom_': '')
+											  + squares[1].data.color
 											  + ".png";
 
 			last_x = -1;
@@ -192,8 +194,8 @@ public class SquareMover
 				 // no move was possible : on recupere l'interdiction de click qui reste valable (si elle etait levee) finalement
 	    		 
 				// no move was possible : on fait un move avec la souris sur l'emplacement du CURRENT_SQUARE (en 10,10 du carre)
-				 _x = getX(Session.CURRENT_SQUARE_X+10, 1);
-				 _y = getY(Session.CURRENT_SQUARE_Y+10, 1);
+				 _x = getX(currentSquareImage.x+10, 1);
+				 _y = getY(currentSquareImage.y+10, 1);
 				 
 				setSquaresCoordinatesForMouseInCase(_x, _y, false);
 				 
@@ -231,10 +233,15 @@ public class SquareMover
 	    	Session.play.nextSquareMover.target = squares[0];
 	    	Session.play.nextSquareMover.play();
 
-	    	Session.play.waitingSquareMoverPrepare.target = squares[1];
-	    	Session.play.waitingSquareMoverPrepare.play();
-
-	    	Session.play.currentSquareMover.target = squares[2];
+			// teleportation
+			squares[1].x = currentSquareImage.x;
+			squares[1].y = currentSquareImage.y;
+			
+	    	Session.play.currentSquareMover.target = squares[1];
+			Session.play.currentSquareMover.xFrom = currentSquareImage.x;
+			Session.play.currentSquareMover.yFrom = currentSquareImage.y;
+			Session.play.currentSquareMover.xTo = Session.CURRENT_SHADOW_X;
+			Session.play.currentSquareMover.yTo = Session.CURRENT_SHADOW_Y;
 	    	Session.play.currentSquareMover.play();
 			
 	    }
@@ -251,6 +258,9 @@ public class SquareMover
 								  +	'boom_'
 								  + squares[1].data.color
 								  + ".png";
+			
+			Session.play.shadowImage.source = squares[1].source;
+			
 			return true;
 		}
 	
@@ -267,35 +277,21 @@ public class SquareMover
 			newSquare.data = new Square(newSquareColor, Numbers.CONSTRUCTOR);
 			
 			Session.play.board.addElement(newSquare);
-			//Session.cases[Session.CURRENT_SHADOW_BOARD_X][Session.CURRENT_SHADOW_BOARD_Y].fill(squares[2], Session.CURRENT_SHADOW_BOARD_X, Session.CURRENT_SHADOW_BOARD_Y);
-			Session.cases[Session.CURRENT_SHADOW_BOARD_X][Session.CURRENT_SHADOW_BOARD_Y].fill(squares[2]);
+			Session.cases[Session.CURRENT_SHADOW_BOARD_X][Session.CURRENT_SHADOW_BOARD_Y].fill(squares[1]);
 			SquareExploder.getInstance().register(Session.cases[Session.CURRENT_SHADOW_BOARD_X][Session.CURRENT_SHADOW_BOARD_Y]);
 				
 	    	var explosion:Boolean = false;
-			if(squares[2].data.status == Numbers.DESTRUCTOR)
+			if(squares[1].data.status == Numbers.DESTRUCTOR)
 				explosion = true;
 				
-			Session.play.board.removeElement(squares[2]);
-			Session.play.squareContainer.addElement(squares[2]);
-
-			squares[2] = squares[1];
+			squares[1].visible = true;
+			Session.play.board.removeElement(squares[1]);
+			Session.play.squareContainer.addElement(squares[1]);
+			
 			squares[1] = squares[0];
 			squares[0] = newSquare;
 			
-			squares[1].source = Names.SQUARES_PATH 
-								  +	(squares[1].data.status == Numbers.DESTRUCTOR ? 'boom_': '')
-								  + squares[1].data.color
-								  + ".png";
-			squares[2].source = Names.SQUARES_PATH 
-								  +	(squares[2].data.status == Numbers.DESTRUCTOR ? 'boom_': '')
-								  + squares[2].data.color
-								  + ".png";
-			squares[2].addEventListener(MouseEvent.CLICK, clickHandler); 
-			
-			Session.play.shadowImage.source = Names.SQUARES_PATH 
-											  +	(squares[2].data.status == Numbers.DESTRUCTOR ? 'boom_': '')
-											  + squares[2].data.color
-											  + ".png";
+			Session.play.shadowImage.source = squares[1].source;
 			
 			// border !
 			if(Session.CURRENT_SHADOW_BOARD_X == 0
@@ -326,8 +322,12 @@ public class SquareMover
 				
 				
 				// deplace l'ancien waiting devenu current au bon endroit calcule
-	    		Session.play.waitingSquareMover.target = squares[2];
-	    		Session.play.waitingSquareMover.play(); // call waitingMoveDone() in effectEnd
+	    		//Session.play.waitingSquareMover.target = squares[2];
+				//squares[2].x = currentSquareImage.x;
+				//squares[2].y = currentSquareImage.y;
+				//squares[2].visible = false;
+				waitingMoveDone();
+				//Session.play.waitingSquareMover.play(); // call waitingMoveDone() in effectEnd
 			}
 
 		}
@@ -378,11 +378,6 @@ public class SquareMover
 					lookForLaunching(UP, i, 8, 1);
 				}	
 			}
-			
-			
-			// udpate the coordinates for the currentSquare (not bind from mxml as it is a 'new Image()')
-			squares[2].x = Session.CURRENT_SQUARE_X;
-			squares[2].y = Session.CURRENT_SQUARE_Y;
 		}
 		
 		private function lookForLaunching(wayToLookFor:int, from_x:int, from_y:int, step:int):void{
@@ -398,8 +393,8 @@ public class SquareMover
 						Session.CURRENT_SHADOW_X = Numbers.X.getItemAt(from_x) as int;
 						Session.CURRENT_SHADOW_Y = Numbers.Y.getItemAt(0) as int;
 						
-						Session.CURRENT_SQUARE_X = Numbers.X.getItemAt(from_x) as int;
-						Session.CURRENT_SQUARE_Y = Numbers.BOARD_BOTTOM;
+						currentSquareImage.x = Numbers.X.getItemAt(from_x) as int;
+						currentSquareImage.y = Numbers.BOARD_BOTTOM;
 						
 						Session.CURRENT_SHADOW_BOARD_X = from_x;
 						Session.CURRENT_SHADOW_BOARD_Y = 0;
@@ -415,8 +410,8 @@ public class SquareMover
 						Session.CURRENT_SHADOW_X = Numbers.X.getItemAt(from_x) as int;
 						Session.CURRENT_SHADOW_Y = Numbers.Y.getItemAt(from_y-step+1) as int;
 						
-						Session.CURRENT_SQUARE_X = Numbers.X.getItemAt(from_x) as int;
-						Session.CURRENT_SQUARE_Y = Numbers.BOARD_BOTTOM;
+						currentSquareImage.x = Numbers.X.getItemAt(from_x) as int;
+						currentSquareImage.y = Numbers.BOARD_BOTTOM;
 						
 						Session.CURRENT_SHADOW_BOARD_X = from_x;
 						Session.CURRENT_SHADOW_BOARD_Y = from_y-step+1;
@@ -436,8 +431,8 @@ public class SquareMover
 						Session.CURRENT_SHADOW_X = Numbers.X.getItemAt(from_x) as int;
 						Session.CURRENT_SHADOW_Y = Numbers.Y.getItemAt(8) as int;
 						
-						Session.CURRENT_SQUARE_X = Numbers.X.getItemAt(from_x) as int;
-						Session.CURRENT_SQUARE_Y = Numbers.BOARD_TOP;
+						currentSquareImage.x = Numbers.X.getItemAt(from_x) as int;
+						currentSquareImage.y = Numbers.BOARD_TOP;
 						
 						Session.CURRENT_SHADOW_BOARD_X = from_x;
 						Session.CURRENT_SHADOW_BOARD_Y = 8;
@@ -453,8 +448,8 @@ public class SquareMover
 						Session.CURRENT_SHADOW_X = Numbers.X.getItemAt(from_x) as int;
 						Session.CURRENT_SHADOW_Y = Numbers.Y.getItemAt(from_y+step-1) as int;
 						
-						Session.CURRENT_SQUARE_X = Numbers.X.getItemAt(from_x) as int;
-						Session.CURRENT_SQUARE_Y = Numbers.BOARD_TOP
+						currentSquareImage.x = Numbers.X.getItemAt(from_x) as int;
+						currentSquareImage.y = Numbers.BOARD_TOP
 						
 						Session.CURRENT_SHADOW_BOARD_X = from_x;
 						Session.CURRENT_SHADOW_BOARD_Y = from_y+step-1;
@@ -474,8 +469,8 @@ public class SquareMover
 						Session.CURRENT_SHADOW_X = Numbers.X.getItemAt(0) as int;
 						Session.CURRENT_SHADOW_Y = Numbers.Y.getItemAt(from_y) as int;
 						
-						Session.CURRENT_SQUARE_X = Numbers.BOARD_RIGHT;
-						Session.CURRENT_SQUARE_Y = Numbers.Y.getItemAt(from_y) as int;
+						currentSquareImage.x = Numbers.BOARD_RIGHT;
+						currentSquareImage.y = Numbers.Y.getItemAt(from_y) as int;
 						
 						Session.CURRENT_SHADOW_BOARD_X = 0;
 						Session.CURRENT_SHADOW_BOARD_Y = from_y;
@@ -491,8 +486,8 @@ public class SquareMover
 						Session.CURRENT_SHADOW_X = Numbers.X.getItemAt(from_x-step+1) as int;
 						Session.CURRENT_SHADOW_Y = Numbers.Y.getItemAt(from_y) as int;
 						
-						Session.CURRENT_SQUARE_X = Numbers.BOARD_RIGHT;
-						Session.CURRENT_SQUARE_Y = Numbers.Y.getItemAt(from_y) as int;
+						currentSquareImage.x = Numbers.BOARD_RIGHT;
+						currentSquareImage.y = Numbers.Y.getItemAt(from_y) as int;
 						
 						Session.CURRENT_SHADOW_BOARD_X = from_x-step+1;
 						Session.CURRENT_SHADOW_BOARD_Y = from_y;
@@ -511,8 +506,8 @@ public class SquareMover
 						Session.CURRENT_SHADOW_X = Numbers.X.getItemAt(8) as int;
 						Session.CURRENT_SHADOW_Y = Numbers.Y.getItemAt(from_y) as int;
 						
-						Session.CURRENT_SQUARE_X = Numbers.BOARD_LEFT;
-						Session.CURRENT_SQUARE_Y = Numbers.Y.getItemAt(from_y) as int;
+						currentSquareImage.x = Numbers.BOARD_LEFT;
+						currentSquareImage.y = Numbers.Y.getItemAt(from_y) as int;
 						
 						Session.CURRENT_SHADOW_BOARD_X = 8;
 						Session.CURRENT_SHADOW_BOARD_Y = from_y;
@@ -528,8 +523,8 @@ public class SquareMover
 						Session.CURRENT_SHADOW_X = Numbers.X.getItemAt(from_x+step-1) as int;
 						Session.CURRENT_SHADOW_Y = Numbers.Y.getItemAt(from_y) as int;
 						
-						Session.CURRENT_SQUARE_X = Numbers.BOARD_LEFT;
-						Session.CURRENT_SQUARE_Y = Numbers.Y.getItemAt(from_y) as int;
+						currentSquareImage.x = Numbers.BOARD_LEFT;
+						currentSquareImage.y = Numbers.Y.getItemAt(from_y) as int;
 						
 						Session.CURRENT_SHADOW_BOARD_X = from_x+step-1;
 						Session.CURRENT_SHADOW_BOARD_Y = from_y;
@@ -730,20 +725,20 @@ public class SquareMover
 			
 			switch(wayFrom){
 				case TOP:
-					Session.CURRENT_SQUARE_X = Numbers.X.getItemAt(x) as int;
-					Session.CURRENT_SQUARE_Y = Numbers.BOARD_TOP;
+					currentSquareImage.x = Numbers.X.getItemAt(x) as int;
+					currentSquareImage.y = Numbers.BOARD_TOP;
 					break;
 				case BOTTOM:
-					Session.CURRENT_SQUARE_X = Numbers.X.getItemAt(x) as int;
-					Session.CURRENT_SQUARE_Y = Numbers.BOARD_BOTTOM;
+					currentSquareImage.x = Numbers.X.getItemAt(x) as int;
+					currentSquareImage.y = Numbers.BOARD_BOTTOM;
 					break;
 				case LEFT:
-					Session.CURRENT_SQUARE_X = Numbers.BOARD_LEFT;
-					Session.CURRENT_SQUARE_Y = Numbers.Y.getItemAt(y) as int;
+					currentSquareImage.x = Numbers.BOARD_LEFT;
+					currentSquareImage.y = Numbers.Y.getItemAt(y) as int;
 					break;
 				case RIGHT:
-					Session.CURRENT_SQUARE_X = Numbers.BOARD_RIGHT;
-					Session.CURRENT_SQUARE_Y = Numbers.Y.getItemAt(y) as int;
+					currentSquareImage.x = Numbers.BOARD_RIGHT;
+					currentSquareImage.y = Numbers.Y.getItemAt(y) as int;
 					break;
 			}
 	

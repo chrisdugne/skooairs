@@ -20,8 +20,11 @@
       @playerversion AIR 1.5
       @productversion Flex 4
 -->
-<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
-             xmlns:fb="http://ns.adobe.com/flashbuilder/2009" minWidth="21" minHeight="21" alpha.disabled="0.5">
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			 xmlns:s="library://ns.adobe.com/flex/spark" 
+			 xmlns:mx="library://ns.adobe.com/flex/mx" 
+             xmlns:fb="http://ns.adobe.com/flashbuilder/2009" 
+			 minWidth="21" minHeight="21" alpha.disabled="0.5">
     
     <!-- host component -->
     <fx:Metadata>
@@ -80,6 +83,20 @@
         <s:State name="disabled" />
     </s:states>
     
+	
+	<s:transitions>
+		<mx:Transition fromState="*" toState="over">
+			<s:Animate target="{labelDisplay}" duration="100">
+				<s:SimpleMotionPath property="fontSize" />
+			</s:Animate>
+		</mx:Transition>
+		<mx:Transition fromState="over" toState="*">
+			<s:Animate target="{labelDisplay}" duration="100">
+				<s:SimpleMotionPath property="fontSize" />
+			</s:Animate>
+		</mx:Transition>
+	</s:transitions>
+	
     <!-- layer 8: text -->
     <!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
     <s:Label id="labelDisplay"
@@ -93,7 +110,7 @@
 			 color.over="#1af31a"
 			 fontWeight="normal"
 			 fontSize="42"
-			 fontSize.over="46"
+			 fontSize.over="44"
 			 top="2" 
 			 bottom="2">
     </s:Label>
