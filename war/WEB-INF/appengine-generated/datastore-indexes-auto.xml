@@ -1,8 +1,8 @@
-<!-- Indices written at Sun, 24 Oct 2010 20:16:28 UTC -->
+<!-- Indices written at Mon, 13 Dec 2010 16:03:20 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 18 times in query history -->
+    <!-- Used 174 times in query history -->
     <datastore-index kind="BoardDTO" ancestor="false" source="auto">
         <property name="colors" direction="asc"/>
         <property name="time" direction="asc"/>
