@@ -8,13 +8,10 @@ import com.skooairs.entities.dto.PlayerDTO;
 public interface IPlayerDAO {
 
 	public boolean existFacebookPlayer(String playerUID);
-	public boolean createPlayer(int type, String playerUID);
+	public boolean createPlayer(String playerUID);
 	
-	public PlayerDTO getPlayer(String playerUID);
+	public PlayerDTO getPlayer(String uralysUID);
 	public PlayerDTO getFacebookPlayer(String facebookUID);
-	
-	public boolean changeLanguage(String playerUID, int language);
-	public boolean changeMusicOn(String playerUID, boolean musicOn);
 	
 	public void refreshLastLog(String playerUID);
 	

@@ -22,7 +22,7 @@ public class BoardDTO {
 	@Persistent	private int time;
 	@Persistent	private int colors;
 
-	@Persistent	private String playerUID;
+	@Persistent	private String uralysUID;
 	@Persistent	private String surname;
 	@Persistent	private int points;
 
@@ -60,12 +60,12 @@ public class BoardDTO {
 		this.colors = colors;
 	}
 
-	public String getPlayerUID() {
-		return playerUID;
+	public String getUralysUID() {
+		return uralysUID;
 	}
 
-	public void setPlayerUID(String playerUID) {
-		this.playerUID = playerUID;
+	public void setUralysUID(String uralysUID) {
+		this.uralysUID = uralysUID;
 	}
 
 	public int getPoints() {

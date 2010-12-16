@@ -20,7 +20,7 @@ public class TransactionDTO {
 	private String transactionUID;
 	
 	@Persistent	private Long transactionMillis;
-	@Persistent	private String playerUID;
+	@Persistent	private String uralysUID;
 	@Persistent	private int paymentType;
 	@Persistent	private String app;
 
@@ -50,12 +50,12 @@ public class TransactionDTO {
 		this.transactionMillis = transactionMillis;
 	}
 
-	public String getPlayerUID() {
-		return playerUID;
+	public String getUralysUID() {
+		return uralysUID;
 	}
 
-	public void setPlayerUID(String foolUID) {
-		this.playerUID = foolUID;
+	public void setUralysUID(String foolUID) {
+		this.uralysUID = foolUID;
 	}
 
 	public int getPaymentType() {

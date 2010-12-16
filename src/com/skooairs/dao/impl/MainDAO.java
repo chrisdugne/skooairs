@@ -33,9 +33,9 @@ public class MainDAO {
 		}
 	}
 
-	public PlayerDTO getPlayer(String playerUID) {
+	public PlayerDTO getPlayer(String uralysUID) {
 		PersistenceManager pm = PMF.getInstance().getPersistenceManager();
-		return pm.getObjectById(PlayerDTO.class, playerUID);
+		return pm.getObjectById(PlayerDTO.class, uralysUID);
 	}
 
 	public PlayerDTO getFacebookPlayer(String facebookUID)  {

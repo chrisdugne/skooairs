@@ -26,45 +26,37 @@ public class PlayerManager implements IPlayerManager{
 		return playerDao.existFacebookPlayer(facebookUID);
 	}
 
-	public boolean createPlayer(int type, String playerUID) {
-		return playerDao.createPlayer(type, playerUID);
+	public boolean createPlayer(String uralysUID) {
+		return playerDao.createPlayer(uralysUID);
 	}
 
-	public Player getPlayer(String playerUID) {
-		return convertPlayerDTO(playerDao.getPlayer(playerUID));
+	public Player getPlayer(String uralysUID) {
+		System.out.println("domain.getPlayer " + uralysUID);
+		return convertPlayerDTO(playerDao.getPlayer(uralysUID));
 	}
 
 	public Player getFacebookPlayer(String facebookUID) {
 		return convertPlayerDTO(playerDao.getFacebookPlayer(facebookUID));
 	}
 	
-	public boolean changeLanguage(String playerUID, int language) {
-		return playerDao.changeLanguage(playerUID, language);
+	public void refreshLastLog(String uralysUID) {
+		playerDao.refreshLastLog(uralysUID);
 	}
 
-	public boolean changeMusicOn(String playerUID, boolean musicOn) {
-		return playerDao.changeMusicOn(playerUID, musicOn);
-	}
-	
-
-	public void refreshLastLog(String playerUID) {
-		playerDao.refreshLastLog(playerUID);
-	}
-
-	public void setTransactionMillis(String playerUID, Long dateMillis) {
-		playerDao.setTransactionMillis(playerUID, dateMillis);
+	public void setTransactionMillis(String uralysUID, Long dateMillis) {
+		playerDao.setTransactionMillis(uralysUID, dateMillis);
 	}
 
 
-	public int getRecord(String playerUID, int time, int colors) {
-		return playerDao.getRecord(playerUID, time, colors);
+	public int getRecord(String uralysUID, int time, int colors) {
+		return playerDao.getRecord(uralysUID, time, colors);
 	}
 	
-	public void storeRecord(String playerUID, String surname, int time, int colors, int points) {
-		playerDao.storeRecord(playerUID, surname, time, colors, points);
+	public void storeRecord(String uralysUID, String surname, int time, int colors, int points) {
+		playerDao.storeRecord(uralysUID, surname, time, colors, points);
 	}
 
-	public List<Board> getBoard(String playerUID, int time, int colors,	List<String> friendUIDs) {
+	public List<Board> getBoard(String uralysUID, int time, int colors,	List<String> friendUIDs) {
 		
 		List<Board> boards = new ArrayList<Board>();
 		
@@ -74,7 +66,7 @@ public class PlayerManager implements IPlayerManager{
 			boardsDTO = playerDao.getBoard(time, colors);
 		}
 		else{
-			boardsDTO = playerDao.getBoard(playerUID, time, colors, friendUIDs);			
+			boardsDTO = playerDao.getBoard(uralysUID, time, colors, friendUIDs);			
 		}
 		
 		for(BoardDTO boardDTO : boardsDTO){
@@ -93,19 +85,13 @@ public class PlayerManager implements IPlayerManager{
 		
 		Player player = new Player();
 		
-		player.setPlayerUID(playerDTO.getPlayerUID());
+		player.setUralysUID(playerDTO.getUralysUID());
+		player.setFacebookUID(playerDTO.getFacebookUID());
 		player.setSurname(playerDTO.getSurname());
 		
-		player.setFacebookUID(playerDTO.getFacebookUID());
-		player.setEmail(playerDTO.getEmail());
 		player.setPoints(playerDTO.getPoints());
-
-		player.setLanguage(playerDTO.getLanguage());
-		player.setMusicOn(playerDTO.getMusicOn());
 		player.setLastLog(playerDTO.getLastLog());
-		
 		player.setPremium(playerDTO.getPremium());
-		
 		
 		return player;
 	}
@@ -114,7 +100,7 @@ public class PlayerManager implements IPlayerManager{
 		Board board = new Board();
 		
 		board.setBoardUID(boardDTO.getBoardUID());
-		board.setPlayerUID(boardDTO.getPlayerUID());
+		board.setPlayerUID(boardDTO.getUralysUID());
 		board.setColors(boardDTO.getColors());
 		board.setPoints(boardDTO.getPoints());
 		board.setSurname(boardDTO.getSurname());

@@ -23,59 +23,50 @@ public class PlayerService extends Service implements IPlayerService{
 		return playerManager.existFacebookPlayer(facebookUID);
 	}
 
-	public boolean createPlayer(int type, String playerUID) {
-		return playerManager.createPlayer(type, playerUID);
+	public boolean createPlayer(String uralysUID) {
+		return playerManager.createPlayer(uralysUID);
 	}
 
 	public Player getFacebookPlayer(String facebookUID) {
 		return playerManager.getFacebookPlayer(facebookUID);
 	}
 	
-	public Player getPlayer(String playerUID) {
-		return playerManager.getPlayer(playerUID);
-	}
-
-	public boolean changeLanguage(String playerUID, int language) {
-		return playerManager.changeLanguage(playerUID, language);
+	public Player getPlayer(String uralysUID) {
+		return playerManager.getPlayer(uralysUID);
 	}
 
 	//=========================================================================//
 
-	public void refreshLastLog(String playerUID) {
-		System.out.println("refreshLastLog " + playerUID);
-		playerManager.refreshLastLog(playerUID);		
+	public void refreshLastLog(String uralysUID) {
+		System.out.println("refreshLastLog " + uralysUID);
+		playerManager.refreshLastLog(uralysUID);		
 	}
 
-	public void setTransactionMillis(String playerUID, Long dateMillis) {
-		playerManager.setTransactionMillis(playerUID, dateMillis);
-	}
-
-	public boolean changeMusicOn(String playerUID, boolean musicOn) {
-		return playerManager.changeMusicOn(playerUID, musicOn);
+	public void setTransactionMillis(String uralysUID, Long dateMillis) {
+		playerManager.setTransactionMillis(uralysUID, dateMillis);
 	}
 
 	//==================================================================================================//
 
-
-	public int getFriendPosition(String playerUID) {		return -111;
+	public int getFriendPosition(String uralysUID) {		return -111;
 	}
 
-	public int getWorldPosition(String playerUID) {
+	public int getWorldPosition(String uralysUID) {
 		return -111;
 	}
 
 	//==================================================================================================//
 
-	public int getRecord(String playerUID, int time, int colors) {
-		return playerManager.getRecord(playerUID, time, colors);
+	public int getRecord(String uralysUID, int time, int colors) {
+		return playerManager.getRecord(uralysUID, time, colors);
 	}
 
-	public void storeRecord(String playerUID, String surname, int time, int colors, int points) {
-		playerManager.storeRecord(playerUID, surname, time, colors, points);
+	public void storeRecord(String uralysUID, String surname, int time, int colors, int points) {
+		playerManager.storeRecord(uralysUID, surname, time, colors, points);
 	}
 
-	public List<Board> getBoard(String playerUID, int time, int colors, List<String> friendUIDs) {
-		return playerManager.getBoard(playerUID, time, colors, friendUIDs);
+	public List<Board> getBoard(String uralysUID, int time, int colors, List<String> friendUIDs) {
+		return playerManager.getBoard(uralysUID, time, colors, friendUIDs);
 	}
 
 	public List<String> getFriendPlayerUIDs(List<String> facebookIds) {

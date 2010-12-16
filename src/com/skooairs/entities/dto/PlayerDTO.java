@@ -18,15 +18,12 @@ public class PlayerDTO {
 
 	@Persistent
     @Extension(vendorName="datanucleus", key="gae.pk-name", value="true")
-	private String playerUID;
+	private String uralysUID;
 
 	@Persistent private String facebookUID;
-	@Persistent private String email;
 	@Persistent private String surname;
 	@Persistent private Long lastLog;
 	@Persistent private Long lastTransactionMillis;
-	@Persistent private Integer language;
-	@Persistent private Boolean musicOn;
 	@Persistent private Boolean premium;
 	@Persistent private Integer points;
 	
@@ -36,29 +33,23 @@ public class PlayerDTO {
 	public void setKey(String key) {
 		this.key = key;
 	}
-	public String getPlayerUID() {
-		return playerUID;
+	public String getUralysUID() {
+		return uralysUID;
 	}
-	public void setPlayerUID(String playerUID) {
-		this.playerUID = playerUID;
+	public void setUralysUID(String uralysUID) {
+		this.uralysUID = uralysUID;
+	}
+	public String getFacebookUID() {
+		return facebookUID;
+	}
+	public void setFacebookUID(String facebookUID) {
+		this.facebookUID = facebookUID;
 	}
 	public Long getLastLog() {
 		return lastLog;
 	}
 	public void setLastLog(Long lastLog) {
 		this.lastLog = lastLog;
-	}
-	public Integer getLanguage() {
-		return language;
-	}
-	public void setLanguage(Integer language) {
-		this.language = language;
-	}
-	public Boolean getMusicOn() {
-		return musicOn;
-	}
-	public void setMusicOn(Boolean musicOn) {
-		this.musicOn = musicOn;
 	}
 	public Integer getPoints() {
 		return points;
@@ -77,18 +68,6 @@ public class PlayerDTO {
 	}
 	public void setPremium(Boolean premium) {
 		this.premium = premium;
-	}
-	public String getFacebookUID() {
-		return facebookUID;
-	}
-	public void setFacebookUID(String facebookUID) {
-		this.facebookUID = facebookUID;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
 	}
 	public String getSurname() {
 		return surname;
