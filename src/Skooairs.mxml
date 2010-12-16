@@ -37,6 +37,10 @@
 			
 			private function applicationCompleteHandler(event:FlexEvent):void {
 				trace("Welcome to SkooAirs "+Session.VERSION+" !");
+				
+				if(url == "http://localhost:8886/Skooairs.swf")
+					Session.isLocal = true;
+				
 				CursorManager.setCursor(MainCursor);
 				
 				Pager.getInstance().window = window;

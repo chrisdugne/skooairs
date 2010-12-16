@@ -1,19 +1,30 @@
 package com.skooairs.constants
 {
 
-import mx.collections.ArrayCollection;
-
+import com.skooairs.entities.Player;
+import com.skooairs.entities.UralysProfile;
 import com.skooairs.forms.Play;
 import com.skooairs.pages.Game;
 
-import com.skooairs.entities.Player;
+import mx.collections.ArrayCollection;
 
 public class Session{
 
 	//=====================================================//
 
-	[Bindable] public static var VERSION:String = "1.1.0";
-	[Bindable] public static var FACEBOOK_UID:String = "";
+	[Bindable] public static var VERSION:String = "1.1.2";
+	[Bindable] public static var LOGGED_IN:Boolean = false;
+
+	//=====================================================//
+	
+	[Bindable] public static var WAIT_FOR_SERVER:Boolean = false;
+	
+	//=====================================================//
+	
+	[Bindable] public static var uralysProfile:UralysProfile;
+	[Bindable] public static var player:Player;
+
+	//=====================================================//
 	
 	public static var FIRST_VIEW:int;
 
@@ -50,15 +61,13 @@ public class Session{
 	//public static var session: FacebookSessionUtil;
 	//public static var fbook:Facebook;
 	
+	[Bindable] public static var isLocal:Boolean = false;
 	[Bindable] public static var LANGUAGE:int;
 	[Bindable] public static var newPlayer:Boolean = false;
 	
 	[Bindable] public static var CURRENT_TUTO_AVAILABLE:int = 0;
 
 	//=====================================================//
-
-
-	[Bindable] public static var player:Player;
 
 	[Bindable] public static var friendUIDs:Array = []; // facebook ids
 	[Bindable] public static var friendPlayerUIDs:ArrayCollection = new ArrayCollection(); // playerUIDs

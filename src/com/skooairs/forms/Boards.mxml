@@ -46,7 +46,7 @@
 			   public function refresh():void{
 				   lock = true;
 				   
-				   playerWrapper.getBoard(Session.player.playerUID, selectedTime, selectedColors, selectedGroup == 2 ? Session.friendPlayerUIDs : null);
+				   playerWrapper.getBoard(Session.player.uralysUID, selectedTime, selectedColors, selectedGroup == 2 ? Session.friendPlayerUIDs : null);
 			   }
 			   
 			   private function onGetBoard(event:ResultEvent):void{

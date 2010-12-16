@@ -39,14 +39,14 @@
 				loadingProgressBar.start();
 				
 				var dateMillis:Number = new Date().getTime();
-				playerWrapper.setTransactionMillis(Session.player.playerUID, dateMillis);
+				playerWrapper.setTransactionMillis(Session.player.uralysUID, dateMillis);
 				
 				var url:String = "https://www.paypal.com/cgi-bin/webscr";
 				var request:URLRequest = new URLRequest(url);
 				var variables:URLVariables = new URLVariables();
 				variables.cmd = "_s-xclick";
 				variables.hosted_button_id = "6J5VDASS5TRJN";
-				variables.custom = Session.player.playerUID + "___" + dateMillis;
+				variables.custom = Session.player.uralysUID + "___" + dateMillis;
 				
 				request.data = variables;
 				request.method = URLRequestMethod.POST;
@@ -60,7 +60,7 @@
 			
 		<mx:Image source="webresources/images/tutos/premium_{Session.LANGUAGE == 0 ? 'fr' : 'en'}.png"
 			 id="image"
-			 click="{Session.player.playerUID == 'NOT_CONNECTED' ? Session.game.login() : buy()}" 
+			 click="{!Session.LOGGED_IN ? Session.game.showLogin.play() : buy()}" 
 			 x="10" y="0"/>
 			 				
 
@@ -78,25 +78,26 @@
 					x="{Session.LANGUAGE == 0 ? 20 : 50}" bottom="50" 
 					mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 					click="{MusicPlayer.getInstance().playOkSound();buy();}"
-					visible="{Session.player.playerUID != 'NOT_CONNECTED'}"
+					visible="{Session.LOGGED_IN}"
 					styleName="bigButtonStyle"/>
 
 		<s:Button id="loginButton"
-					click="{MusicPlayer.getInstance().playOkSound();Session.game.login()}" 
-					skinClass="com.skooairs.skins.FBLoginButtonSkin" 
+				  	label="Login"
+					click="{MusicPlayer.getInstance().playOkSound();Session.game.showLogin.play()}" 
+					skinClass="com.skooairs.skins.LittleButtonSkin" 
 					mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 					x="5" top="5" 
-					visible="{Session.player.playerUID == 'NOT_CONNECTED'}"
+					visible="{!Session.LOGGED_IN}"
 					styleName="bigButtonStyle"/>
 		
 		<mx:Image source="webresources/images/logos/paypal.png"
 					visible="{Session.LANGUAGE != 0}"
 					bottom="30"
-					right="{Session.player.playerUID == 'NOT_CONNECTED' ? 290 : 50}"/>
+					right="{!Session.LOGGED_IN ? 290 : 50}"/>
 		<mx:Image source="webresources/images/logos/paypal_fr.png"
 					visible="{Session.LANGUAGE == 0}"
 					bottom="30"
-					right="{Session.player.playerUID == 'NOT_CONNECTED' ? 277 : 30}"/>
+					right="{!Session.LOGGED_IN ? 277 : 30}"/>
 
 	</s:Group>
 </mx:Canvas>
