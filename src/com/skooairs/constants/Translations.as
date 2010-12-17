@@ -46,6 +46,11 @@ public class Translations{
 									"Logged as",
 									"Logged as"]);
 	[Bindable]
+	public static var LOGGED_OUT_FACEBOOK:ArrayCollection = new ArrayCollection(
+									["Déconnecté(e) du compte Facebook",
+									"Logged out Facebook",
+									"Logged out Facebook"]);
+	[Bindable]
 	public static var BACK:ArrayCollection = new ArrayCollection(
 									["Retour",
 									"Back",

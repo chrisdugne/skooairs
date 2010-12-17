@@ -51,31 +51,6 @@ public class MusicPlayer
 			playMusic();	
 		}
 
-		/* called when a player just log in
-			return false if the Off status must be recorded 
-		*/
-		public function testMusic():Boolean{
-			if(volume == 1 && !Session.player.musicOn){
-				// volume was on and the loggedin player recorded off
-				volume = 0;
-				
-				if(soundTransform){
-					soundTransform.volume = 0;
-					channel.soundTransform = soundTransform;
-				}
-			}
-			else if(volume == 0){
-				// volume was off : record this choice for the loggedin player (by returning false)
-				Session.player.musicOn = false;
-				return false; 
-			}
-			else{
-				initMusic();
-			}
-			
-			return true;
-		}
-
 		public function switchState():void{
 			if(volume == 1){
 				volume = 0;

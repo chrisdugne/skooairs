@@ -7,6 +7,7 @@ package com.skooairs.managers {
 	import com.skooairs.core.MusicPlayer;
 	import com.skooairs.entities.Player;
 	import com.skooairs.entities.UralysProfile;
+	import com.skooairs.utils.Utils;
 	
 	import mx.collections.ArrayCollection;
 	import mx.rpc.events.FaultEvent;
@@ -40,16 +41,30 @@ package com.skooairs.managers {
 			playerWrapper = new RemoteObject();
 			playerWrapper.destination = "PlayerWrapper";
 			playerWrapper.endpoint = Names.SERVER_AMF_ENDPOINT;
+			
+			if(Session.isLocal){
+				var friends:Array = [];
+				friends[0] = new Object();
+				friends[0].id = '333';
+				
+				
+				getFriendsHandler(friends, null);
+				accountWrapper.loginFromFacebook.addEventListener("result", resultLoginFromFacebook);
+				accountWrapper.loginFromFacebook('testus');
+			}
 		}
 
 		
 		//============================================================================================//
-		// CONTROLS
-		//============================================================================================//
-		//  Controles pour les actions depuis les vues
 		
-		
-		
+		public function createDummyProfile():void {
+			Session.uralysProfile = new UralysProfile();
+			Session.uralysProfile.uralysUID = "NOT_CONNECTED";
+			
+			Session.player = new Player();
+			Session.player.musicOn = !Session.isLocal;
+			Session.player.facebookUID = null;
+		}		
 		
 		//============================================================================================//
 		// DATA MANAGEMENT
@@ -91,9 +106,11 @@ package com.skooairs.managers {
 		//-------------------------------------------------------------------------//
 		// UralysLogger
 		
-		public function registered(event:ResultEvent):void{
+		private function registered(event:ResultEvent):void{
 			
 			Session.uralysProfile = event.result as UralysProfile;
+			trace("registered");
+			trace(ObjectUtil.toString(Session.uralysProfile));
 			
 			if(Session.uralysProfile.uralysUID == "EMAIL_EXISTS"){
 				Session.game.message("This email is registered yet", 3);
@@ -106,9 +123,11 @@ package com.skooairs.managers {
 		}
 		
 		
-		public function resultLogin(event:ResultEvent):void{
+		private function resultLogin(event:ResultEvent):void{
 			
 			Session.uralysProfile = event.result as UralysProfile;
+			trace("resultLogin");
+			trace(ObjectUtil.toString(Session.uralysProfile));
 			Session.LANGUAGE = Session.uralysProfile.language;
 			
 			if(Session.uralysProfile.uralysUID == "WRONG_PWD"){
@@ -120,26 +139,40 @@ package com.skooairs.managers {
 				playerWrapper.getPlayer(Session.uralysProfile.uralysUID);
 			}
 		}
+
+		private function resultLoginFromFacebook(event:ResultEvent):void{
+			trace("resultLoginFromFacebook");
+			trace(ObjectUtil.toString(event.result));
+			
+			
+			var profileReceived:UralysProfile = event.result as UralysProfile;
+			if(profileReceived.lastLog == 1)
+				registered(event);
+			else
+				resultLogin(event); 
+		}
 		
 		//==================================================================================================//
 		// SkooairsServer
 
-		public function playerCreated(event:ResultEvent):void{
+		private function playerCreated(event:ResultEvent):void{
 			
 			Session.player = event.result as Player;
+			trace("playerCreated");
+			trace(ObjectUtil.toString(Session.player));
 			
 			if(!playerCreatedAutomatically)
 				Session.game.message("Profil Uralys cree. Bienvenue !", 6);
 			
-			Session.WAIT_FOR_SERVER = false;
-			Session.LOGGED_IN = true;
-			Session.game.hideLogin.play();
+			finalizeLogin();
 		}
 		
 		private var playerCreatedAutomatically:Boolean = false;
-		public function receivedPlayer(event:ResultEvent):void{
+		private function receivedPlayer(event:ResultEvent):void{
 			
 			var player:Player = event.result as Player;
+			trace("receivedPlayer");
+			trace(ObjectUtil.toString(player));
 			
 			if(player == null){
 				playerCreatedAutomatically = true;
@@ -148,12 +181,19 @@ package com.skooairs.managers {
 			}
 			else{
 				Session.player = player;
-				Session.WAIT_FOR_SERVER = false;
-				Session.LOGGED_IN = true;
-				Session.game.hideLogin.play();
+				finalizeLogin();
 			}
 		}
 		
+		private function finalizeLogin():void{
+			
+			Session.WAIT_FOR_SERVER = false;
+			Session.LOGGED_IN = true;
+			Session.game.hideLogin.play();
+			
+			MusicPlayer.getInstance().initMusic();
+			
+		}
 		
 		//==================================================================================================//
 		// facebook
@@ -163,10 +203,11 @@ package com.skooairs.managers {
 		private var CONNECT_TO_EXISTING_LINK:int = 2;
 		private var LOGIN:int = 3;
 		
-		private function autoLoginFacebook():void{
+		public function autoLoginFacebook():void{
+			trace("try autoLoginFacebook");
 			Session.CONNECTED_TO_FACEBOOK = true;
 			facebookOperation = LOGIN;
-			Facebook.init("121585177900212", loginHandler);
+			Facebook.init("121585177900212", autoLoginFacebookHandler);
 		}
 		
 		public function loginFacebook():void{
@@ -190,12 +231,24 @@ package com.skooairs.managers {
 				facebookOperation = LOGIN;
 			}	
 				
+			trace("facebookOperation : " + facebookOperation);
 			Session.CONNECTED_TO_FACEBOOK = true;
-			Facebook.login(loginHandler,{perms:"user_birthday,read_stream,publish_stream"});
+			Facebook.login(loginFacebookHandler,{perms:"user_birthday,read_stream,publish_stream"});
 			
 		}
 		
-		protected function loginHandler(success:Object,fail:Object):void{
+		protected function autoLoginFacebookHandler(success:Object,fail:Object):void{
+			trace("autoLoginFacebookHandler");
+			if(success)
+				loginFacebookHandler(success, fail);
+			else{
+				trace("no success");
+				Session.CONNECTED_TO_FACEBOOK = false;
+				MusicPlayer.getInstance().initMusic();
+			}
+		}
+		
+		protected function loginFacebookHandler(success:Object,fail:Object):void{
 			Session.CONNECTED_TO_FACEBOOK = false;
 			
 			if(success){
@@ -214,10 +267,14 @@ package com.skooairs.managers {
 
 						break;
 					case LOGIN : 
+						trace("Go on login to Uralys-Skooairs");
 						Session.CONNECTED_TO_FACEBOOK = true;
+
+						trace("call FB friends");
 						Facebook.api("/me/friends", getFriendsHandler);
 						
-						accountWrapper.loginFromFacebook.addEventListener("result", resultLogin);
+						trace("call accountWrapper.loginFromFacebook");
+						accountWrapper.loginFromFacebook.addEventListener("result", resultLoginFromFacebook);
 						accountWrapper.loginFromFacebook(Session.player.facebookUID);
 						break;
 				}
@@ -230,6 +287,7 @@ package com.skooairs.managers {
 		}
 		
 		protected function getFriendsHandler(friends:Object,fail:Object):void{
+			trace("loginFromFacebook");
 			Session.friendUIDs = [];
 			
 			for each(var friend:Object in friends){
@@ -237,15 +295,21 @@ package com.skooairs.managers {
 			}
 			
 			if(Session.friendUIDs.length > 0){
+				trace("call playerWrapper.getFriendPlayerUIDs");
 				playerWrapper.getFriendPlayerUIDs.addEventListener("result", onGetFriendPlayerUIDs);
+				playerWrapper.getFriendPlayerUIDs.addEventListener("fault", onFaultGetFriendPlayerUIDs);
 				playerWrapper.getFriendPlayerUIDs(Session.friendUIDs);
-				
 			}
 				
 		}
 
 		protected function onGetFriendPlayerUIDs(event:ResultEvent):void{
+			trace("onGetFriendPlayerUIDs");
 			Session.friendPlayerUIDs = event.result as ArrayCollection;
+		}
+
+		protected function onFaultGetFriendPlayerUIDs(event:FaultEvent):void{
+			trace("onFaultGetFriendPlayerUIDs");
 		}
 
 		// receive result about the NEW_LINK availability for the facebookUID connected
@@ -263,6 +327,23 @@ package com.skooairs.managers {
 		}
 
 		//==================================================================================================//
+
+		public function logoutFacebook():void{
+			
+			Facebook.logout(logoutHandler);
+			Session.CONNECTED_TO_FACEBOOK = false;
+			
+			// if the email is not valid, this is a facebookUID : logout the linked uralys account as well
+			if(!Utils.isValidEmail(Session.uralysProfile.email)){
+				var oldSoundChoice:Boolean = Session.player.musicOn;
+				createDummyProfile();
+				Session.player.musicOn = oldSoundChoice;
+			}
+		}
+		
+		protected function logoutHandler(response:Object):void{
+			Session.game.message(Translations.LOGGED_OUT_FACEBOOK.getItemAt(Session.LANGUAGE) as String, 6);
+		}
 		
 	}
 }

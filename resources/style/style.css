@@ -6,6 +6,13 @@
    fontFamily: _44;
 }
 
+
+@font-face {
+   src:url("fonts/_44.ttf");
+   embedAsCff : false;
+   fontFamily: _44mx;
+}
+
 @font-face {
    src:url("fonts/maskl.ttf");
    fontFamily: maskl;
@@ -300,7 +307,7 @@ mx|ToolTip {
    cornerRadius: 13;
    backgroundColor: #000000;
    color: #ffffff;
-   fontFamily: _44;
+   fontFamily: _44mx;
    fontSize: 21;
 }
 /*

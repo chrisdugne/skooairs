@@ -34,8 +34,8 @@
 
 			   private function init(event:FlexEvent):void {
 				   
-				   createDummyProfile();
-				   MusicPlayer.getInstance().initMusic();
+				   AccountManager.getInstance().autoLoginFacebook();
+				   AccountManager.getInstance().createDummyProfile();
 				   
 				   Pager.getInstance().viewstack = viewstack;
 				   Pager.getInstance().goToView(0);
@@ -45,15 +45,6 @@
 				   
 				   if(Session.newPlayer)
 					   showTuto(0);
-			   }
-			   
-			   private function createDummyProfile():void {
-				   Session.uralysProfile = new UralysProfile();
-				   Session.uralysProfile.uralysUID = "NOT_CONNECTED";
-				   
-				   Session.player = new Player();
-				   Session.player.musicOn = !Session.isLocal;
-				   Session.player.facebookUID = null;
 			   }
 			   
 			   //-----------------------------------------------------------------------------------//
@@ -152,7 +143,9 @@
 								right="320"
 								top="10"
 								toolTip="{Translations.INVITE_FRIENDS.getItemAt(Session.LANGUAGE)} !"
-								visible="{Session.GAME_OVER &amp;&amp; Session.LOGGED_IN}"
+								visible="{Session.GAME_OVER 
+											&amp;&amp; Session.CONNECTED_TO_FACEBOOK
+											&amp;&amp; Session.LOGGED_IN}"
 								mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 								click="MusicPlayer.getInstance().playOkSound();invite()"/>
 									
@@ -197,15 +190,24 @@
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 						click="showLogin.play()"
 						skinClass="com.skooairs.skins.UralysLoginButtonSkin"
-						visible="{Session.GAME_OVER &amp;&amp; !Session.LOGGED_IN}"/>
+						visible="{Session.GAME_OVER 
+									&amp;&amp; !Session.LOGGED_IN
+									&amp;&amp; !Session.CONNECTED_TO_FACEBOOK}"/>
 
 			<s:Button right="70" top="115" 
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 						click="{AccountManager.getInstance().loginFacebook()}"
 						skinClass="com.skooairs.skins.FBLoginButtonSkin"
 						visible="{Session.GAME_OVER 
-								  &amp;&amp; !Session.LOGGED_IN
 							 	  &amp;&amp; !Session.CONNECTED_TO_FACEBOOK}"/>
+
+			<s:Button right="70" top="90" 
+						mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+						click="{AccountManager.getInstance().logoutFacebook()}"
+						skinClass="com.skooairs.skins.FBLogoutButtonSkin"
+						visible="{Session.GAME_OVER 
+									&amp;&amp; Session.CONNECTED_TO_FACEBOOK
+									&amp;&amp; Session.LOGGED_IN}"/>
 		
 		<!-- ========================================================================== -->
 		
