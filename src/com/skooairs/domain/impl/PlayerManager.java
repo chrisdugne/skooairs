@@ -26,8 +26,8 @@ public class PlayerManager implements IPlayerManager{
 		return playerDao.existFacebookPlayer(facebookUID);
 	}
 
-	public boolean createPlayer(String uralysUID) {
-		return playerDao.createPlayer(uralysUID);
+	public Player createPlayer(String uralysUID) {
+		return convertPlayerDTO(playerDao.createPlayer(uralysUID));
 	}
 
 	public Player getPlayer(String uralysUID) {
@@ -77,8 +77,19 @@ public class PlayerManager implements IPlayerManager{
 	}
 
 	public List<String> getFriendPlayerUIDs(List<String> facebookIds) {
-		return playerDao.getFriendPlayerUIDs(facebookIds);
+		try{
+			return playerDao.getFriendPlayerUIDs(facebookIds);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
+
+	public boolean changeMusicOn(String uralysUID, boolean musicOn) {
+		return playerDao.changeMusicOn(uralysUID, musicOn);
+	}
+	
 	//==================================================================================================//
 	
 	public static Player convertPlayerDTO(PlayerDTO playerDTO) {
@@ -92,6 +103,7 @@ public class PlayerManager implements IPlayerManager{
 		player.setPoints(playerDTO.getPoints());
 		player.setLastLog(playerDTO.getLastLog());
 		player.setPremium(playerDTO.getPremium());
+		player.setMusicOn(playerDTO.getMusicOn());
 		
 		return player;
 	}

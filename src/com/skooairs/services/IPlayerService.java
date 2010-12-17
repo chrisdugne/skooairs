@@ -11,12 +11,16 @@ public interface IPlayerService {
 	public void setTransactionMillis(String uralysUID, Long dateMillis);
 
 	public boolean existFacebookPlayer(String facebookUID);
-	public boolean createPlayer(String uralysUID);
+	public Player createPlayer(String uralysUID);
 	
 	public Player getPlayer(String uralysUID);
 	public Player getFacebookPlayer(String facebookUID);
 	public List<String> getFriendPlayerUIDs(List<String> facebookIds);
+
+	//==================================================================================================//
 	
+	public boolean changeMusicOn(String uralysUID, boolean musicOn);
+
 	//==================================================================================================//
 
 	public int getFriendPosition(String uralysUID);

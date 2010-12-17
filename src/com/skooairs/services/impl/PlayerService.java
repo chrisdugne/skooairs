@@ -23,7 +23,7 @@ public class PlayerService extends Service implements IPlayerService{
 		return playerManager.existFacebookPlayer(facebookUID);
 	}
 
-	public boolean createPlayer(String uralysUID) {
+	public Player createPlayer(String uralysUID) {
 		return playerManager.createPlayer(uralysUID);
 	}
 
@@ -33,6 +33,12 @@ public class PlayerService extends Service implements IPlayerService{
 	
 	public Player getPlayer(String uralysUID) {
 		return playerManager.getPlayer(uralysUID);
+	}
+
+	//=========================================================================//
+
+	public boolean changeMusicOn(String uralysUID, boolean musicOn) {
+		return playerManager.changeMusicOn(uralysUID, musicOn);
 	}
 
 	//=========================================================================//

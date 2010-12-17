@@ -26,6 +26,7 @@ public class PlayerDTO {
 	@Persistent private Long lastTransactionMillis;
 	@Persistent private Boolean premium;
 	@Persistent private Integer points;
+	@Persistent private Boolean musicOn;
 	
 	public String getKey() {
 		return key;
@@ -74,6 +75,12 @@ public class PlayerDTO {
 	}
 	public void setSurname(String surname) {
 		this.surname = surname;
+	}
+	public Boolean getMusicOn() {
+		return musicOn;
+	}
+	public void setMusicOn(Boolean musicOn) {
+		this.musicOn = musicOn;
 	}
 	
 	//-----------------------------------------------------------------------------------//

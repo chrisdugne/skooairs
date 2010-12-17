@@ -9,6 +9,7 @@ public class Player {
 	private Long lastLog;
 	private Boolean premium;
 	private Integer points;
+	private Boolean musicOn;
 
 	//-----------------------------------------------------------------------------------//
 
@@ -47,6 +48,12 @@ public class Player {
 	}
 	public void setSurname(String surname) {
 		this.surname = surname;
+	}
+	public Boolean getMusicOn() {
+		return musicOn;
+	}
+	public void setMusicOn(Boolean musicOn) {
+		this.musicOn = musicOn;
 	}
 	
 }

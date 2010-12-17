@@ -22,7 +22,7 @@ public class PlayerDAO extends MainDAO implements IPlayerDAO{
 		return getFacebookPlayer(facebookUID) != null;
 	}
 
-	public boolean createPlayer(String uralysUID) {
+	public PlayerDTO createPlayer(String uralysUID) {
 		
 		PlayerDTO player = new PlayerDTO();
 		Key key = KeyFactory.createKey(PlayerDTO.class.getSimpleName(), uralysUID);
@@ -34,13 +34,14 @@ public class PlayerDAO extends MainDAO implements IPlayerDAO{
 		player.setPremium(false);
 		player.setPoints(0);
 		
-		player.setSurname("AAAAA");
+		player.setSurname("New Player");
+		player.setMusicOn(true);
 		
 		player.setLastLog(new Date().getTime());
 
 		persist(player);
 		
-		return true;
+		return player;
 	}
 	
 	public PlayerDTO getPlayer(String uralysUID) {
@@ -57,6 +58,15 @@ public class PlayerDAO extends MainDAO implements IPlayerDAO{
 		
 		try{
 			players = (List<PlayerDTO>) q.execute(facebookIds);
+			System.out.println("friendsplayers found");
+			if(players != null){
+				System.out.println(players.size() + " players");
+			}
+			else{
+				System.out.println("players == null : " + players == null);
+				return null;
+			}
+			
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -208,5 +218,15 @@ public class PlayerDAO extends MainDAO implements IPlayerDAO{
 			return new ArrayList<BoardDTO>();
 		}
 		
+	}
+
+	public boolean changeMusicOn(String playerUID, boolean musicOn) {
+		PersistenceManager pm = PMF.getInstance().getPersistenceManager();
+		PlayerDTO player =  pm.getObjectById(PlayerDTO.class, playerUID);
+		
+		player.setMusicOn(musicOn);
+		
+		pm.close();
+		return true;
 	}
 }

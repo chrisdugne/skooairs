@@ -8,7 +8,7 @@ import com.skooairs.entities.Player;
 public interface IPlayerManager {
 
 	public boolean existFacebookPlayer(String facebookUID);
-	public boolean createPlayer(String playerUID);
+	public Player createPlayer(String playerUID);
 	
 	public Player getPlayer(String uralysUID);
 	public Player getFacebookPlayer(String facebookUID);
@@ -22,5 +22,6 @@ public interface IPlayerManager {
 	public void storeRecord(String uralysUID, String surname, int time, int colors, int points);
 	public List<Board> getBoard(String uralysUID, int time, int colors, List<String> friendUIDs);
 	
-
+	public boolean changeMusicOn(String uralysUID, boolean musicOn);
+	
 }

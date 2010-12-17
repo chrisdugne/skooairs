@@ -33,7 +33,7 @@ public class DataviewerServlet extends HttpServlet {
 		PrintWriter out = res.getWriter();
 
 		if(!req.getRemoteHost().equals("127.0.0.1") && !req.getRequestURL().toString().startsWith("https")){
-			out.println("<meta http-equiv=\"refresh\" content=\"0.1; URL=https://foolsfighters.appspot.com/dataviewer\"/>");	
+			out.println("<meta http-equiv=\"refresh\" content=\"0.1; URL=https://skooairs.appspot.com/dataviewer\"/>");	
 			out.close();
 			return;
 		}
@@ -41,7 +41,7 @@ public class DataviewerServlet extends HttpServlet {
 
 		if(!req.getRemoteHost().equals("127.0.0.1") && (req.getParameter("pwd")==null || !Utils.SHA1(req.getParameter("pwd")).equals(PASSWORD))){
 			out.println("<html><body>");
-			out.println("<center><span style=\"color:#009933\"><h2>FoolsFighters Dataviewer - "+VERSION+" (Off)</h2></center>");
+			out.println("<center><span style=\"color:#009933\"><h2>Skooairs Dataviewer - "+VERSION+" (Off)</h2></center>");
 			out.println("</body></html>");
 			out.close();
 			return;
@@ -111,7 +111,7 @@ public class DataviewerServlet extends HttpServlet {
 					"" +
 					"</head>" +
 					"<body>");
-		out.println("<center><span style=\"color:#009933\"><h2>FoolsFighters Dataviewer - "+VERSION+"</h2></center>");
+		out.println("<center><span style=\"color:#009933\"><h2>Skooairs Dataviewer - "+VERSION+"</h2></center>");
 
 		out.println("<hr>");
 		out.println("<br>");

@@ -8,7 +8,7 @@ import com.skooairs.entities.dto.PlayerDTO;
 public interface IPlayerDAO {
 
 	public boolean existFacebookPlayer(String playerUID);
-	public boolean createPlayer(String playerUID);
+	public PlayerDTO createPlayer(String playerUID);
 	
 	public PlayerDTO getPlayer(String uralysUID);
 	public PlayerDTO getFacebookPlayer(String facebookUID);
@@ -24,4 +24,5 @@ public interface IPlayerDAO {
 	public List<BoardDTO> getBoard(int time, int colors);
 	public List<String> getFriendPlayerUIDs(List<String> facebookIds);
 
+	public boolean changeMusicOn(String uralysUID, boolean musicOn);
 }
