@@ -40,13 +40,6 @@ public class UralysProfile
 		_language = o;
 	}
 
-	public function get musicOn():Boolean {
-		return _musicOn;
-	}
-
-	public function set musicOn(o:Boolean):void {
-		_musicOn = o;
-	}
 
 	public function get lastLog():Number {
 		return _lastLog;
@@ -56,12 +49,19 @@ public class UralysProfile
 		_lastLog = o;
 	}
 	
+	public function get facebookUID():String {
+		return _facebookUID;
+	}
+	
+	public function set facebookUID(o:String):void {
+		_facebookUID = o;
+	}
+	
 	protected var _uralysUID:String;
-	protected var _surname:String;
 	protected var _facebookUID:String;
+	protected var _surname:String;
 	protected var _email:String;
 	protected var _language:int;
-	protected var _musicOn:Boolean;
 	protected var _lastLog:Number;
 
 }

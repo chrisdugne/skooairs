@@ -47,7 +47,7 @@ public class MusicPlayer
             music = new Sound();
             music.load(request);
 			
-			volume = Session.uralysProfile.musicOn ? 1 : 0;
+			volume = Session.player.musicOn ? 1 : 0;
 			playMusic();	
 		}
 
@@ -55,7 +55,7 @@ public class MusicPlayer
 			return false if the Off status must be recorded 
 		*/
 		public function testMusic():Boolean{
-			if(volume == 1 && !Session.uralysProfile.musicOn){
+			if(volume == 1 && !Session.player.musicOn){
 				// volume was on and the loggedin player recorded off
 				volume = 0;
 				
@@ -66,7 +66,7 @@ public class MusicPlayer
 			}
 			else if(volume == 0){
 				// volume was off : record this choice for the loggedin player (by returning false)
-				Session.uralysProfile.musicOn = false;
+				Session.player.musicOn = false;
 				return false; 
 			}
 			else{
@@ -82,14 +82,14 @@ public class MusicPlayer
 				soundTransform.volume = 0;
 				channel.soundTransform = soundTransform;
 
-				Session.uralysProfile.musicOn = false;
+				Session.player.musicOn = false;
 			}
 			else{
 				volume = 1;
 				soundTransform.volume = 1;
 				channel.soundTransform = soundTransform;	
 
-				Session.uralysProfile.musicOn = true;
+				Session.player.musicOn = true;
 			}
 		}
 
@@ -109,7 +109,7 @@ public class MusicPlayer
 		}
 		
 		public function playOkSound():void{
-			if(!Session.uralysProfile.musicOn)
+			if(!Session.player.musicOn)
 				return;
 				
 			var request:URLRequest = new URLRequest("webresources/music/sounds/ok.mp3");
@@ -119,7 +119,7 @@ public class MusicPlayer
 		}
 
 		public function playExplosionSound():void{
-			if(!Session.uralysProfile.musicOn)
+			if(!Session.player.musicOn)
 				return;
 				
 			var request:URLRequest = new URLRequest("webresources/music/sounds/explosion.mp3");
@@ -129,7 +129,7 @@ public class MusicPlayer
 		}
 
 		public function playLoadBombSound():void{
-			if(!Session.uralysProfile.musicOn)
+			if(!Session.player.musicOn)
 				return;
 				
 			var request:URLRequest = new URLRequest("webresources/music/sounds/load.mp3");
@@ -139,7 +139,7 @@ public class MusicPlayer
 		}
 
 		public function playClickSound():void{
-			if(!Session.uralysProfile.musicOn)
+			if(!Session.player.musicOn)
 				return;
 				
 			var request:URLRequest = new URLRequest("webresources/music/sounds/clic.mp3");
@@ -149,7 +149,7 @@ public class MusicPlayer
 		}
 
 		public function playYeahSound():void{
-			if(!Session.uralysProfile.musicOn)
+			if(!Session.player.musicOn)
 				return;
 				
 			var request:URLRequest = new URLRequest("webresources/music/sounds/yeah.mp3");
@@ -159,7 +159,7 @@ public class MusicPlayer
 		}
 
 		public function playBipSound():void{
-			if(!Session.uralysProfile.musicOn)
+			if(!Session.player.musicOn)
 				return;
 				
 			var request:URLRequest = new URLRequest("webresources/music/sounds/bip.mp3");
@@ -169,7 +169,7 @@ public class MusicPlayer
 		}
 		
 		//public function playBonusSound(bonusName:String):void{
-			//if(!Session.uralysProfile.musicOn)
+			//if(!Session.player.musicOn)
 			//	return;
 				
 		//	var request:URLRequest = new URLRequest("webresources/music/sounds/bonuses/"+bonusName+".mp3");

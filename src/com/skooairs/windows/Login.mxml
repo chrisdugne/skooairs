@@ -16,6 +16,7 @@
 			<![CDATA[
 				import com.skooairs.constants.Names;
 				import com.skooairs.constants.Session;
+				import com.skooairs.constants.Translations;
 				import com.skooairs.core.Pager;
 				import com.skooairs.managers.AccountManager;
 				import com.skooairs.utils.SHA1;
@@ -98,15 +99,15 @@
 			<s:HGroup visible="{!Session.WAIT_FOR_SERVER}"
 					  width="100%">
 				<mx:Spacer width="5"/>
-				<s:Button label="Create my account" 
+				<s:Button label="{Translations.CREATE_ACCOUNT.getItemAt(Session.LANGUAGE)}" 
 						  skinClass="com.skooairs.skins.LittleButtonSkin"
 						  click="{createAccount()}"/>
 				<mx:Spacer width="100%"/>
-				<s:Button label="Log me in" 
+				<s:Button label="{Translations.LOG_IN.getItemAt(Session.LANGUAGE)}" 
 						  skinClass="com.skooairs.skins.LittleButtonSkin"
 						  click="{login()}"/>
 			</s:HGroup>
-			<s:Button label="Cancel" 
+			<s:Button label="{Translations.CANCEL.getItemAt(Session.LANGUAGE)}" 
 					  skinClass="com.skooairs.skins.LittleButtonSkin"
 					  click="{cancel()}"/>
 		</s:VGroup>

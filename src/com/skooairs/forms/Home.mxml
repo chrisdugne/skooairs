@@ -22,8 +22,6 @@
 			   
 			   import mx.core.UIComponent;
 			   
-			   [Bindable] public var initDone:Boolean = true;
-			   
 			   //-----------------------------------------------------------------------------------//
 			   
 			   private function init():void {
@@ -57,14 +55,12 @@
 		<s:VGroup x="180" y="190">
 			<s:Button label="{Translations.NEW_GAME.getItemAt(Session.LANGUAGE)}"
 						 skinClass="com.skooairs.skins.BigButtonSkin"
-						 visible="{initDone}"
 						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 						 click="MusicPlayer.getInstance().playOkSound();newGame()"/>
 			<s:HGroup>
 				<mx:Spacer width="80"/>
 				<s:Button label="{Translations.BOARD.getItemAt(Session.LANGUAGE)}" 
 						 skinClass="com.skooairs.skins.BigButtonSkin"
-						 visible="{initDone}"
 						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 						 click="MusicPlayer.getInstance().playOkSound();scores()"/>
 			</s:HGroup>

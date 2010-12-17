@@ -21,10 +21,30 @@ public class Translations{
 									"Ok",
 									"Ok"]);
 	[Bindable]
+	public static var CANCEL:ArrayCollection = new ArrayCollection(
+									["Annuler",
+									"Cancel",
+									"Cancel"]);
+	[Bindable]
 	public static var HELP:ArrayCollection = new ArrayCollection(
 									["Aide",
 									"Help",
 									"Help"]);
+	[Bindable]
+	public static var LOG_IN:ArrayCollection = new ArrayCollection(
+									["Se connecter",
+									"Log in",
+									"Log in"]);
+	[Bindable]
+	public static var CREATE_ACCOUNT:ArrayCollection = new ArrayCollection(
+									["Créer le compte",
+									"Create account",
+									"Create account"]);
+	[Bindable]
+	public static var LOGGED_AS:ArrayCollection = new ArrayCollection(
+									["Connecté(e)",
+									"Logged as",
+									"Logged as"]);
 	[Bindable]
 	public static var BACK:ArrayCollection = new ArrayCollection(
 									["Retour",
@@ -35,6 +55,21 @@ public class Translations{
 									["Fermer",
 									"Close",
 									"Close"]);
+	[Bindable]
+	public static var CONNECTION_OK:ArrayCollection = new ArrayCollection(
+									["Lien avec Facebook établi !",
+									"Linked with Facebook !",
+									"Linked with Facebook !"]);
+	[Bindable]
+	public static var FACEBOOK_ACCOUNT_ALREADY_LINKED:ArrayCollection = new ArrayCollection(
+									["Ce compte Facebook est déjà lié à un compte Uralys différent ce celui qui est connecté actuellement.",
+									"This Facebook account is linked with an other Uralys account than the one you're logged in now.",
+									"This Facebook account is linked with an other Uralys account than the one you're logged in now."]);
+	[Bindable]
+	public static var URALYS_ACCOUNT_ALREADY_LINKED:ArrayCollection = new ArrayCollection(
+									["Ce compte Uralys est lié avec le compte Facebook de ",
+									"This Uralys account is linked with the Facebook account of ",
+									"This Uralys account is linked with the Facebook account of "]);
 	[Bindable]
 	public static var SKIP:ArrayCollection = new ArrayCollection(
 									["Passer",

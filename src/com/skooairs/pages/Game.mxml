@@ -15,7 +15,6 @@
 
 	   <fx:Script>
 		   <![CDATA[
-			   import com.facebook.graph.Facebook;
 			   import com.skooairs.constants.Names;
 			   import com.skooairs.constants.Numbers;
 			   import com.skooairs.constants.Session;
@@ -24,6 +23,7 @@
 			   import com.skooairs.core.Pager;
 			   import com.skooairs.entities.Player;
 			   import com.skooairs.entities.UralysProfile;
+			   import com.skooairs.managers.AccountManager;
 			   
 			   import mx.collections.ArrayCollection;
 			   import mx.events.FlexEvent;
@@ -32,17 +32,10 @@
 			   
 			   //==================================================================================================//
 
-			   [Bindable] private var initDone:Boolean = false;
-			   
-			   //==================================================================================================//
-			   
 			   private function init(event:FlexEvent):void {
 				   
+				   createDummyProfile();
 				   MusicPlayer.getInstance().initMusic();
-				   
-				   // Session.player is ready to play
-				   initDone = true;
-				   loadingProgressBar.start();
 				   
 				   Pager.getInstance().viewstack = viewstack;
 				   Pager.getInstance().goToView(0);
@@ -52,63 +45,15 @@
 				   
 				   if(Session.newPlayer)
 					   showTuto(0);
-				   
-				   testIsLocal();
 			   }
 			   
-			   private function testIsLocal():void {
-				   trace("isLocal : " + Session.isLocal);
+			   private function createDummyProfile():void {
+				   Session.uralysProfile = new UralysProfile();
+				   Session.uralysProfile.uralysUID = "NOT_CONNECTED";
 				   
-				   if(Session.isLocal){
-					   
-					   loadingProgressBar.stop();
-					   initDone = true;
-					   
-					   // simulate the loginHandler with success == false for Facebook.init
-					   Session.uralysProfile = new UralysProfile();
-					   Session.uralysProfile.uralysUID = "NOT_CONNECTED";
-					   Session.player.facebookUID = "NO";
-					   Session.uralysProfile.musicOn = false;
-					   
-					   MusicPlayer.getInstance().initMusic();
-					   
-					   Session.player.facebookUID = "debugPlayer1";
-				   }
-			   }
-			   
-			   
-			   //-----------------------------------------------------------------------------------//
-			   // facebook
-			   
-			   public function loginFacebook():void{
-				   
-				   loadingProgressBar.start();
-				   initDone = false;
-				   
-				   if(!Session.isLocal)
-					   Facebook.login(loginHandler,{perms:"user_birthday,read_stream,publish_stream"});
-			   }
-			   
-			   protected function loginHandler(success:Object,fail:Object):void{
-				   
-				   if(success){
-					   Session.player.facebookUID = success.uid;
-					   //userImg.source = Facebook.getImageUrl(Session.FACEBOOK_UID, "small");
-					   
-					   playerWrapper.existFacebookPlayer(Session.player.facebookUID);
-					   
-					   Facebook.api("/me/friends", getFriendsHandler); 
-				   }
-			   }
-			   
-			   
-			   protected function getFriendsHandler(friends:Object,fail:Object):void{
-				   Session.friendUIDs = [];
-				   
-				   for each(var friend:Object in friends){
-					   Session.friendUIDs.push(friend.id);	
-				   }
-				   
+				   Session.player = new Player();
+				   Session.player.musicOn = !Session.isLocal;
+				   Session.player.facebookUID = null;
 			   }
 			   
 			   //-----------------------------------------------------------------------------------//
@@ -124,97 +69,27 @@
 			   }
 			   
 			   //==================================================================================================//
-			   // existFacebookPlayer : true (and false for Skooairs see the explanations under)
-			   
-			   
-			   private function yes(event:ResultEvent):void{
-				   // the getFacebookPlayer for Skooairs does not act like the getUser for Fools
-				   // here, it returns 'null' when in Fools it throws an exception
-				   // (it is due a priori to the 'setUnique(true) or the use of gql..')
-				   // therefore, for Skooairs, the function no(event:FaultEvent) is never called(no Exception raised by datanucleus), 
-				   // and the false is to be caught here
-				   if(event.result){
-					   playerWrapper.getFacebookPlayer(Session.player.facebookUID);
-					   Session.FIRST_VIEW = Numbers.VIEW_HOME;
-				   }
-				   else{
-					   MusicPlayer.getInstance().initMusic();	
-					   playerWrapper.createPlayer(Numbers.FACEBOOK_USER, Session.player.facebookUID);
-				   }
-			   }
-			   
-			   //-----------------------------------------------------------------------------------//
-			   // existFacebookPlayer : false (never for Skooairs, see the explanation above)
-			   
-			   private function no(event:FaultEvent):void{
-				   playerWrapper.createPlayer(Numbers.FACEBOOK_USER, Session.player.facebookUID);
-			   }
-			   
-			   private function onPlayerCreationComplete(event:ResultEvent):void{
-				   Session.newPlayer = true;
-				   
-				   playerWrapper.getFacebookPlayer(Session.player.facebookUID);
-				   Session.FIRST_VIEW = Numbers.VIEW_HOME;
-			   }		
-			   
-			   //-----------------------------------------------------------------------------------//
-			   
-			   private function onFacebookPlayerReady(event:ResultEvent):void{
-				   Session.player = event.result as Player;
-				   Session.LANGUAGE = Session.uralysProfile.language;
-				   
-				   // Session.player is ready to play
-				   initDone = true;
-				   loadingProgressBar.stop();
-				   
-				   // in case of goPremieum window opened
-				   if(Session.player.premium)
-					   hidebuycredits.play();
-				   
-				   if(Session.friendUIDs.length > 0){
-					   playerWrapper.getFriendPlayerUIDs(Session.friendUIDs);
-				   }
-				   else{
-					   if(!MusicPlayer.getInstance().testMusic())
-						   playerWrapper.changeMusicOn(Session.player.uralysUID, false);
-				   }
-			   }
-			   
-			   
-			   protected function onGetFriendPlayerUIDs(event:ResultEvent):void{
-				   Session.friendPlayerUIDs = event.result as ArrayCollection;
-				   
-				   if(!MusicPlayer.getInstance().testMusic())
-					   playerWrapper.changeMusicOn(Session.player.uralysUID, false);
-				   
-			   }
-			   
-			   protected function faultGetFriendPlayerUIDs(event:FaultEvent):void{
-				   trace("faultGetFriendPlayerUIDs");
-			   }
-			   
-			   //==================================================================================================//
 			   
 			   private function french():void {
 				   
-				   if(Session.player.uralysUID != "NOT_CONNECTED")
-					   playerWrapper.changeLanguage(Session.player.uralysUID, 0);
+				   if(Session.LOGGED_IN)
+					   AccountManager.getInstance().changeLanguage(Session.player.uralysUID, 0);
 				   
 				   Session.LANGUAGE = 0;
 			   }
 			   
 			   private function english():void {
 				   
-				   if(Session.player.uralysUID != "NOT_CONNECTED")
-					   playerWrapper.changeLanguage(Session.player.uralysUID, 1);
+				   if(Session.LOGGED_IN)
+					   AccountManager.getInstance().changeLanguage(Session.player.uralysUID, 1);
 				   
 				   Session.LANGUAGE = 1;
 			   }
 			   
 			   private function us():void {
 				   
-				   if(Session.player.uralysUID != "NOT_CONNECTED")
-					   playerWrapper.changeLanguage(Session.player.uralysUID, 2);
+				   if(Session.LOGGED_IN)
+					   AccountManager.getInstance().changeLanguage(Session.player.uralysUID, 2);
 				   
 				   Session.LANGUAGE = 2;
 			   }
@@ -222,8 +97,8 @@
 			   private function music():void {
 				   MusicPlayer.getInstance().switchState();
 				   
-				   if(Session.player.uralysUID != "NOT_CONNECTED")
-					   playerWrapper.changeMusicOn(Session.uralysProfile.uralysUID, Session.uralysProfile.musicOn);
+				   if(Session.LOGGED_IN)
+					   AccountManager.getInstance().changeMusicOn(Session.uralysProfile.uralysUID, Session.player.musicOn);
 			   }
 			   
 			   //==================================================================================================//
@@ -245,23 +120,8 @@
 			<mx:RemoteObject id="playerWrapper" 
 				        destination="PlayerWrapper" 
 				        endpoint="{Names.SERVER_AMF_ENDPOINT}"
-				        showBusyCursor="true">
-				         
-				         <mx:method name="existFacebookPlayer"
-				         			fault="no(event)"
-				         			result="yes(event)"/>
+				        showBusyCursor="true"/>
 
-				         <mx:method name="createPlayer"
-				         			result="onPlayerCreationComplete(event)"/>
-
-				         <mx:method name="getFacebookPlayer"
-				         			result="onFacebookPlayerReady(event)"/>
-
-				         <mx:method name="getFriendPlayerUIDs"
-				         			result="onGetFriendPlayerUIDs(event)"
-				         			fault="faultGetFriendPlayerUIDs(event)"/>
-
-			</mx:RemoteObject>
 
 			<s:Move id="hidebuycredits" target="{goPremiumCanvas}" yTo="-600"/>
 			<s:Move id="showbuycredits" target="{goPremiumCanvas}" yTo="0"/>
@@ -319,9 +179,9 @@
 						 			mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 									click="MusicPlayer.getInstance().playOkSound();showTuto(Session.CURRENT_TUTO_AVAILABLE)"/>
 
-			<button:VolumeOnButton x="675" top="10" id="soundOnButton" click="music()" visible="{Session.uralysProfile.musicOn}"
+			<button:VolumeOnButton x="675" top="10" id="soundOnButton" click="music()" visible="{Session.player.musicOn}"
 								mouseOver="{MusicPlayer.getInstance().playBipSound()}"/>
-			<button:VolumeOffButton x="675" top="10" id="soundOffButton" click="music()" visible="{!Session.uralysProfile.musicOn}"/>
+			<button:VolumeOffButton x="675" top="10" id="soundOffButton" click="music()" visible="{!Session.player.musicOn}"/>
 			
 			<mx:Image x="620" y="35" id="frenchButton" source="webresources/images/flags/fr.png" click="french()" visible="{Session.LANGUAGE != 0}" width="25"/>
 			<mx:Image x="{Session.LANGUAGE == 0 ? 620 : 650}" y="35" id="englishButton" source="webresources/images/flags/en.png" click="english()" visible="{Session.LANGUAGE != 1}" width="25"/>
@@ -329,20 +189,23 @@
 
 		<!-- ========================================================================== -->
 
-			<s:Button label="Log in" 
-						right="70" top="80" 
+			<s:Label left="80" top="75" 
+					 text="{Translations.LOGGED_AS.getItemAt(Session.LANGUAGE)} : {Session.player.surname}" 
+					 visible="{Session.LOGGED_IN}"/>
+	
+			<s:Button  right="70" top="90" 
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 						click="showLogin.play()"
-						skinClass="com.skooairs.skins.LittleButtonSkin"
+						skinClass="com.skooairs.skins.UralysLoginButtonSkin"
 						visible="{Session.GAME_OVER &amp;&amp; !Session.LOGGED_IN}"/>
 
-			<s:Button right="70" top="90" 
+			<s:Button right="70" top="115" 
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						click="loginFacebook()"
+						click="{AccountManager.getInstance().loginFacebook()}"
 						skinClass="com.skooairs.skins.FBLoginButtonSkin"
 						visible="{Session.GAME_OVER 
-								  &amp;&amp; Session.LOGGED_IN
-							 	  &amp;&amp; Session.player.facebookUID == 'NO'}"/>
+								  &amp;&amp; !Session.LOGGED_IN
+							 	  &amp;&amp; !Session.CONNECTED_TO_FACEBOOK}"/>
 		
 		<!-- ========================================================================== -->
 		
@@ -351,14 +214,15 @@
              historyManagementEnabled="true">
              
            	  <s:NavigatorContent>
-				  <forms:Home id="home" initDone="{initDone}"/>
+				  <forms:Home id="home"/>
 			  </s:NavigatorContent>
            	  <forms:Selections id="selections"/>
            	  <forms:Play id="play" show="play.reset();"/>
            	  <forms:Boards id="boards" show="boards.refresh();"/>
            	  
         </mx:ViewStack>
-        <custom:LoadingProgress id="loadingProgressBar" x="180" y="190" visible="{!initDone}"/>
+		
+        <!--<custom:LoadingProgress id="loadingProgressBar" x="180" y="190" visible="{!initDone}"/>-->
 
 		<!-- ========================================================================== -->
 		<!-- windows -->

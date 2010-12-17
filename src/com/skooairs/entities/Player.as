@@ -56,11 +56,20 @@ public class Player
 		_facebookUID = o;
 	}
 	
+	public function get musicOn():Boolean {
+		return _musicOn;
+	}
+	
+	public function set musicOn(o:Boolean):void {
+		_musicOn = o;
+	}
+	
 	protected var _uralysUID:String;
 	protected var _facebookUID:String;
 	protected var _surname:String;
 	protected var _premium:Boolean;
 	protected var _points:int;
+	protected var _musicOn:Boolean;
 	protected var _lastLog:Number;
 
 }
