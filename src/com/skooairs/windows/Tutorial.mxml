@@ -85,15 +85,15 @@
 	<s:Button id="continueButton" 
 				label="{Translations.CONTINUE.getItemAt(Session.LANGUAGE)}" 
 				mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-				x="590" top="5" 
+				right="5" top="5" 
 				click="{MusicPlayer.getInstance().playOkSound();continueTuto()}"
-				styleName="littleButtonStyle"/>
+				skinClass="com.skooairs.skins.LittleButtonSkin"/>
 	
 	<s:Button id="skipButton" 
 				label="{Translations.SKIP.getItemAt(Session.LANGUAGE)}" 
 				mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 				x="30" top="5" 
 				click="{MusicPlayer.getInstance().playOkSound();skip()}"
-				styleName="littleButtonStyle"/>
+				skinClass="com.skooairs.skins.LittleButtonSkin"/>
 	
 </s:Group>

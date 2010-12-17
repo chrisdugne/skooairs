@@ -32,6 +32,7 @@
 			   }
 			   
 			   private function scores():void {
+				   Session.SCORE_FORM_DISPLAYED = true;
 				   Pager.getInstance().goToView(Numbers.VIEW_BOARDS);
 			   }
 			   

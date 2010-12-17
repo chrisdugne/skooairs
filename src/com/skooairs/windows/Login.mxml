@@ -109,6 +109,7 @@
 			</s:HGroup>
 			<s:Button label="{Translations.CANCEL.getItemAt(Session.LANGUAGE)}" 
 					  skinClass="com.skooairs.skins.LittleButtonSkin"
-					  click="{cancel()}"/>
+					  click="{cancel()}"
+					  visible="{!Session.WAIT_FOR_SERVER}"/>
 		</s:VGroup>
 	</s:Group>

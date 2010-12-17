@@ -218,7 +218,7 @@ package com.skooairs.managers {
 			if(Session.LOGGED_IN){
 
 				// try to link a facebook account with this uralys account.
-				if(Session.player.facebookUID == null){
+				if(Session.uralysProfile.facebookUID == null){
 					facebookOperation = NEW_LINK;
 				}
 				// try to connect the facebook account of this uralys account.
@@ -252,15 +252,16 @@ package com.skooairs.managers {
 			Session.CONNECTED_TO_FACEBOOK = false;
 			
 			if(success){
+				trace("loginFacebookHandler success");
+				trace(ObjectUtil.toString(success));
 				
 				switch(facebookOperation){
 					case NEW_LINK : 
-						Session.uralysProfile.facebookUID = success.uid;
 						accountWrapper.existFacebookPlayer.addEventListener("result", resultExistFBTest);
-						accountWrapper.existFacebookPlayer(Session.player.facebookUID);
+						accountWrapper.existFacebookPlayer(success.uid);
 						break;
 					case CONNECT_TO_EXISTING_LINK : 
-						if(Session.uralysProfile.facebookUID != success.uid)
+						if(Session.uralysProfile.facebookUID == success.uid)
 							Facebook.api("/"+Session.uralysProfile.facebookUID, badLink);
 						else
 							Session.game.message(Translations.CONNECTION_OK.getItemAt(Session.LANGUAGE) as String, 4);
@@ -275,7 +276,7 @@ package com.skooairs.managers {
 						
 						trace("call accountWrapper.loginFromFacebook");
 						accountWrapper.loginFromFacebook.addEventListener("result", resultLoginFromFacebook);
-						accountWrapper.loginFromFacebook(Session.player.facebookUID);
+						accountWrapper.loginFromFacebook(success.uid);
 						break;
 				}
 				
@@ -287,7 +288,6 @@ package com.skooairs.managers {
 		}
 		
 		protected function getFriendsHandler(friends:Object,fail:Object):void{
-			trace("loginFromFacebook");
 			Session.friendUIDs = [];
 			
 			for each(var friend:Object in friends){
@@ -295,22 +295,16 @@ package com.skooairs.managers {
 			}
 			
 			if(Session.friendUIDs.length > 0){
-				trace("call playerWrapper.getFriendPlayerUIDs");
 				playerWrapper.getFriendPlayerUIDs.addEventListener("result", onGetFriendPlayerUIDs);
-				playerWrapper.getFriendPlayerUIDs.addEventListener("fault", onFaultGetFriendPlayerUIDs);
 				playerWrapper.getFriendPlayerUIDs(Session.friendUIDs);
 			}
 				
 		}
 
 		protected function onGetFriendPlayerUIDs(event:ResultEvent):void{
-			trace("onGetFriendPlayerUIDs");
 			Session.friendPlayerUIDs = event.result as ArrayCollection;
 		}
 
-		protected function onFaultGetFriendPlayerUIDs(event:FaultEvent):void{
-			trace("onFaultGetFriendPlayerUIDs");
-		}
 
 		// receive result about the NEW_LINK availability for the facebookUID connected
 		protected function resultExistFBTest(event:ResultEvent):void{
@@ -338,6 +332,8 @@ package com.skooairs.managers {
 				var oldSoundChoice:Boolean = Session.player.musicOn;
 				createDummyProfile();
 				Session.player.musicOn = oldSoundChoice;
+				
+				Session.LOGGED_IN = false;
 			}
 		}
 		

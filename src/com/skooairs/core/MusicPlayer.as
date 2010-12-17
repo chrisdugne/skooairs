@@ -43,12 +43,18 @@ public class MusicPlayer
 		private var soundTransform:SoundTransform;
 		
 		public function initMusic():void{
-			var request:URLRequest = new URLRequest("webresources/music/music1.mp3");
-            music = new Sound();
-            music.load(request);
-			
-			volume = Session.player.musicOn ? 1 : 0;
-			playMusic();	
+			if(!music){
+				var request:URLRequest = new URLRequest("webresources/music/music1.mp3");
+	            music = new Sound();
+	            music.load(request);
+				
+				volume = Session.player.musicOn ? 1 : 0;
+				playMusic();	
+			}
+			else{
+				if(volume == 1 && !Session.player.musicOn)
+					switchState();
+			}
 		}
 
 		public function switchState():void{

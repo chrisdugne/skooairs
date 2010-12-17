@@ -269,7 +269,7 @@
 		<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
 					label="{Translations.BACK.getItemAt(Session.LANGUAGE)}" 
 					skinClass="com.skooairs.skins.BigButtonSkin"
-					x="85" y="0"
+					x="85" y="20"
 					click="{MusicPlayer.getInstance().playOkSound();Pager.getInstance().goToView(Numbers.VIEW_HOME)}"/>
 		
 </mx:Canvas>

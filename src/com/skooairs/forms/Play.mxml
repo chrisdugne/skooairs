@@ -163,8 +163,9 @@
 				
 				private function endGame():void{
 					
-					if(Session.player.uralysUID != "NOT_CONNECTED"
+					if(Session.LOGGED_IN
 						&& Session.CURRENT_RECORD < Session.POINTS){
+						Session.player.surname = surnameInput.text;
 						playerWrapper.storeRecord(Session.player.uralysUID, surnameInput.text, Session.TIME, Session.COLORS, Session.POINTS);
 					}
 					

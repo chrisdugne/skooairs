@@ -191,6 +191,7 @@
 						click="showLogin.play()"
 						skinClass="com.skooairs.skins.UralysLoginButtonSkin"
 						visible="{Session.GAME_OVER 
+									&amp;&amp; !Session.SCORE_FORM_DISPLAYED
 									&amp;&amp; !Session.LOGGED_IN
 									&amp;&amp; !Session.CONNECTED_TO_FACEBOOK}"/>
 
@@ -199,6 +200,7 @@
 						click="{AccountManager.getInstance().loginFacebook()}"
 						skinClass="com.skooairs.skins.FBLoginButtonSkin"
 						visible="{Session.GAME_OVER 
+								  &amp;&amp; !Session.SCORE_FORM_DISPLAYED
 							 	  &amp;&amp; !Session.CONNECTED_TO_FACEBOOK}"/>
 
 			<s:Button right="70" top="90" 
@@ -206,6 +208,7 @@
 						click="{AccountManager.getInstance().logoutFacebook()}"
 						skinClass="com.skooairs.skins.FBLogoutButtonSkin"
 						visible="{Session.GAME_OVER 
+									&amp;&amp; !Session.SCORE_FORM_DISPLAYED
 									&amp;&amp; Session.CONNECTED_TO_FACEBOOK
 									&amp;&amp; Session.LOGGED_IN}"/>
 		

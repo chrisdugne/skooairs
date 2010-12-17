@@ -68,10 +68,10 @@
 			
 		<s:Button id="closeButton" 
 					label="{Translations.CLOSE.getItemAt(Session.LANGUAGE)}" 
-					x="600" y="-15" 
+					right="5" top="5" 
 					mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 					click="{MusicPlayer.getInstance().playOkSound();Session.game.hidebuycredits.play()}"
-					styleName="littleButtonStyle"/>
+					skinClass="com.skooairs.skins.LittleButtonSkin"/>
 
 		<s:Button id="buyButton" 
 					label="{Translations.GO_PREMIUM.getItemAt(Session.LANGUAGE)}" 
@@ -79,7 +79,7 @@
 					mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 					click="{MusicPlayer.getInstance().playOkSound();buy();}"
 					visible="{Session.LOGGED_IN}"
-					styleName="bigButtonStyle"/>
+					skinClass="com.skooairs.skins.BigButtonSkin"/>
 
 		<s:Button id="loginButton"
 				  	label="Login"
@@ -87,8 +87,7 @@
 					skinClass="com.skooairs.skins.LittleButtonSkin" 
 					mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 					x="5" top="5" 
-					visible="{!Session.LOGGED_IN}"
-					styleName="bigButtonStyle"/>
+					visible="{!Session.LOGGED_IN}"/>
 		
 		<mx:Image source="webresources/images/logos/paypal.png"
 					visible="{Session.LANGUAGE != 0}"

@@ -286,7 +286,7 @@
 				  label="{Translations.BACK.getItemAt(Session.LANGUAGE)}"
 				  skinClass="com.skooairs.skins.BigButtonSkin"
 				  x="95" y="10"
-				  click="{MusicPlayer.getInstance().playOkSound();Pager.getInstance().goToView(Numbers.VIEW_HOME)}"/>
+				  click="{MusicPlayer.getInstance().playOkSound();Pager.getInstance().goToView(Numbers.VIEW_HOME);Session.SCORE_FORM_DISPLAYED = false}"/>
 		
 		
 		

@@ -23,9 +23,9 @@
 			
 		<s:Button id="closeButton" 
 					label="{Translations.CLOSE.getItemAt(Session.LANGUAGE)}" 
-					x="{Session.LANGUAGE == 0 ? 620 : 634}" y="-15" 
+					right="5" top="5" 
 					click="{Session.game.hideinfo.play()}"
-					styleName="littleButtonStyle"/>
+					skinClass="com.skooairs.skins.LittleButtonSkin"/>
 		
 		<s:Label x="10" y="5" text="Skooairs !" styleName="bigGreen2Style"/>
 		<s:Label x="150" y="32" text="{Session.VERSION}" styleName="littleWhiteStyle"/>
