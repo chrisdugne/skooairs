@@ -11,7 +11,8 @@ public interface IPlayerService {
 	public void setTransactionMillis(String uralysUID, Long dateMillis);
 
 	public boolean existFacebookPlayer(String facebookUID);
-	public Player createPlayer(String uralysUID);
+	public Player createPlayer(String uralysUID, String facebookUID);
+	public void linkFacebookUID(String uralysUID, String facebookUID);
 	
 	public Player getPlayer(String uralysUID);
 	public Player getFacebookPlayer(String facebookUID);

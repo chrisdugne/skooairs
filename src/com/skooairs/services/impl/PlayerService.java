@@ -23,8 +23,12 @@ public class PlayerService extends Service implements IPlayerService{
 		return playerManager.existFacebookPlayer(facebookUID);
 	}
 
-	public Player createPlayer(String uralysUID) {
-		return playerManager.createPlayer(uralysUID);
+	public Player createPlayer(String uralysUID, String facebookUID) {
+		return playerManager.createPlayer(uralysUID, facebookUID);
+	}
+
+	public void linkFacebookUID(String uralysUID, String facebookUID) {
+		playerManager.linkFacebookUID(uralysUID, facebookUID);
 	}
 
 	public Player getFacebookPlayer(String facebookUID) {

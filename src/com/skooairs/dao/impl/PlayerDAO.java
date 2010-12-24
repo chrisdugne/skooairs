@@ -22,14 +22,14 @@ public class PlayerDAO extends MainDAO implements IPlayerDAO{
 		return getFacebookPlayer(facebookUID) != null;
 	}
 
-	public PlayerDTO createPlayer(String uralysUID) {
+	public PlayerDTO createPlayer(String uralysUID, String facebookUID) {
 		
 		PlayerDTO player = new PlayerDTO();
 		Key key = KeyFactory.createKey(PlayerDTO.class.getSimpleName(), uralysUID);
 		
 		player.setKey(KeyFactory.keyToString(key));
 		player.setUralysUID(uralysUID);
-		player.setFacebookUID("NO");
+		player.setFacebookUID(facebookUID == null ? "NO" : facebookUID);
 
 		player.setPremium(false);
 		player.setPoints(0);
@@ -44,6 +44,14 @@ public class PlayerDAO extends MainDAO implements IPlayerDAO{
 		return player;
 	}
 	
+	public void linkFacebookUID(String uralysUID, String facebookUID) {
+		PersistenceManager pm = PMF.getInstance().getPersistenceManager();
+		PlayerDTO player = pm.getObjectById(PlayerDTO.class, uralysUID);
+		
+		player.setFacebookUID(facebookUID);
+		pm.close();
+	}
+
 	public PlayerDTO getPlayer(String uralysUID) {
 		return super.getPlayer(uralysUID);
 	}

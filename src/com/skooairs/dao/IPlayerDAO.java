@@ -8,7 +8,8 @@ import com.skooairs.entities.dto.PlayerDTO;
 public interface IPlayerDAO {
 
 	public boolean existFacebookPlayer(String playerUID);
-	public PlayerDTO createPlayer(String playerUID);
+	public PlayerDTO createPlayer(String playerUID, String facebookUID);
+	public void linkFacebookUID(String playerUID, String facebookUID);
 	
 	public PlayerDTO getPlayer(String uralysUID);
 	public PlayerDTO getFacebookPlayer(String facebookUID);

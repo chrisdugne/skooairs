@@ -8,7 +8,8 @@ import com.skooairs.entities.Player;
 public interface IPlayerManager {
 
 	public boolean existFacebookPlayer(String facebookUID);
-	public Player createPlayer(String playerUID);
+	public Player createPlayer(String playerUID, String facebookUID);
+	public void linkFacebookUID(String playerUID, String facebookUID);
 	
 	public Player getPlayer(String uralysUID);
 	public Player getFacebookPlayer(String facebookUID);

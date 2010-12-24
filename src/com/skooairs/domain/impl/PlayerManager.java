@@ -26,8 +26,12 @@ public class PlayerManager implements IPlayerManager{
 		return playerDao.existFacebookPlayer(facebookUID);
 	}
 
-	public Player createPlayer(String uralysUID) {
-		return convertPlayerDTO(playerDao.createPlayer(uralysUID));
+	public Player createPlayer(String uralysUID, String facebookUID) {
+		return convertPlayerDTO(playerDao.createPlayer(uralysUID, facebookUID));
+	}
+	
+	public void linkFacebookUID(String uralysUID, String facebookUID) {
+		playerDao.linkFacebookUID(uralysUID, facebookUID);
 	}
 
 	public Player getPlayer(String uralysUID) {
