@@ -273,9 +273,12 @@
 					label="{Translations.GO_PREMIUM.getItemAt(Session.LANGUAGE)}" 
 					skinClass="com.skooairs.skins.BigButtonSkin"
 					left="80"
-					bottom="240"
+					bottom="218"
 					id="needPremiumLabel"
 					visible="false"
 					click="{Session.game.showbuycredits.play();}"/>
+		<s:Label text="{Translations.WHAT_IS_FREE.getItemAt(Session.LANGUAGE)}"
+				 left="80"
+				 bottom="180"/>
 		
 </mx:Canvas>

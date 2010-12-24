@@ -199,8 +199,14 @@ package com.skooairs.managers {
 		private var LOGIN:int = 3;
 		
 		public function autoLoginFacebook():void{
-			trace("try autoLoginFacebook");
 			
+			if(Session.isLocal){
+				Session.WAIT_FOR_CONNECTION = false;
+				Session.CONNECTED_TO_FACEBOOK = false;
+				return;
+			}
+			
+			trace("try autoLoginFacebook");
 			Session.CONNECTED_TO_FACEBOOK = true;
 			Session.WAIT_FOR_CONNECTION = true;
 			facebookOperation = LOGIN;

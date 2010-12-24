@@ -335,6 +335,11 @@ public class Translations{
 									"Go Premium !",
 									"Go Premium !"]);
 	[Bindable]
+	public static var WHAT_IS_FREE:ArrayCollection = new ArrayCollection(
+									["Disponible : 2min-3couleurs",
+									"Available : 2min-3colors",
+									"Available : 2min-3colors"]);
+	[Bindable]
 	public static var WAIT_TOMORROW:ArrayCollection = new ArrayCollection(
 									["J'attends demain pour avoir mes 10 crédits gratuits",
 									"I'll wait tomorrow to get my 10 free credits",
