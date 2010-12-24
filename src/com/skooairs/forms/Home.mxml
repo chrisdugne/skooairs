@@ -45,7 +45,6 @@
 						duration="360"
 						repeatCount="2"
             			repeatBehavior="reverse"/>
-			
 		</fx:Declarations>
 		
 		<!-- ========================================================================== -->
@@ -53,7 +52,8 @@
 		<mx:Image source="webresources/images/skooairs.png" 
 					x="120" y="75"/>
 					
-		<s:VGroup x="180" y="190">
+		<s:VGroup x="180" y="190"
+				  visible="{!Session.WAIT_FOR_CONNECTION}">
 			<s:Button label="{Translations.NEW_GAME.getItemAt(Session.LANGUAGE)}"
 						 skinClass="com.skooairs.skins.BigButtonSkin"
 						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
@@ -66,5 +66,7 @@
 						 click="MusicPlayer.getInstance().playOkSound();scores()"/>
 			</s:HGroup>
 		</s:VGroup>
-		
+		<s:Label text="{Translations.CONNECTION.getItemAt(Session.LANGUAGE)}"
+				 left="75"
+				 visible="{Session.WAIT_FOR_CONNECTION}"/>
 </s:Group>

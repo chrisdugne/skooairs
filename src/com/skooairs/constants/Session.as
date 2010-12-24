@@ -12,18 +12,19 @@ public class Session{
 
 	//=====================================================//
 
-	[Bindable] public static var VERSION:String = "1.1.10";
+	[Bindable] public static var VERSION:String = "1.1.13.5";
 	[Bindable] public static var LOGGED_IN:Boolean = false;
 	[Bindable] public static var CONNECTED_TO_FACEBOOK:Boolean = false;
 
 	//=====================================================//
 	
 	[Bindable] public static var WAIT_FOR_SERVER:Boolean = false; 
+	[Bindable] public static var WAIT_FOR_CONNECTION:Boolean = false; 
 	
 	//=====================================================//
 	
 	[Bindable] public static var uralysProfile:UralysProfile;
-	[Bindable] public static var player:Player;
+	[Bindable] public static var player:Player; 
 
 	//=====================================================//
 	

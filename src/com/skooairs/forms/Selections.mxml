@@ -36,6 +36,7 @@
 			   private function go():void {
 				   Session.SPEED = parseInt(selectedSpeed);
 				   Session.COLORS = parseInt(selectedColors);
+				   needPremiumLabel.visible = false;
 				   
 				   switch(selectedTime){
 					   case "2 min":
@@ -58,6 +59,7 @@
 						   Session.TIME = Numbers.TIME_NO_LIMIT;
 				   }
 				   
+				   
 				   if(!Session.player.premium 
 					   && (Session.TIME != Numbers.TIME_2_MIN
 						   || Session.COLORS != 3	
@@ -72,12 +74,7 @@
 					   colorsMover.play();
 					   selectedColors='3';
 					   
-					   //speedBorderMover.xTo=48;
-					   //speedBorderMover.yTo=374;
-					   //speedParallel.play();
-					   //selectedSpeed='1';
-					   
-					   Session.game.showbuycredits.play();
+					   needPremiumLabel.visible = true;
 					   
 					   return;
 				   }
@@ -271,5 +268,14 @@
 					skinClass="com.skooairs.skins.BigButtonSkin"
 					x="85" y="20"
 					click="{MusicPlayer.getInstance().playOkSound();Pager.getInstance().goToView(Numbers.VIEW_HOME)}"/>
+
+		<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+					label="{Translations.GO_PREMIUM.getItemAt(Session.LANGUAGE)}" 
+					skinClass="com.skooairs.skins.BigButtonSkin"
+					left="80"
+					bottom="240"
+					id="needPremiumLabel"
+					visible="false"
+					click="{Session.game.showbuycredits.play();}"/>
 		
 </mx:Canvas>

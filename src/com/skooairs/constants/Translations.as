@@ -67,9 +67,9 @@ public class Translations{
 									"Linked with Facebook !"]);
 	[Bindable]
 	public static var FACEBOOK_ACCOUNT_ALREADY_LINKED:ArrayCollection = new ArrayCollection(
-									["Ce compte Facebook est déjà lié à un compte Uralys différent ce celui qui est connecté actuellement.",
-									"This Facebook account is linked with an other Uralys account than the one you're logged in now.",
-									"This Facebook account is linked with an other Uralys account than the one you're logged in now."]);
+									["Ce compte Facebook est déjà lié à un autre compte Uralys",
+									"This Facebook account is linked with another Uralys account",
+									"This Facebook account is linked with another Uralys account"]);
 	[Bindable]
 	public static var URALYS_ACCOUNT_ALREADY_LINKED:ArrayCollection = new ArrayCollection(
 									["Ce compte Uralys est lié avec le compte Facebook de ",
@@ -80,6 +80,11 @@ public class Translations{
 									["Passer",
 									"Skip",
 									"Skip"]); 
+	[Bindable]
+	public static var CONNECTION:ArrayCollection = new ArrayCollection(
+									["Connexion...",
+									"Connection...",
+									"Connection"]); 
 	[Bindable]
 	public static var LOG_IN_TO_SEE_RECORDS:ArrayCollection = new ArrayCollection(
 									["Vous devez être loggué pour voir et battre vos scores !",
@@ -220,7 +225,7 @@ public class Translations{
 									"Magic 3",
 									"Magic 3"]);
 	[Bindable]
-	public static var MAGIC4:ArrayCollection = new ArrayCollection(
+	public static var MAGIC4:ArrayCollection = new ArrayCollection( 
 									["Magie 4",
 									"Magic 4",
 									"Magic 4"]);

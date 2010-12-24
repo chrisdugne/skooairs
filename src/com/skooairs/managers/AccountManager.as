@@ -41,17 +41,6 @@ package com.skooairs.managers {
 			playerWrapper = new RemoteObject();
 			playerWrapper.destination = "PlayerWrapper";
 			playerWrapper.endpoint = Names.SERVER_AMF_ENDPOINT;
-			
-			if(Session.isLocal){
-				var friends:Array = [];
-				friends[0] = new Object();
-				friends[0].id = '333';
-				
-				
-				getFriendsHandler(friends, null);
-				accountWrapper.loginFromFacebook.addEventListener("result", resultLoginFromFacebook);
-				accountWrapper.loginFromFacebook('testus');
-			}
 		}
 
 		
@@ -114,11 +103,11 @@ package com.skooairs.managers {
 			
 			if(Session.uralysProfile.uralysUID == "EMAIL_EXISTS"){
 				Session.game.message("This email is registered yet", 3);
-				Session.WAIT_FOR_SERVER = false;
+				Session.WAIT_FOR_CONNECTION = false;
 			}
 			else{
 				playerWrapper.createPlayer.addEventListener("result", playerCreated);
-				playerWrapper.createPlayer(Session.uralysProfile.uralysUID);
+				playerWrapper.createPlayer(Session.uralysProfile.uralysUID, Session.uralysProfile.facebookUID);
 			}
 		}
 		
@@ -132,7 +121,7 @@ package com.skooairs.managers {
 			
 			if(Session.uralysProfile.uralysUID == "WRONG_PWD"){
 				Session.game.message("Authentication Failed", 3);
-				Session.WAIT_FOR_SERVER = false;
+				Session.WAIT_FOR_CONNECTION = false;
 			}
 			else{
 				playerWrapper.getPlayer.addEventListener("result", receivedPlayer);
@@ -149,7 +138,11 @@ package com.skooairs.managers {
 			if(profileReceived.lastLog == 1)
 				registered(event);
 			else
-				resultLogin(event); 
+				resultLogin(event);
+			
+			// on aura la requete facebook pour les friends en meme temps que le call AMF get/create Player
+			// et ensuite le call AMF getFriendsUIDs se fera bien tout seul, et non en meme temps (ce qui casse l'appel AMF)
+			getFriends();
 		}
 		
 		//==================================================================================================//
@@ -157,6 +150,7 @@ package com.skooairs.managers {
 
 		private function playerCreated(event:ResultEvent):void{
 			
+			playerWrapper.createPlayer.removeEventListener("result", playerCreated);
 			Session.player = event.result as Player;
 			trace("playerCreated");
 			trace(ObjectUtil.toString(Session.player));
@@ -170,6 +164,7 @@ package com.skooairs.managers {
 		private var playerCreatedAutomatically:Boolean = false;
 		private function receivedPlayer(event:ResultEvent):void{
 			
+			playerWrapper.getPlayer.removeEventListener("result", receivedPlayer);
 			var player:Player = event.result as Player;
 			trace("receivedPlayer");
 			trace(ObjectUtil.toString(player));
@@ -177,7 +172,7 @@ package com.skooairs.managers {
 			if(player == null){
 				playerCreatedAutomatically = true;
 				playerWrapper.createPlayer.addEventListener("result", playerCreated);
-				playerWrapper.createPlayer(Session.uralysProfile.uralysUID);
+				playerWrapper.createPlayer(Session.uralysProfile.uralysUID, Session.uralysProfile.facebookUID);
 			}
 			else{
 				Session.player = player;
@@ -187,7 +182,7 @@ package com.skooairs.managers {
 		
 		private function finalizeLogin():void{
 			
-			Session.WAIT_FOR_SERVER = false;
+			Session.WAIT_FOR_CONNECTION = false;
 			Session.LOGGED_IN = true;
 			Session.game.hideLogin.play();
 			
@@ -205,7 +200,9 @@ package com.skooairs.managers {
 		
 		public function autoLoginFacebook():void{
 			trace("try autoLoginFacebook");
+			
 			Session.CONNECTED_TO_FACEBOOK = true;
+			Session.WAIT_FOR_CONNECTION = true;
 			facebookOperation = LOGIN;
 			Facebook.init("121585177900212", autoLoginFacebookHandler);
 		}
@@ -232,7 +229,6 @@ package com.skooairs.managers {
 			}	
 				
 			trace("facebookOperation : " + facebookOperation);
-			Session.CONNECTED_TO_FACEBOOK = true;
 			Facebook.login(loginFacebookHandler,{perms:"user_birthday,read_stream,publish_stream"});
 			
 		}
@@ -243,48 +239,65 @@ package com.skooairs.managers {
 				loginFacebookHandler(success, fail);
 			else{
 				trace("no success");
+				Session.WAIT_FOR_CONNECTION = false;
 				Session.CONNECTED_TO_FACEBOOK = false;
 				MusicPlayer.getInstance().initMusic();
 			}
 		}
 		
+		private var lastFacebookAccountLoggedIn:String;
 		protected function loginFacebookHandler(success:Object,fail:Object):void{
-			Session.CONNECTED_TO_FACEBOOK = false;
 			
 			if(success){
 				trace("loginFacebookHandler success");
 				trace(ObjectUtil.toString(success));
+				lastFacebookAccountLoggedIn = success.uid;
 				
 				switch(facebookOperation){
 					case NEW_LINK : 
 						accountWrapper.existFacebookPlayer.addEventListener("result", resultExistFBTest);
-						accountWrapper.existFacebookPlayer(success.uid);
+						accountWrapper.existFacebookPlayer(lastFacebookAccountLoggedIn);
 						break;
 					case CONNECT_TO_EXISTING_LINK : 
-						if(Session.uralysProfile.facebookUID == success.uid)
+						if(Session.uralysProfile.facebookUID != lastFacebookAccountLoggedIn)
 							Facebook.api("/"+Session.uralysProfile.facebookUID, badLink);
-						else
+						else{
 							Session.game.message(Translations.CONNECTION_OK.getItemAt(Session.LANGUAGE) as String, 4);
+							Session.CONNECTED_TO_FACEBOOK = true;
+							getFriends();
+						}
 
 						break;
 					case LOGIN : 
 						trace("Go on login to Uralys-Skooairs");
 						Session.CONNECTED_TO_FACEBOOK = true;
-
-						trace("call FB friends");
-						Facebook.api("/me/friends", getFriendsHandler);
 						
 						trace("call accountWrapper.loginFromFacebook");
 						accountWrapper.loginFromFacebook.addEventListener("result", resultLoginFromFacebook);
-						accountWrapper.loginFromFacebook(success.uid);
+						accountWrapper.loginFromFacebook(lastFacebookAccountLoggedIn);
 						break;
 				}
 				
+			}
+			else{
+				Session.WAIT_FOR_CONNECTION = false;
 			}
 		}
 		
 		protected function badLink(account:Object,fail:Object):void{
 			Session.game.message((Translations.URALYS_ACCOUNT_ALREADY_LINKED.getItemAt(Session.LANGUAGE) as String) + account.name, 4);
+			
+			Session.CONNECTED_TO_FACEBOOK = true;
+			trace("bad link : relog using accountWrapper.loginFromFacebook");
+			accountWrapper.loginFromFacebook.addEventListener("result", resultLoginFromFacebook);
+			accountWrapper.loginFromFacebook(lastFacebookAccountLoggedIn);
+		}
+		
+		//------------------------------------------------------------------------------------//
+		
+		protected function getFriends():void{
+			trace("call FB friends");
+			Facebook.api("/me/friends", getFriendsHandler);
 		}
 		
 		protected function getFriendsHandler(friends:Object,fail:Object):void{
@@ -309,14 +322,20 @@ package com.skooairs.managers {
 		// receive result about the NEW_LINK availability for the facebookUID connected
 		protected function resultExistFBTest(event:ResultEvent):void{
 			var facebookUIDExistsYet:Boolean = event.result as Boolean;
+			Session.CONNECTED_TO_FACEBOOK = true;
 			
-			if(facebookUIDExistsYet)
+			// force logout and 'loginfromfacebook' with the new FB user
+			if(facebookUIDExistsYet){
 				Session.game.message(Translations.FACEBOOK_ACCOUNT_ALREADY_LINKED.getItemAt(Session.LANGUAGE) as String, 6);
+				trace("call accountWrapper.loginFromFacebook");
+				accountWrapper.loginFromFacebook.addEventListener("result", resultLoginFromFacebook);
+				accountWrapper.loginFromFacebook(lastFacebookAccountLoggedIn);
+			}
 			else{
-				Session.CONNECTED_TO_FACEBOOK = true;
-				Facebook.api("/me/friends", getFriendsHandler);
-				accountWrapper.linkFacebookUID(Session.uralysProfile.uralysUID, Session.uralysProfile.facebookUID);
-				playerWrapper.linkFacebookUID(Session.uralysProfile.uralysUID, Session.uralysProfile.facebookUID);
+				Session.uralysProfile.facebookUID = lastFacebookAccountLoggedIn;
+				accountWrapper.linkFacebookUID(Session.uralysProfile.uralysUID, lastFacebookAccountLoggedIn);
+				playerWrapper.linkFacebookUID(Session.uralysProfile.uralysUID, lastFacebookAccountLoggedIn);
+				getFriends();
 			}
 		}
 
