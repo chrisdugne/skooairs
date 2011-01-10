@@ -139,7 +139,6 @@
 			
 		]]>
 	</fx:Script>
-
 	
 	<mx:Canvas id="window" 
 			   backgroundColor="0x135b19"  

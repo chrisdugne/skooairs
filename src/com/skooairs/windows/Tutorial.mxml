@@ -61,8 +61,15 @@
 			}
 		]]>
 	</fx:Script>
-		
-	<fx:Declarations>
+	
+	<fx:Declarations>  
+		<analytics:FlexTracker
+			xmlns:analytics="com.google.analytics.components.*"
+			id="tracker"
+			account="UA-17389126-3"
+			mode="AS3"
+			visualDebug="false"/>
+
 		<s:Fade id="fadeEffect"
 			alphaFrom="1" alphaTo="0"
 			effectStart="{continueButton.enabled=false}"
@@ -80,20 +87,21 @@
 	
 	<mx:Image source="webresources/images/tutos/tuto_{Session.LANGUAGE == 0 ? 'fr' : 'en'}_{step}.png"
 			 id="image"
+			 click="{tracker.trackPageview('/tutorialWindow-imageStep'+step);}"
 			 y="{step > 1 ? 40 : 0}"/>
 	
 	<s:Button id="continueButton" 
 				label="{Translations.CONTINUE.getItemAt(Session.LANGUAGE)}" 
 				mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 				right="5" top="5" 
-				click="{MusicPlayer.getInstance().playOkSound();continueTuto()}"
+				click="{MusicPlayer.getInstance().playOkSound();continueTuto();tracker.trackPageview('/tutorialWindow-continue');}"
 				skinClass="com.skooairs.skins.LittleButtonSkin"/>
 	
 	<s:Button id="skipButton" 
 				label="{Translations.SKIP.getItemAt(Session.LANGUAGE)}" 
 				mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 				x="30" top="5" 
-				click="{MusicPlayer.getInstance().playOkSound();skip()}"
+				click="{MusicPlayer.getInstance().playOkSound();skip();tracker.trackPageview('/tutorialWindow-skip');}"
 				skinClass="com.skooairs.skins.LittleButtonSkin"/>
 	
 </s:Group>

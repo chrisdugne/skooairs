@@ -43,6 +43,7 @@ public class SquareExploder
 		
 		public function register(_case:Case):void{
 			
+			//trace("----------------------");
 			//trace("registering case["+_case.x+"]["+_case.y+"]");
 			var groupTouched:CaseGroup = new CaseGroup();
 			var newColorGroups:Array = [];
@@ -71,12 +72,14 @@ public class SquareExploder
 			//trace("color : " + _case.color)
 			//trace("this colorgroup.nb : " + groups[_case.color-1].length);
 			//trace("----------------------");
+			
 		}
 		
 		// explose le groupe qui vient detre groupTouched dans le register juste realise
 		// return the number of frontiers removed
 		public function explode():int{
 
+			var nbCasesOfGroupToExplode:int = groupToExplode.cases.length; // groupToExplode.cases will be added insiders of the same color in the following 'getInsiders()'. Not counting for points, so storing here the real groupToExplode.cases.length
 			var insiders:Array = getInsiders();
 			//trace("found " + insiders.length + " insiders");
 
@@ -108,7 +111,7 @@ public class SquareExploder
 			if(nbInsiders > 0)
 				MusicPlayer.getInstance().playYeahSound();
 				
-			PointsCounter.getInstance().addPoints(groupToExplode.cases.length, nbInsiders);
+			PointsCounter.getInstance().addPoints(nbCasesOfGroupToExplode, nbInsiders);
 			
 			// pop() : Removes the last element from an array (and returns the value of that element).
 			// this last element is groupToExplode :

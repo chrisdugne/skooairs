@@ -106,8 +106,15 @@
 			   
 		   ]]>
 	   </fx:Script>
+	
+	<fx:Declarations>
+			<analytics:FlexTracker
+				xmlns:analytics="com.google.analytics.components.*"
+				id="tracker"
+				account="UA-17389126-3"
+				mode="AS3"
+				visualDebug="false"/>
 		
-		<fx:Declarations>			
 			<mx:RemoteObject id="playerWrapper" 
 				        destination="PlayerWrapper" 
 				        endpoint="{Names.SERVER_AMF_ENDPOINT}"
@@ -134,7 +141,8 @@
 
 		<mx:Image source="webresources/images/logos/uralysminilogo.png" 
 					x="65" bottom="2"
-					click="navigateToURL(new URLRequest('http://www.uralys.com'), '_new')"/>
+					click="navigateToURL(new URLRequest('http://www.uralys.com'), '_new');
+						   tracker.trackPageview('/game-uralysButton');"/>
 
 		<!-- ========================================================================== -->
 
@@ -147,13 +155,13 @@
 											&amp;&amp; Session.CONNECTED_TO_FACEBOOK
 											&amp;&amp; Session.LOGGED_IN}"
 								mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-								click="MusicPlayer.getInstance().playOkSound();invite()"/>
+								click="MusicPlayer.getInstance().playOkSound();invite();tracker.trackPageview('/game-inviteFriendsButton')"/>
 									
 			<button:BuyCreditsButton right="260" 
 									top="10"
 									id="buyCreditsButton" 
 									toolTip="{Translations.GO_PREMIUM.getItemAt(Session.LANGUAGE)} !" 
-									click="{MusicPlayer.getInstance().playOkSound();showbuycredits.play()}"
+									click="{MusicPlayer.getInstance().playOkSound();showbuycredits.play();tracker.trackPageview('/game-buyCreditsButton')}"
 						 			mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 									visible="{Session.GAME_OVER &amp;&amp; !Session.player.premium}"/>
 								
@@ -161,7 +169,7 @@
 								top="10"
 									id="infoButton" 
 									toolTip="{Translations.ABOUT_FOOLS.getItemAt(Session.LANGUAGE)}" 
-									click="MusicPlayer.getInstance().playOkSound();showinfo.play()"
+									click="MusicPlayer.getInstance().playOkSound();showinfo.play();tracker.trackPageview('/game-infoButton')"
 						 			mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 									visible="{Session.GAME_OVER}"/>
 									
@@ -170,25 +178,26 @@
 									id="helpButton" 
 									toolTip="{Translations.HELP.getItemAt(Session.LANGUAGE)}" 
 						 			mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-									click="MusicPlayer.getInstance().playOkSound();showTuto(Session.CURRENT_TUTO_AVAILABLE)"/>
+									click="MusicPlayer.getInstance().playOkSound();showTuto(Session.CURRENT_TUTO_AVAILABLE);tracker.trackPageview('/game-helpButton')"/>
 
-			<button:VolumeOnButton x="675" top="10" id="soundOnButton" click="music()" visible="{Session.player.musicOn}"
+			<button:VolumeOnButton x="675" top="10" id="soundOnButton" click="music();tracker.trackPageview('/game-soundOnButton')" visible="{Session.player.musicOn}"
 								mouseOver="{MusicPlayer.getInstance().playBipSound()}"/>
-			<button:VolumeOffButton x="675" top="10" id="soundOffButton" click="music()" visible="{!Session.player.musicOn}"/>
+			<button:VolumeOffButton x="675" top="10" id="soundOffButton" click="music();tracker.trackPageview('/game-soundOffButton')" visible="{!Session.player.musicOn}"/>
 			
-			<mx:Image x="620" y="35" id="frenchButton" source="webresources/images/flags/fr.png" click="french()" visible="{Session.LANGUAGE != 0}" width="25"/>
-			<mx:Image x="{Session.LANGUAGE == 0 ? 620 : 650}" y="35" id="englishButton" source="webresources/images/flags/en.png" click="english()" visible="{Session.LANGUAGE != 1}" width="25"/>
-			<mx:Image x="650" y="35" id="usButton" source="webresources/images/flags/us.png" click="us()" visible="{Session.LANGUAGE != 2}" width="25"/>
+			<mx:Image x="620" y="35" id="frenchButton" source="webresources/images/flags/fr.png" click="french();tracker.trackPageview('/game-frenchButton')" visible="{Session.LANGUAGE != 0}" width="25"/>
+			<mx:Image x="{Session.LANGUAGE == 0 ? 620 : 650}" y="35" id="englishButton" source="webresources/images/flags/en.png" click="english();tracker.trackPageview('/game-englishButton')" visible="{Session.LANGUAGE != 1}" width="25"/>
+			<mx:Image x="650" y="35" id="usButton" source="webresources/images/flags/us.png" click="us();tracker.trackPageview('/game-usButton')" visible="{Session.LANGUAGE != 2}" width="25"/>
 
 		<!-- ========================================================================== -->
 
 			<s:Label left="80" top="75" 
 					 text="{Translations.LOGGED_AS.getItemAt(Session.LANGUAGE)} : {Session.player.surname}" 
-					 visible="{Session.LOGGED_IN}"/>
+					 visible="{Session.LOGGED_IN}"
+					 click="tracker.trackPageview('/game-loggedAsLabel');"/>
 	
 			<s:Button  right="70" top="90" 
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						click="showLogin.play()"
+						click="showLogin.play();tracker.trackPageview('/game-uralysLoginButton')"
 						skinClass="com.skooairs.skins.UralysLoginButtonSkin"
 						visible="{Session.GAME_OVER 
 									&amp;&amp; !Session.SCORE_FORM_DISPLAYED
@@ -197,7 +206,7 @@
 
 			<s:Button right="70" top="115" 
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						click="{AccountManager.getInstance().loginFacebook()}"
+						click="{AccountManager.getInstance().loginFacebook();tracker.trackPageview('/game-facebookLoginButton')}"
 						skinClass="com.skooairs.skins.FBLoginButtonSkin"
 						visible="{Session.GAME_OVER 
 								  &amp;&amp; !Session.SCORE_FORM_DISPLAYED
@@ -205,7 +214,7 @@
 
 			<s:Button right="70" top="90" 
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
-						click="{AccountManager.getInstance().logoutFacebook()}"
+						click="{AccountManager.getInstance().logoutFacebook();tracker.trackPageview('/game-facebookLogoutButton')}"
 						skinClass="com.skooairs.skins.FBLogoutButtonSkin"
 						visible="{Session.GAME_OVER 
 									&amp;&amp; !Session.SCORE_FORM_DISPLAYED

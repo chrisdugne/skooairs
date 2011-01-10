@@ -224,6 +224,13 @@
 	
 		<fx:Declarations>			
 			
+			<analytics:FlexTracker
+				xmlns:analytics="com.google.analytics.components.*"
+				id="tracker"
+				account="UA-17389126-3"
+				mode="AS3"
+				visualDebug="false"/>
+			
 			<mx:RemoteObject id="playerWrapper" 
 				        destination="PlayerWrapper" 
 				        endpoint="{Names.SERVER_AMF_ENDPOINT}">
@@ -356,7 +363,7 @@
 						y="285" 
 						text="{Translations.NEW_RECORD.getItemAt(Session.LANGUAGE)}" 
 						styleName="biggestWhiteStyle" 
-						visible="{Session.GAME_OVER &amp;&amp; Session.player.uralysUID != 'NOT_CONNECTED' &amp;&amp; Session.POINTS > Session.CURRENT_RECORD}"/>
+						visible="{Session.GAME_OVER &amp;&amp; Session.LOGGED_IN  &amp;&amp; Session.POINTS > Session.CURRENT_RECORD}"/>
 						
 			<s:TextInput id="surnameInput" 
 						x="400" y="360"
@@ -364,14 +371,14 @@
 						width="180" 
 						enter="endGame()"
 						text="{Session.player.surname}"
-						visible="{Session.GAME_OVER &amp;&amp; Session.player.uralysUID != 'NOT_CONNECTED' &amp;&amp; Session.POINTS > Session.CURRENT_RECORD}"/>
+						visible="{Session.GAME_OVER &amp;&amp; Session.LOGGED_IN &amp;&amp; Session.POINTS > Session.CURRENT_RECORD}"/>
 			
 			<s:Button visible="{Session.GAME_OVER}"
 						label="{Translations.CONTINUE.getItemAt(Session.LANGUAGE)}"
 					    x="340" y="400"
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 					    skinClass="com.skooairs.skins.BigButtonSkin"
-						click="{MusicPlayer.getInstance().playOkSound();endGame()}"/>
+						click="{MusicPlayer.getInstance().playOkSound();endGame();tracker.trackPageview('/play-continueButton')}"/>
 						
 			
 			<mx:ProgressBar id="boomProgressBar"
@@ -388,7 +395,7 @@
 						label="{Translations.EXIT.getItemAt(Session.LANGUAGE)}" 
 						skinClass="com.skooairs.skins.LittleButtonSkin"
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						click="MusicPlayer.getInstance().playOkSound();stopGameTimer()" 
+						click="MusicPlayer.getInstance().playOkSound();stopGameTimer();tracker.trackPageview('/play-exitButton')" 
 						visible="{!Session.GAME_OVER}"/>
 			
 

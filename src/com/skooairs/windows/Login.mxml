@@ -4,7 +4,7 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx" 
 		 width="370"
 		 height="150" 
-		 alpha="0.6">
+		 alpha="0.8">
 		
 		<s:Rect left="0" right="0" top="0" bottom="0" radiusX="5" radiusY="5">
 			<s:fill>
@@ -12,6 +12,15 @@
 			</s:fill>
 		</s:Rect>
 		
+		<fx:Declarations>  
+			<analytics:FlexTracker
+				xmlns:analytics="com.google.analytics.components.*"
+				id="tracker"
+				account="UA-17389126-3"
+				mode="AS3"
+				visualDebug="false"/>
+		</fx:Declarations>
+	
 		<fx:Script>
 			<![CDATA[
 				import com.skooairs.constants.Names;
@@ -101,15 +110,16 @@
 				<mx:Spacer width="5"/>
 				<s:Button label="{Translations.CREATE_ACCOUNT.getItemAt(Session.LANGUAGE)}" 
 						  skinClass="com.skooairs.skins.LittleButtonSkin"
-						  click="{createAccount()}"/>
+						  click="{createAccount();tracker.trackPageview('/loginWindow-createAccountButton');}"/>
 				<mx:Spacer width="100%"/>
 				<s:Button label="{Translations.LOG_IN.getItemAt(Session.LANGUAGE)}" 
 						  skinClass="com.skooairs.skins.LittleButtonSkin"
-						  click="{login()}"/>
+						  click="{login();tracker.trackPageview('/loginWindow-loginButton');}"/>
 			</s:HGroup>
 			<s:Button label="{Translations.CANCEL.getItemAt(Session.LANGUAGE)}" 
 					  skinClass="com.skooairs.skins.LittleButtonSkin"
-					  click="{cancel()}"
-					  visible="{!Session.WAIT_FOR_CONNECTION}"/>
+					  click="{cancel();tracker.trackPageview('/loginWindow-cancelButton');}"
+					  visible="{!Session.WAIT_FOR_CONNECTION}"
+					  />
 		</s:VGroup>
 	</s:Group>

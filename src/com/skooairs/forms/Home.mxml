@@ -41,6 +41,13 @@
 	   </fx:Script>
 		
 		<fx:Declarations> 
+			<analytics:FlexTracker
+				xmlns:analytics="com.google.analytics.components.*"
+				id="tracker"
+				account="UA-17389126-3"
+				mode="AS3"
+				visualDebug="false"/>
+			
 			<s:Scale3D id="scale" scaleXBy="-.25" scaleYBy="-.35"
 						duration="360"
 						repeatCount="2"
@@ -50,20 +57,21 @@
 		<!-- ========================================================================== -->
 		
 		<mx:Image source="webresources/images/skooairs.png" 
-					x="120" y="75"/>
+					x="120" y="75"
+					click="tracker.trackPageview('/home-skooairsImage');"/>
 					
 		<s:VGroup x="180" y="190"
 				  visible="{!Session.WAIT_FOR_CONNECTION}">
 			<s:Button label="{Translations.NEW_GAME.getItemAt(Session.LANGUAGE)}"
 						 skinClass="com.skooairs.skins.BigButtonSkin"
 						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 click="MusicPlayer.getInstance().playOkSound();newGame()"/>
+						 click="MusicPlayer.getInstance().playOkSound();newGame();tracker.trackPageview('/home-newGameButton')"/>
 			<s:HGroup>
 				<mx:Spacer width="80"/>
 				<s:Button label="{Translations.BOARD.getItemAt(Session.LANGUAGE)}" 
 						 skinClass="com.skooairs.skins.BigButtonSkin"
 						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 click="MusicPlayer.getInstance().playOkSound();scores()"/>
+						 click="MusicPlayer.getInstance().playOkSound();scores();tracker.trackPageview('/home-scoresButton')"/>
 			</s:HGroup>
 		</s:VGroup>
 		<s:Label text="{Translations.CONNECTION.getItemAt(Session.LANGUAGE)}"

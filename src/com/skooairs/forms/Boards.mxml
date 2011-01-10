@@ -71,7 +71,15 @@
 	   </fx:Script>
 			   
 			   
-		<fx:Declarations>        
+		<fx:Declarations>      
+			
+			<analytics:FlexTracker
+				xmlns:analytics="com.google.analytics.components.*"
+				id="tracker"
+				account="UA-17389126-3"
+				mode="AS3"
+				visualDebug="false"/>
+			
 			<mx:RemoteObject id="playerWrapper" 
 				        destination="PlayerWrapper" 
 				        endpoint="{Names.SERVER_AMF_ENDPOINT}"
@@ -126,28 +134,32 @@
 					   skinClass="com.skooairs.skins.BigButtonSkin"
 					   click="{if(lock)return;colorsMover.yTo=135;colorsMover.play();
 					   		   selectedColors=3;
-					   		   refresh();}"
+					   		   refresh();
+							   tracker.trackPageview('/boards-3colorsButton');}"
 					   />
 			<mx:Spacer height="47"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="4"
 					   skinClass="com.skooairs.skins.BigButtonSkin"
 					   click="{if(lock)return;colorsMover.yTo=237;colorsMover.play();
 					   		   selectedColors=4;
-					   		   refresh();}"
+					   		   refresh();
+					  		   tracker.trackPageview('/boards-4colorsButton');}"
 					   />
 			<mx:Spacer height="47"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="5"
 					   skinClass="com.skooairs.skins.BigButtonSkin"
 					   click="{if(lock)return;colorsMover.yTo=339;colorsMover.play();
 					   		   selectedColors=5;
-					   		   refresh();}"
+					   		   refresh();
+					  		   tracker.trackPageview('/boards-5colorsButton');}"
 					   />
 			<mx:Spacer height="47"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="6"
 					   skinClass="com.skooairs.skins.BigButtonSkin"
 					   click="{if(lock)return;colorsMover.yTo=441;colorsMover.play();
 					   		   selectedColors=6;
-					   		   refresh();}"
+					   		   refresh();
+					   		   tracker.trackPageview('/boards-6colorsButton');}"
 					   />
 	    </s:VGroup>
 		
@@ -157,45 +169,41 @@
 					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;timeBorderMover.yTo=128;timeBorderResizer.widthTo=75;timeParallel.play();
 					   		   selectedTime=2;
-					   		   refresh();}"
+					   		   refresh();
+					   		   tracker.trackPageview('/boards-2minButton');}"
 					   />
 			<mx:Spacer height="44"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="3 min"
 					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;timeBorderMover.yTo=204;timeBorderResizer.widthTo=75;timeParallel.play();
 					   		   selectedTime=3;
-					   		   refresh();}"
+					   		   refresh();
+					  		   tracker.trackPageview('/boards-3minButton');}"
 					   />
 			<mx:Spacer height="44"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="5 min"
 					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;timeBorderMover.yTo=280;timeBorderResizer.widthTo=75;timeParallel.play();
 					   		   selectedTime=5;
-					   		   refresh();}"
+					   		   refresh();
+							   tracker.trackPageview('/boards-5minButton');}"
 					   />
 			<mx:Spacer height="44"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="7 min"
 					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;timeBorderMover.yTo=355;timeBorderResizer.widthTo=75;timeParallel.play();
 					   		   selectedTime=7;
-					   		   refresh();}"
+					   		   refresh();
+							   tracker.trackPageview('/boards-7minButton');}"
 					   />
 			<mx:Spacer height="44"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="10 min"
 					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;timeBorderMover.yTo=433;timeBorderResizer.widthTo=84;timeParallel.play();
 					   		   selectedTime=10;
-					   		   refresh();}"
+					   		   refresh();
+							   tracker.trackPageview('/boards-10minButton');}"
 					   />
-			<!-- 
-			<mx:Spacer height="10"/>
-			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="{Translations.NO_TIME_LIMIT.getItemAt(Session.LANGUAGE)}"
-					   skinClass="com.skooairs.skins.LittleButtonSkin"
-					   click="{if(lock)return;timeBorderMover.yTo=448;timeBorderResizer.widthTo=105;timeParallel.play();
-					   		   selectedTime=0;
-					   		   refresh();}"
-					   />
-			-->
 		 </s:VGroup>
 		 
 		 <s:HGroup x="500" y="17">
@@ -204,15 +212,17 @@
 					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{friendsBorderMover.xTo=508;friendsBorderMover.play();
 					   		   selectedGroup=1;
-					   		   refresh();}"
+					   		   refresh();
+							   tracker.trackPageview('/boards-worldButton');}"
 					   />
 			<mx:Spacer width="{Session.LANGUAGE == 0 ? 6 : -10}"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="{Translations.FRIENDS.getItemAt(Session.LANGUAGE)}"
 					   skinClass="com.skooairs.skins.LittleButtonSkin"
 					   click="{if(lock)return;friendsBorderMover.xTo=603;friendsBorderMover.play();
 					   		   selectedGroup=2;
-					   		   refresh();}"
-					   visible="{Session.player.facebookUID != 'NO' &amp;&amp; Session.friendPlayerUIDs.length > 0}"
+					   		   refresh();
+							   tracker.trackPageview('/boards-friendsButton');}"
+					   visible="{Session.CONNECTED_TO_FACEBOOK &amp;&amp; Session.friendPlayerUIDs.length > 0}"
 					   />
 	   	 </s:HGroup>
 					
@@ -286,7 +296,10 @@
 				  label="{Translations.BACK.getItemAt(Session.LANGUAGE)}"
 				  skinClass="com.skooairs.skins.BigButtonSkin"
 				  x="95" y="10"
-				  click="{MusicPlayer.getInstance().playOkSound();Pager.getInstance().goToView(Numbers.VIEW_HOME);Session.SCORE_FORM_DISPLAYED = false}"/>
+				  click="{MusicPlayer.getInstance().playOkSound();
+				  		  Pager.getInstance().goToView(Numbers.VIEW_HOME);
+				  		  Session.SCORE_FORM_DISPLAYED = false;
+						  tracker.trackPageview('/boards-backButton');}"/>
 		
 		
 		
