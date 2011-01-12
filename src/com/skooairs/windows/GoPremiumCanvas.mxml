@@ -31,7 +31,7 @@
 			import com.skooairs.core.MusicPlayer;
 			
 			/*
-			go premium - 1.99 button="6J5VDASS5TRJN"
+			go premium - 1.99 button="8XNMNHARJDQLY"
 			go premium SANDBOX - 1.99 button="VQC33N3ATP4HG"
 			*/
 			public function buy():void{
@@ -45,7 +45,7 @@
 				var request:URLRequest = new URLRequest(url);
 				var variables:URLVariables = new URLVariables();
 				variables.cmd = "_s-xclick";
-				variables.hosted_button_id = "6J5VDASS5TRJN";
+				variables.hosted_button_id = "8XNMNHARJDQLY";
 				variables.custom = Session.player.uralysUID + "___" + dateMillis;
 				
 				request.data = variables;
