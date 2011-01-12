@@ -75,10 +75,10 @@
 		</fx:Script>
 
 		<s:HGroup x="4" y="4" height="100%" width="100%" id="bar" visible="false">
-			<mx:Image id="point1" source="webresources/images/loadingpoint.png" width="15" height="15" alpha="0"/>
-			<mx:Image id="point2" source="webresources/images/loadingpoint.png" width="15" height="15" alpha="0"/>
-			<mx:Image id="point3" source="webresources/images/loadingpoint.png" width="15" height="15" alpha="0"/>
-			<mx:Image id="point4" source="webresources/images/loadingpoint.png" width="15" height="15" alpha="0"/>
-			<mx:Image id="point5" source="webresources/images/loadingpoint.png" width="15" height="15" alpha="0"/>
+			<mx:Image id="point1" source="{ImageContainer.LOADINGPOINT}" width="15" height="15" alpha="0"/>
+			<mx:Image id="point2" source="{ImageContainer.LOADINGPOINT}" width="15" height="15" alpha="0"/>
+			<mx:Image id="point3" source="{ImageContainer.LOADINGPOINT}" width="15" height="15" alpha="0"/>
+			<mx:Image id="point4" source="{ImageContainer.LOADINGPOINT}" width="15" height="15" alpha="0"/>
+			<mx:Image id="point5" source="{ImageContainer.LOADINGPOINT}" width="15" height="15" alpha="0"/>
 		</s:HGroup>
 </s:Group>

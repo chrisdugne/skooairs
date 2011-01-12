@@ -21,6 +21,21 @@ public class Translations{
 									"Ok",
 									"Ok"]);
 	[Bindable]
+	public static var YEAH:ArrayCollection = new ArrayCollection(
+									["Super !",
+									"Yeah !",
+									"Yeah !"]);
+	[Bindable]
+	public static var COOL:ArrayCollection = new ArrayCollection(
+									["Cool !",
+									"Cool !",
+									"Cool !"]);
+	[Bindable]
+	public static var GOOD:ArrayCollection = new ArrayCollection(
+									["Bien !",
+									"Good !",
+									"Good !"]);
+	[Bindable]
 	public static var CANCEL:ArrayCollection = new ArrayCollection(
 									["Annuler",
 									"Cancel",
@@ -206,6 +221,41 @@ public class Translations{
 									["Scores",
 									"Hall of fame",
 									"Hall of fame"]);
+	[Bindable]
+	public static var HOW_TO_PLAY:ArrayCollection = new ArrayCollection(
+									["Comment jouer ?",
+									"How to play ?",
+									"How to play ?"]);
+	[Bindable]
+	public static var FOLLOW_ARROWS:ArrayCollection = new ArrayCollection(
+									["Suivez les flèches !",
+									"Follow the arrows !",
+									"Follow the arrows !"]);
+	[Bindable]
+	public static var PRESS_SPACE:ArrayCollection = new ArrayCollection(
+									["Ou barre Espace",
+									"Or Space bar",
+									"Or Space bar"]);
+	[Bindable]
+	public static var TIP_SPACE_BAR:ArrayCollection = new ArrayCollection(
+									["La barre Espace est un raccourci pour mettre la Bombe",
+									"Use Space bar as a shortcut to set the Bomb",
+									"Use Space bar as a shortcut to set the Bomb"]);
+	[Bindable]
+	public static var READY_TO_EXPLODE:ArrayCollection = new ArrayCollection(
+									["Bombe en place !",
+									"Bomb set !",
+									"Bomb set !"]);
+	[Bindable]
+	public static var TIME_TO_MAKE_SKOOAIR:ArrayCollection = new ArrayCollection(
+									["Nous allons maintenant faire un SKOOAIR !",
+									"It's time to make a SKOOAIR !",
+									"It's time to make a SKOOAIR !"]);
+	[Bindable]
+	public static var READY_TO_PLAY:ArrayCollection = new ArrayCollection(
+									["Plus le Skooair est gros, plus il vaut de points !",
+									"The bigger a Skooair is, the more points it worths !",
+									"The bigger a Skooair is, the more points it worths !"]);
 	
 	//-----------------------------------------------------------------------------------//
 								

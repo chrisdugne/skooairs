@@ -48,7 +48,7 @@
 				
 				Session.FIRST_VIEW = Numbers.VIEW_HOME;
 				
-				Pager.getInstance().setBackground("webresources/images/background.jpg");
+				Pager.getInstance().setBackground(ImageContainer.BACKGROUND);
 				Pager.getInstance().goToPage(Game);
 			}
 			

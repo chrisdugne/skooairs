@@ -8,9 +8,7 @@ public class Names{
 	[Bindable] public static var LOCAL_LOGGER_SERVER_AMF_ENDPOINT:String = "http://localhost:8887/messagebroker/amf";
 	
 	public static var SHARED_OBJECT_NAME:String = "SkooAirs";
-	public static var APP:String = "SkooAirs";
-	public static var SQUARES_PATH:String = "webresources/images/play/carre_";
-	
+	public static var APP:String = "SkooAirs";	
 	
 }
 }

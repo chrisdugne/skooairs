@@ -29,13 +29,12 @@
 			   import mx.events.FlexEvent;
 			   import mx.rpc.events.FaultEvent;
 			   import mx.rpc.events.ResultEvent;
-			   
+
 			   //==================================================================================================//
 
 			   private function init(event:FlexEvent):void {
 				   
 				   AccountManager.getInstance().autoLoginFacebook();
-				   AccountManager.getInstance().createDummyProfile();
 				   
 				   Pager.getInstance().viewstack = viewstack;
 				   Pager.getInstance().goToView(0);
@@ -113,7 +112,7 @@
 				id="tracker"
 				account="UA-17389126-3"
 				mode="AS3"
-				visualDebug="false"/>
+				visualDebug="true"/>
 		
 			<mx:RemoteObject id="playerWrapper" 
 				        destination="PlayerWrapper" 

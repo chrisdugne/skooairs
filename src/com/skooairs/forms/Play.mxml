@@ -12,30 +12,32 @@
 
 	   	<fx:Script>
 			<![CDATA[
-				import com.skooairs.utils.Utils;
-				
-				import com.skooairs.constants.Session;
 				import com.skooairs.constants.Names;
 				import com.skooairs.constants.Numbers;
+				import com.skooairs.constants.Session;
 				import com.skooairs.constants.Translations;
-				
-				import com.skooairs.core.Pager;
-				import com.skooairs.core.SquareMover;
-				import com.skooairs.core.SquareExploder;
-				import com.skooairs.core.PointsCounter;
 				import com.skooairs.core.MusicPlayer;
-				
-				import spark.effects.Animate;
-				import spark.effects.animation.MotionPath;
-				import spark.effects.animation.SimpleMotionPath;        
-				import spark.effects.animation.Keyframe;
+				import com.skooairs.core.Pager;
+				import com.skooairs.core.PointsCounter;
+				import com.skooairs.core.SquareExploder;
+				import com.skooairs.core.SquareMover;
+				import com.skooairs.utils.Utils;
 				
 				import mx.rpc.events.ResultEvent;
+				
 				import spark.components.Label;
+				import spark.effects.Animate;
+				import spark.effects.animation.Keyframe;
+				import spark.effects.animation.MotionPath;
+				import spark.effects.animation.SimpleMotionPath;
 				
 				//-----------------------------------------------------------------------------------//
 				
+				// appel par le 'Play.show' dans Game.Viewstack
 				public function reset():void {
+					
+					focusManager.setFocus(boomButton);
+					
 					Session.GAME_OVER = false;
 					Session.NB_BOOMS = 3;
 					
@@ -97,6 +99,10 @@
 					explosionAnimator.play();
 				}
 				
+				public function leaveTutorial():void{
+					stopGameTimer();
+				}
+				
 				//-----------------------------------------------------------------------------------//
 				// Game Timer
 				
@@ -150,6 +156,9 @@
 							break;
 						case Numbers.TIME_10_MIN:
 							seconds = 600;
+							break;
+						case Numbers.TIME_TUTO:
+							seconds = 6000;
 							break;
 						default :
 							seconds = -1;
@@ -208,14 +217,34 @@
 					}
 				}
 				
+				public function message(message:String, _x:int = 0):void {
+					var messageLabel:Label = new Label();
+					messageLabel.text = message;
+					messageLabel.styleName = "normalWhiteStyle";
+					messageLabel.x = 200 + _x;
+					messageLabel.mouseEnabled = false;
+					board.addElement(messageLabel);
+					appearBaseLabelEffect.target = messageLabel;
+					appearBaseLabelEffect.play();
+					labels.push(messageLabel);
+				}
+				
 				private function removeLabel():void{
-					board.removeElement(labels.shift());	
+					try{
+						board.removeElement(labels.shift());
+					}
+					catch(e:Error){}
 				}
 				
 				public function gameOver():void{
 					Session.GAME_OVER = true;
 					gameTimer.stop();
 					MusicPlayer.getInstance().playYeahSound();
+					
+					if(Session.TUTORIAL){
+						Session.TUTORIAL = false;
+						Pager.getInstance().goToView(Numbers.VIEW_HOME);
+					}
 				}
 			]]>
 		</fx:Script>
@@ -245,20 +274,6 @@
 					xTo="{Session.WAITING_SQUARE_X}"
 					yTo="{Session.WAITING_SQUARE_Y}"
 					duration="250"/>
-
-<!--
-			<s:Move id="waitingSquareMoverPrepare"
-					xFrom="{Session.WAITING_SQUARE_X}"
-					yFrom="{Session.WAITING_SQUARE_Y}"
-					xTo="{Session.WAITING_SQUARE_X + 55}"
-					duration="70"/>
-			<s:Move id="waitingSquareMover"
-					xFrom="{Session.WAITING_SQUARE_X + 55}"
-					yFrom="{Session.WAITING_SQUARE_Y}"
-					xTo="{Session.CURRENT_SQUARE_X}"
-					yTo="{Session.CURRENT_SQUARE_Y}"
-					effectEnd="{SquareMover.getInstance().waitingMoveDone();}"
-					duration="150"/>-->
 
 			<s:Move id="currentSquareMover"
 					duration="250"
@@ -304,12 +319,12 @@
 			<s:Label id="recordLabel" x="85" y="55" text="Record : {Session.POINTS > Session.CURRENT_RECORD ? Session.POINTS : Session.CURRENT_RECORD} pts" styleName="littleGreenStyle" visible="{!Session.GAME_OVER}"/>
 			
 			<mx:Image id="panneau"
-					  source="webresources/images/play/panneau.png"
+					  source="{ImageContainer.PANNEAU}"
 					  x="42"
 					  y="112"/>
 		
 			<mx:Image id="boomsImage"
-					  source="webresources/images/play/boom.png"
+					  source="{ImageContainer.BOOM}"
 					  x="90"
 					  y="290"/>
 		
@@ -321,7 +336,7 @@
 			<button:PlayButton id="boomButton"
 					  x="75"
 					  y="365"
-					  click="{MusicPlayer.getInstance().playLoadBombSound();boomButtonPushed()}"/>
+					  click="{MusicPlayer.getInstance().playLoadBombSound();boomButtonPushed();}"/>
 
 		<!-- ========================================================================== -->
 
@@ -331,7 +346,7 @@
 					 click="clickHandler(event)"
 					 mouseMove="moveHandler(event)">
 				
-				<mx:Image source="webresources/images/play/plateau.png"/>
+				<mx:Image source="{ImageContainer.PLATEAU}"/>
 
 				<mx:Image id="shadowImage"
 						  alpha="0.2"
@@ -351,7 +366,7 @@
 			<mx:Image id="gameOverImage" 
 					  x="160" y="180"
 			 		  visible="{Session.GAME_OVER}"
-			 		  source="webresources/images/gameOver.png"/>
+					  source="{ImageContainer.GAME_OVER}"/>
 			<s:Label id="pointsLabelFinal" 
 						right="235" 
 						y="115" 
@@ -380,7 +395,6 @@
 					    skinClass="com.skooairs.skins.BigButtonSkin"
 						click="{MusicPlayer.getInstance().playOkSound();endGame();tracker.trackPageview('/play-continueButton')}"/>
 						
-			
 			<mx:ProgressBar id="boomProgressBar"
 							x="75"
 							y="360"
@@ -398,6 +412,30 @@
 						click="MusicPlayer.getInstance().playOkSound();stopGameTimer();tracker.trackPageview('/play-exitButton')" 
 						visible="{!Session.GAME_OVER}"/>
 			
+			<mx:Image id="tutorialArrowImage"
+					  visible="{Session.TUTORIAL}"
+					  mouseEnabled="false"/>
+
+			<s:Label id="tutorialContinueLabel"
+					 x="320" y="390" 
+					 text="{Translations.CONTINUE.getItemAt(Session.LANGUAGE)}"
+					 styleName="biggestWhiteStyle" 
+					 visible="false"
+					 mouseEnabled="false"/>
+
+			<s:Label id="tutorialMiddleLabel"
+					 x="240" y="190" 
+					 text="{Translations.TIME_TO_MAKE_SKOOAIR.getItemAt(Session.LANGUAGE)}"
+					 styleName="normalWhiteStyle" 
+					 visible="false"
+					 mouseEnabled="false"/>
+
+			<s:Label id="tutorialFinalLabel"
+					 x="160" y="190" 
+					 text="{Translations.READY_TO_PLAY.getItemAt(Session.LANGUAGE)}"
+					 styleName="normalWhiteStyle" 
+					 visible="false"
+					 mouseEnabled="false"/>
 
 		</s:Group>		
 </mx:Canvas>

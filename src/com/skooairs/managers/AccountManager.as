@@ -46,7 +46,7 @@ package com.skooairs.managers {
 		
 		//============================================================================================//
 		
-		public function createDummyProfile():void {
+		private function createDummyProfile():void {
 			Session.uralysProfile = new UralysProfile();
 			Session.uralysProfile.uralysUID = "NOT_CONNECTED";
 			
@@ -203,6 +203,10 @@ package com.skooairs.managers {
 			if(Session.isLocal){
 				Session.WAIT_FOR_CONNECTION = false;
 				Session.CONNECTED_TO_FACEBOOK = false;
+
+				createDummyProfile();
+				MusicPlayer.getInstance().initMusic();
+				
 				return;
 			}
 			
@@ -247,6 +251,7 @@ package com.skooairs.managers {
 				trace("no success");
 				Session.WAIT_FOR_CONNECTION = false;
 				Session.CONNECTED_TO_FACEBOOK = false;
+				createDummyProfile();
 				MusicPlayer.getInstance().initMusic();
 			}
 		}

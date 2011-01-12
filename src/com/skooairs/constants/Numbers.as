@@ -59,6 +59,7 @@ import mx.collections.ArrayCollection;
 	public static var TIME_5_MIN:int = 5;
 	public static var TIME_7_MIN:int = 7;
 	public static var TIME_10_MIN:int = 10;
+	public static var TIME_TUTO:int = -1;
 	public static var TIME_NO_LIMIT:int = 0;
 
 	//=====================================================//

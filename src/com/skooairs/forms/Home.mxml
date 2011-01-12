@@ -36,6 +36,11 @@
 				   Pager.getInstance().goToView(Numbers.VIEW_BOARDS);
 			   }
 			   
+			   private function howToPlay():void {
+				   Session.TUTORIAL = true;
+				   Pager.getInstance().goToView(Numbers.VIEW_PLAY);
+			   }
+			   
 			   //-----------------------------------------------------------------------------------//
 		   ]]>
 	   </fx:Script>
@@ -56,24 +61,31 @@
 		
 		<!-- ========================================================================== -->
 		
-		<mx:Image source="webresources/images/skooairs.png" 
+		<mx:Image 	source="{ImageContainer.SKOOAIRS_TITLE}" 
 					x="120" y="75"
 					click="tracker.trackPageview('/home-skooairsImage');"/>
 					
-		<s:VGroup x="180" y="190"
-				  visible="{!Session.WAIT_FOR_CONNECTION}">
 			<s:Button label="{Translations.NEW_GAME.getItemAt(Session.LANGUAGE)}"
-						 skinClass="com.skooairs.skins.BigButtonSkin"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 click="MusicPlayer.getInstance().playOkSound();newGame();tracker.trackPageview('/home-newGameButton')"/>
-			<s:HGroup>
-				<mx:Spacer width="80"/>
-				<s:Button label="{Translations.BOARD.getItemAt(Session.LANGUAGE)}" 
-						 skinClass="com.skooairs.skins.BigButtonSkin"
-						 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						 click="MusicPlayer.getInstance().playOkSound();scores();tracker.trackPageview('/home-scoresButton')"/>
-			</s:HGroup>
-		</s:VGroup>
+					  skinClass="com.skooairs.skins.BigButtonSkin"
+					  mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+					  click="MusicPlayer.getInstance().playOkSound();newGame();tracker.trackPageview('/home-newGameButton')"
+					  x="180" y="190"
+					  visible="{!Session.WAIT_FOR_CONNECTION}"/>
+			
+			<s:Button label="{Translations.BOARD.getItemAt(Session.LANGUAGE)}" 
+					 skinClass="com.skooairs.skins.BigButtonSkin"
+					 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+					 click="MusicPlayer.getInstance().playOkSound();scores();tracker.trackPageview('/home-scoresButton')"
+					 x="230" y="240"
+					 visible="{!Session.WAIT_FOR_CONNECTION}"/>
+			
+			<s:Button label="{Translations.HOW_TO_PLAY.getItemAt(Session.LANGUAGE)}" 
+					 skinClass="com.skooairs.skins.BigButtonSkin"
+					 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+					 click="MusicPlayer.getInstance().playOkSound();howToPlay();tracker.trackPageview('/home-howToPlayButton')"
+					 x="300" y="400"
+					 visible="{!Session.WAIT_FOR_CONNECTION}"/>
+	
 		<s:Label text="{Translations.CONNECTION.getItemAt(Session.LANGUAGE)}"
 				 left="75"
 				 visible="{Session.WAIT_FOR_CONNECTION}"/>

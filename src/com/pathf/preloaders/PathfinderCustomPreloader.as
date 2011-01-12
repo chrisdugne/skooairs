@@ -70,7 +70,7 @@ package com.pathf.preloaders
             bar.x = stageWidth/2 - bar.width/2;
             bar.y = stageHeight/2 - bar.height/2;
             bar.filters = [f];
-            //addChild(bar);
+            addChild(bar);
             
             //create bar frame
             barFrame = new Sprite();
@@ -80,7 +80,7 @@ package com.pathf.preloaders
             barFrame.x = stageWidth/2 - barFrame.width/2;
             barFrame.y = stageHeight/2 - barFrame.height/2;
             barFrame.filters = [f];
-            //addChild(barFrame);
+            addChild(barFrame);
             
             //create text field to show percentage of loading
             t = new TextField()

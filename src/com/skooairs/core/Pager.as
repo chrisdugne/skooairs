@@ -92,7 +92,7 @@ package com.skooairs.core
 		
 		//======================================================================================//
 		
-		public function setBackground(image:String):void{
+		public function setBackground(image:Class):void{
 			
 			var _image:Image = new Image();
 			_image.source = image;

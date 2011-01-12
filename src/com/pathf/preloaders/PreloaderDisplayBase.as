@@ -1,4 +1,4 @@
-package com.pathf.preloaders 
+package com.pathf.preloaders
 {
     //As seen at: https://defiantmouse.com/yetanotherforum.net/Default.aspx?g=posts&t=82
     //Code for this base provided by Andrew

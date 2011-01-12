@@ -12,7 +12,7 @@ public class Session{
 
 	//=====================================================//
 
-	[Bindable] public static var VERSION:String = "1.1.14.1";
+	[Bindable] public static var VERSION:String = "1.1.15.3";
 	[Bindable] public static var LOGGED_IN:Boolean = false;
 	[Bindable] public static var CONNECTED_TO_FACEBOOK:Boolean = false;
 
@@ -32,6 +32,7 @@ public class Session{
 
 	[Bindable] public static var GAME_OVER:Boolean = true;
 	[Bindable] public static var SCORE_FORM_DISPLAYED:Boolean = false;
+	[Bindable] public static var TUTORIAL:Boolean = false;
 	[Bindable] public static var DISP_LAUNCH_TIME:Boolean = false;
 	[Bindable] public static var NB_BOOMS:int;
 

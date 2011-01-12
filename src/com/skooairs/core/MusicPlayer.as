@@ -1,13 +1,13 @@
 package com.skooairs.core
 {
 
-import flash.net.URLRequest;
-import flash.media.Sound;    
+import com.skooairs.constants.Session;
+
+import flash.events.Event;
+import flash.media.Sound;
 import flash.media.SoundChannel;
 import flash.media.SoundTransform;
-import flash.events.Event;
-
-import com.skooairs.constants.Session;
+import flash.net.URLRequest;
 
 /**
 The MusicPlayer manages the sounds
@@ -40,7 +40,7 @@ public class MusicPlayer
 		private var music:Sound;
 		private var volume:int = 1;
 		private var channel:SoundChannel;
-		private var soundTransform:SoundTransform;
+		private var soundTransform:SoundTransform = new SoundTransform();
 		
 		public function initMusic():void{
 			if(!music){
@@ -76,7 +76,6 @@ public class MusicPlayer
 
 		public function playMusic():void{
 			
-			soundTransform = new SoundTransform();
 			soundTransform.volume = volume;
 			
 			channel = music.play();
@@ -92,30 +91,24 @@ public class MusicPlayer
 		public function playOkSound():void{
 			if(!Session.player.musicOn)
 				return;
-				
-			var request:URLRequest = new URLRequest("webresources/music/sounds/ok.mp3");
-            var sound:Sound = new Sound();
-            sound.load(request);
+			
+			var sound:Sound = new SoundsContainer.OK() as Sound; 
 			sound.play();
 		}
 
 		public function playExplosionSound():void{
 			if(!Session.player.musicOn)
-				return;
-				
-			var request:URLRequest = new URLRequest("webresources/music/sounds/explosion.mp3");
-            var sound:Sound = new Sound();
-            sound.load(request);
+				return;	
+			
+			var sound:Sound = new SoundsContainer.EXPLOSION() as Sound; 
 			sound.play();
 		}
 
 		public function playLoadBombSound():void{
 			if(!Session.player.musicOn)
 				return;
-				
-			var request:URLRequest = new URLRequest("webresources/music/sounds/load.mp3");
-            var sound:Sound = new Sound();
-            sound.load(request);
+			
+			var sound:Sound = new SoundsContainer.LOAD() as Sound; 
 			sound.play();
 		}
 
@@ -123,9 +116,7 @@ public class MusicPlayer
 			if(!Session.player.musicOn)
 				return;
 				
-			var request:URLRequest = new URLRequest("webresources/music/sounds/clic.mp3");
-            var sound:Sound = new Sound();
-            sound.load(request);
+			var sound:Sound = new SoundsContainer.CLIC() as Sound; 
 			sound.play();
 		}
 
@@ -133,9 +124,7 @@ public class MusicPlayer
 			if(!Session.player.musicOn)
 				return;
 				
-			var request:URLRequest = new URLRequest("webresources/music/sounds/yeah.mp3");
-            var sound:Sound = new Sound();
-            sound.load(request);
+			var sound:Sound = new SoundsContainer.YEAH() as Sound; 
 			sound.play();
 		}
 
@@ -143,9 +132,7 @@ public class MusicPlayer
 			if(!Session.player.musicOn)
 				return;
 				
-			var request:URLRequest = new URLRequest("webresources/music/sounds/bip.mp3");
-            var sound:Sound = new Sound();
-            sound.load(request);
+            var sound:Sound = new SoundsContainer.BIP() as Sound; 
 			sound.play();
 		}
 		

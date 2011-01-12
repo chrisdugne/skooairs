@@ -1,18 +1,25 @@
 package com.skooairs.core
 {
 
-import com.skooairs.constants.Session;
 import com.skooairs.constants.Names;
 import com.skooairs.constants.Numbers;
-import com.skooairs.utils.Utils;
-
+import com.skooairs.constants.Session;
+import com.skooairs.constants.Translations;
 import com.skooairs.entities.Case;
 import com.skooairs.entities.Square;
+import com.skooairs.forms.Play;
+import com.skooairs.utils.Utils;
 
 import flash.events.MouseEvent;
-import spark.effects.Move;
-import spark.components.Group;
+import flash.utils.setInterval;
+
+import flashx.textLayout.formats.WhiteSpaceCollapse;
+
 import mx.controls.Image;
+
+import spark.components.Group;
+import spark.components.Label;
+import spark.effects.Move;
 
 /**
 The SquareMover
@@ -73,6 +80,10 @@ public class SquareMover
 
 		public function reset():void {
 			
+			if(Session.TUTORIAL){
+				specialReset();
+				return;
+			}
 			
 			moveToDo = 0;
 			moveDone = 1;
@@ -80,7 +91,7 @@ public class SquareMover
 			
 			var nextSquareImage:Image = new Image();
 			var nextSquareColor:int = Utils.random(Session.COLORS);
-			nextSquareImage.source = Names.SQUARES_PATH + nextSquareColor+".png";
+			nextSquareImage.source = ImageContainer.getSquare(nextSquareColor);
 			nextSquareImage.x = Session.NEXT_SQUARE_X;
 			nextSquareImage.y = Session.NEXT_SQUARE_Y;
 			
@@ -88,7 +99,7 @@ public class SquareMover
 
 			var waitingSquareImage:Image = new Image();
 			var waitingSquareColor:int = Utils.random(Session.COLORS);
-			waitingSquareImage.source = Names.SQUARES_PATH + waitingSquareColor+".png";
+			waitingSquareImage.source = ImageContainer.getSquare(waitingSquareColor)
 			waitingSquareImage.x = Session.WAITING_SQUARE_X;
 			waitingSquareImage.y = Session.WAITING_SQUARE_Y;
 			
@@ -113,10 +124,17 @@ public class SquareMover
 			
 			//-----------------------------------------------------------------------------------//
 
-			Session.play.shadowImage.source = Names.SQUARES_PATH 
-											  +	(squares[1].data.status == Numbers.DESTRUCTOR ? 'boom_': '')
-											  + squares[1].data.color
-											  + ".png";
+			if(squares[1].data.status == Numbers.DESTRUCTOR){
+				Session.play.shadowImage.source = ImageContainer.getSquareBoom(squares[1].data.color);
+			}
+			else{
+				Session.play.shadowImage.source = ImageContainer.getSquare(squares[1].data.color);
+			}
+			
+			Session.CURRENT_SHADOW_X = Numbers.X.getItemAt(4) as int;
+			Session.CURRENT_SHADOW_Y = Numbers.Y.getItemAt(3) as int;
+				
+			//-----------------------------------------------------------------------------------//
 
 			last_x = -1;
 			last_y = -1;
@@ -129,7 +147,7 @@ public class SquareMover
 			
 			firstSquare.x = Numbers.X.getItemAt(4) as int;
 			firstSquare.y = Numbers.Y.getItemAt(4) as int;
-			firstSquare.source = Names.SQUARES_PATH + firstSquareColor + ".png";
+			firstSquare.source = ImageContainer.getSquare(firstSquareColor);
 			
 			firstSquare.data = new Square(firstSquareColor, Numbers.CONSTRUCTOR);
 			
@@ -139,6 +157,101 @@ public class SquareMover
 			
 			Session.DISP_LAUNCH_TIME = true;
 		}
+		
+		private var tutorialStep:int;
+		public function specialReset():void {
+			
+			Session.play.tutorialContinueLabel.visible = false;
+			Session.play.tutorialMiddleLabel.visible = false;
+			Session.play.tutorialFinalLabel.visible = false;
+			
+			moveToDo = 0;
+			moveDone = 1;
+			squares = [];
+			tutorialStep = -1;
+			
+			var nextSquareImage:Image = new Image();
+			nextSquareImage.source = ImageContainer.getSquare(1);
+			nextSquareImage.x = Session.NEXT_SQUARE_X;
+			nextSquareImage.y = Session.NEXT_SQUARE_Y;
+			
+			nextSquareImage.data = new Square(1, Numbers.CONSTRUCTOR);
+			
+			var waitingSquareImage:Image = new Image();
+			waitingSquareImage.source = ImageContainer.getSquare(1)
+			waitingSquareImage.x = Session.WAITING_SQUARE_X;
+			waitingSquareImage.y = Session.WAITING_SQUARE_Y;
+			
+			waitingSquareImage.data = new Square(1, Numbers.CONSTRUCTOR);
+			
+			
+			currentSquareImage = new Image();
+			currentSquareImage.x = currentSquareImage.x;
+			currentSquareImage.y = currentSquareImage.y;
+			
+			
+			// click ON the image : elle est par dessus le squarecontainer donc le click doit etre ecoute en plus pour ce carre
+			currentSquareImage.addEventListener(MouseEvent.CLICK, clickHandler); 
+			currentSquareImage.visible = false;
+			
+			//-----------------------------------------------------------------------------------//
+			
+			squares = [nextSquareImage, waitingSquareImage];
+			
+			Session.play.board.removeAllElements();	
+			Session.play.board.addElement(nextSquareImage);
+			Session.play.board.addElement(waitingSquareImage);
+			Session.play.board.addElement(currentSquareImage);
+			
+			//-----------------------------------------------------------------------------------//
+			
+			if(squares[1].data.status == Numbers.DESTRUCTOR){
+				Session.play.shadowImage.source = ImageContainer.getSquareBoom(squares[1].data.color);
+			}
+			else{
+				Session.play.shadowImage.source = ImageContainer.getSquare(squares[1].data.color);
+			}
+			
+			Session.CURRENT_SHADOW_X = Numbers.X.getItemAt(4) as int;
+			Session.CURRENT_SHADOW_Y = Numbers.Y.getItemAt(3) as int;
+			
+			//-----------------------------------------------------------------------------------//
+			
+			last_x = -1;
+			last_y = -1;
+			nbFrontiers = 0;
+			
+			createBoard();
+			
+			//-----------------------------------------------------------------------------------//
+
+			placeSquare(2,2,1);
+			placeSquare(3,2,1);
+			placeSquare(4,2,1);
+
+			placeSquare(2,3,1);
+			placeSquare(3,3,1);
+			placeSquare(4,3,1);
+
+			placeSquare(2,4,1);
+			placeSquare(3,4,1);
+			placeSquare(4,4,1);
+			
+			//-----------------------------------------------------------------------------------//
+
+			Session.play.message(Translations.FOLLOW_ARROWS.getItemAt(Session.LANGUAGE) as String, -300);
+			
+			//-----------------------------------------------------------------------------------//
+			
+			Session.TIME = Numbers.TIME_TUTO;
+			Session.DISP_LAUNCH_TIME = true;
+
+			//-----------------------------------------------------------------------------------//
+			
+			nextTutorialStep();
+		}
+		
+		//-----------------------------------------------------------------------------------------------------//
 		
 		public function moveHandler(e:MouseEvent, fromMouse:Boolean):void {
 			lastMoveMouseEvent = e;
@@ -215,12 +328,50 @@ public class SquareMover
 	    	
 	    	if(!CLICK_ENABLED)
 	    		return;
+
+			//----------------------------------------//
+			
+			if(Session.TUTORIAL){
+				
+				if(tutorialStep == 3
+				|| tutorialStep == 10){
+					//boombutton required
+					return;
+				}
+
+				if(tutorialStep == 5
+				|| tutorialStep == 12){
+					// continue
+					nextTutorialStep();
+					return;
+				}
+					
+				if(Session.CURRENT_SHADOW_BOARD_X != stepX[tutorialStep]
+				|| Session.CURRENT_SHADOW_BOARD_Y != stepY[tutorialStep]){
+					Session.play.message("Oops !");
+					return;
+				}
+				else{
+					switch(tutorialStep){
+						case 0:
+						case 1:
+						case 6:
+						case 7:
+						case 8:
+							Session.play.message(Translations.GOOD.getItemAt(Session.LANGUAGE) as String);
+							break;
+					}
+					nextTutorialStep();
+				}
+			}
 	    	
-	    	if(moveToDo == moveDone)
+			//----------------------------------------//
+			
+			if(moveToDo == moveDone)
 	    		return;
 	    	else
 	    		moveToDo++;
-	    		
+			
 	    	if(moveToDo%Numbers.NB_CLICK_FOR_A_BOOM == 0)
 	    		Session.play.addBoomer();
     		Session.play.boomProgressBar.setProgress(moveToDo%Numbers.NB_CLICK_FOR_A_BOOM, 10);
@@ -247,6 +398,23 @@ public class SquareMover
 	    }
 	
 		public function boomButtonPushed():Boolean{
+
+			if(Session.TUTORIAL){
+				if(tutorialStep == 3
+				|| tutorialStep == 10){
+					Session.play.message(Translations.READY_TO_EXPLODE.getItemAt(Session.LANGUAGE) as String, -160);
+					nextTutorialStep();
+				}
+				else{
+					Session.play.message("Oops");
+					return false;
+				}
+			}
+				
+			//boom already set for this next square
+			if(squares[1].data.status == Numbers.DESTRUCTOR)
+				return false;
+			
 			if(Session.NB_BOOMS == 0){
 				if(!Session.BOOM_SCALE_LOCK)
 					Session.play.boomsScale.play();
@@ -254,10 +422,7 @@ public class SquareMover
 			}
 
 			squares[1].data.status = Numbers.DESTRUCTOR;
-			squares[1].source = Names.SQUARES_PATH 
-								  +	'boom_'
-								  + squares[1].data.color
-								  + ".png";
+			squares[1].source = ImageContainer.getSquareBoom(squares[1].data.color); 
 			
 			Session.play.shadowImage.source = squares[1].source;
 			
@@ -267,10 +432,15 @@ public class SquareMover
 		// appel à la fin de Play.currentSquareMover (effectEnd)
 		public function placeNewSquare():void{
 			
+			trace("placeNewSquare, tutorialStep : " + tutorialStep);
+
 			var newSquare:Image = new Image();
 			var newSquareColor:int = Utils.random(Session.COLORS);
+			if(Session.TUTORIAL)newSquareColor = tutorialcolors[tutorialStep];
+			
+			trace("newSquareColor : " + newSquareColor);
 
-			newSquare.source = Names.SQUARES_PATH + newSquareColor+".png";
+			newSquare.source = ImageContainer.getSquare(newSquareColor);
 			newSquare.x = Session.NEXT_SQUARE_X;
 			newSquare.y = Session.NEXT_SQUARE_Y;
 			
@@ -789,6 +959,124 @@ public class SquareMover
 			}	
 		}
 
+		//-----------------------------------------------------------------------------------//
+		// TUTORIAL MANAGEMENT
+		
+		private var stepX:Array = [4, 5, 5, 0, 3, 0, 3, 4, 4, 3, 0, 3];
+		private var stepY:Array = [5, 4, 5, 0, 5, 0, 4, 3, 2, 3, 0, 2];
+		private var tutorialcolors:Array = [0, 1, 1, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1];
+		private var arrows:Array = [ImageContainer.TUTO_ARROW_UP,
+									ImageContainer.TUTO_ARROW_LEFT,
+									ImageContainer.TUTO_ARROW_UP,
+									ImageContainer.TUTO_ARROW_LEFT,
+									ImageContainer.TUTO_ARROW_UP,
+									null,
+									ImageContainer.TUTO_ARROW_DOWN,
+									ImageContainer.TUTO_ARROW_DOWN,
+									ImageContainer.TUTO_ARROW_RIGHT,
+									ImageContainer.TUTO_ARROW_DOWN,
+									ImageContainer.TUTO_ARROW_LEFT,
+									ImageContainer.TUTO_ARROW_RIGHT,
+									];
+		
+		
+		private function nextTutorialStep():void {
+			
+			tutorialStep++;
+			trace("nextTutorialStep : " + tutorialStep);
+			
+			Session.play.tutorialArrowImage.source = arrows[tutorialStep];
+			Session.play.tutorialArrowImage.x = (Numbers.X.getItemAt(stepX[tutorialStep]) as int) + getXOffset();
+			Session.play.tutorialArrowImage.y = (Numbers.Y.getItemAt(stepY[tutorialStep]) as int) + getYOffset();
+			
+			
+			if(tutorialStep == 3
+			|| tutorialStep == 10){
+				Session.play.tutorialArrowImage.x = 95;
+				Session.play.tutorialArrowImage.y = 325;
+				Session.play.message(Translations.PRESS_SPACE.getItemAt(Session.LANGUAGE) as String, -250);
+				Session.game.message(Translations.TIP_SPACE_BAR.getItemAt(Session.LANGUAGE) as String, 10);
+			}
+			
+			if(tutorialStep == 5){
+				Session.play.tutorialContinueLabel.visible = true;
+				Session.play.tutorialMiddleLabel.visible = true;
+			}
+
+			if(tutorialStep == 6){
+				Session.play.tutorialContinueLabel.visible = false;
+				Session.play.tutorialMiddleLabel.visible = false;
+				
+				placeSquare(1,3,2);
+				placeSquare(1,4,2);
+				placeSquare(1,5,2);
+
+				placeSquare(5,2,2);
+				placeSquare(5,3,2);
+				placeSquare(5,4,2);
+				placeSquare(5,5,2);
+				
+				placeSquare(2,5,2);
+				placeSquare(3,5,2);
+				placeSquare(4,5,2);
+
+				placeSquare(2,3,2);
+
+				placeSquare(2,4,1);
+				placeSquare(4,4,1);
+			}
+			
+			if(tutorialStep == 12){
+				Session.play.tutorialContinueLabel.visible = true;
+				Session.play.tutorialFinalLabel.visible = true;
+			}
+			
+			if(tutorialStep > 12){
+				Session.play.leaveTutorial();
+			}
+		}
+
+		private function getXOffset():int {
+			switch(arrows[tutorialStep]){
+				case ImageContainer.TUTO_ARROW_UP : 
+					return 160;
+				case ImageContainer.TUTO_ARROW_LEFT : 
+					return 205;
+				case ImageContainer.TUTO_ARROW_DOWN : 
+					return 155;
+				case ImageContainer.TUTO_ARROW_RIGHT : 
+					return 100;
+			}
+			return 0;
+		}
+		
+		private function getYOffset():int {
+			switch(arrows[tutorialStep]){
+				case ImageContainer.TUTO_ARROW_UP : 
+					return 15;
+				case ImageContainer.TUTO_ARROW_LEFT : 
+					return -42;
+				case ImageContainer.TUTO_ARROW_DOWN : 
+					return -100;
+				case ImageContainer.TUTO_ARROW_RIGHT : 
+					return -42;
+			}
+			return 0;
+		}
+		
+		private function placeSquare(_x:int, _y:int, color:int):void {
+			var square:Image = new Image();
+			square.x = Numbers.X.getItemAt(_x) as int;
+			square.y = Numbers.Y.getItemAt(_y) as int;
+			square.source = ImageContainer.getSquare(color);
+			
+			square.data = new Square(color, Numbers.CONSTRUCTOR);
+			
+			Session.play.squareContainer.addElement(square);
+			Session.cases[_x][_y].fill(square);
+			SquareExploder.getInstance().register(Session.cases[_x][_y]);
+		}
+		
 }
 		
 
