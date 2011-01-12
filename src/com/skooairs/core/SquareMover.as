@@ -432,14 +432,10 @@ public class SquareMover
 		// appel à la fin de Play.currentSquareMover (effectEnd)
 		public function placeNewSquare():void{
 			
-			trace("placeNewSquare, tutorialStep : " + tutorialStep);
-
 			var newSquare:Image = new Image();
 			var newSquareColor:int = Utils.random(Session.COLORS);
 			if(Session.TUTORIAL)newSquareColor = tutorialcolors[tutorialStep];
 			
-			trace("newSquareColor : " + newSquareColor);
-
 			newSquare.source = ImageContainer.getSquare(newSquareColor);
 			newSquare.x = Session.NEXT_SQUARE_X;
 			newSquare.y = Session.NEXT_SQUARE_Y;
@@ -709,9 +705,9 @@ public class SquareMover
 		private function lookForNextCase(statusToLookFor:int, wayToLookFor:int, from_x:int, from_y:int, step:int):void{
 			
 			if(limitOnTheTopReached && limitOnTheRightReached && limitOnTheBottomReached && limitOnTheLeftReached){
-				trace("4 limits reached ! no place for this square from here !");
+				//trace("4 limits reached ! no place for this square from here !");
 				if(statusToLookFor == Case.FULL){
-					trace("was looking for a full case : try to move like moving on the current_square");
+					//trace("was looking for a full case : try to move like moving on the current_square");
 					//in this case, the mouse in on an empty case but no way to get here : act like a full case !
 					//begin the search again, with the other statusToLookFor
 								
@@ -723,7 +719,7 @@ public class SquareMover
 					lookForNextCase(Case.EMPTY, wayToLookFor, from_x, from_y, 1);	
 				}
 				else{
-					trace("was looking for an empty case : NOTHING");
+					//trace("was looking for an empty case : NOTHING");
 					// look for an empty case and no empty case possible !
 					
 					//if(Session.CURRENT_SHADOW_BOARD_X == from_x || Session.CURRENT_SHADOW_BOARD_Y == from_y)
@@ -983,7 +979,6 @@ public class SquareMover
 		private function nextTutorialStep():void {
 			
 			tutorialStep++;
-			trace("nextTutorialStep : " + tutorialStep);
 			
 			Session.play.tutorialArrowImage.source = arrows[tutorialStep];
 			Session.play.tutorialArrowImage.x = (Numbers.X.getItemAt(stepX[tutorialStep]) as int) + getXOffset();
