@@ -26,7 +26,7 @@ package com.skooairs.core
 			return instance;
 		}
 		
-		public function Pager(){trace("Pager initialized")}
+		public function Pager(){}
 		
 		//=====================================================================================//
 		

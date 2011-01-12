@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
 
-
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" 
 			   xmlns:s="library://ns.adobe.com/flex/spark"
 			   xmlns:custom="custom.*"
 			   xmlns:tuto="com.skooairs.windows.*"
 			   preloader="com.pathf.preloaders.PathfinderCustomPreloader"
-			   applicationComplete="applicationCompleteHandler(event)">
+			   applicationComplete="applicationCompleteHandler(event)">  
 	
 	<fx:Script>
 		<![CDATA[
@@ -141,7 +140,7 @@
 	</fx:Script>
 	
 	<mx:Canvas id="window" 
-			   backgroundColor="0x135b19"  
+			   backgroundColor="0x07230a"  
 			   borderStyle="none" 
 			   clipContent="false"
 			   width="100%" height="100%">

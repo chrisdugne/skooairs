@@ -80,6 +80,11 @@ public class SquareMover
 
 		public function reset():void {
 			
+			
+			Session.play.tutorialContinueLabel.visible = false;
+			Session.play.tutorialMiddleLabel.visible = false;
+			Session.play.tutorialFinalLabel.visible = false;
+			
 			if(Session.TUTORIAL){
 				specialReset();
 				return;
@@ -160,10 +165,6 @@ public class SquareMover
 		
 		private var tutorialStep:int;
 		public function specialReset():void {
-			
-			Session.play.tutorialContinueLabel.visible = false;
-			Session.play.tutorialMiddleLabel.visible = false;
-			Session.play.tutorialFinalLabel.visible = false;
 			
 			moveToDo = 0;
 			moveDone = 1;

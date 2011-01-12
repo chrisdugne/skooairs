@@ -6,13 +6,13 @@ import com.skooairs.entities.UralysProfile;
 import com.skooairs.forms.Play;
 import com.skooairs.pages.Game;
 
-import mx.collections.ArrayCollection;
+import mx.collections.ArrayCollection; 
 
 public class Session{
 
 	//=====================================================//
 
-	[Bindable] public static var VERSION:String = "1.1.15.5";
+	[Bindable] public static var VERSION:String = "1.1.16";
 	[Bindable] public static var LOGGED_IN:Boolean = false;
 	[Bindable] public static var CONNECTED_TO_FACEBOOK:Boolean = false;
 
@@ -80,7 +80,7 @@ public class Session{
 
 	[Bindable] 
 	public static var game:Game;
-	public static var play:Play;
+	public static var play:Play; 
 
 	//=====================================================//
 

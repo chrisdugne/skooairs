@@ -314,9 +314,9 @@
 		<!-- ========================================================================== -->
 
 		<s:Group width="100%" height="100%">
-			<s:Label id="gameTimerLabel" x="430" y="0" styleName="bigGreenStyle" visible="{!Session.GAME_OVER}"/>
-			<s:Label id="pointsLabel" x="75" y="15" text="{Session.POINTS} pts" styleName="normalGreenStyle" visible="{!Session.GAME_OVER}"/>
-			<s:Label id="recordLabel" x="85" y="55" text="Record : {Session.POINTS > Session.CURRENT_RECORD ? Session.POINTS : Session.CURRENT_RECORD} pts" styleName="littleGreenStyle" visible="{!Session.GAME_OVER}"/>
+			<s:Label id="gameTimerLabel" x="430" y="0" styleName="bigWhiteStyle" visible="{!Session.GAME_OVER}"/>
+			<s:Label id="pointsLabel" x="75" y="15" text="{Session.POINTS} pts" styleName="normalWhiteStyle" visible="{!Session.GAME_OVER}"/>
+			<s:Label id="recordLabel" x="85" y="55" text="Record : {Session.POINTS > Session.CURRENT_RECORD ? Session.POINTS : Session.CURRENT_RECORD} pts" styleName="littleWhiteStyle" visible="{!Session.GAME_OVER}"/>
 			
 			<mx:Image id="panneau"
 					  source="{ImageContainer.PANNEAU}"
