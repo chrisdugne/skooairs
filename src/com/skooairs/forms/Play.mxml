@@ -243,6 +243,7 @@
 					
 					if(Session.TUTORIAL){
 						Session.TUTORIAL = false;
+						tracker.trackPageview('/play-exit-tutorial');
 						Pager.getInstance().goToView(Numbers.VIEW_HOME);
 					}
 				}

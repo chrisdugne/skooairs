@@ -249,6 +249,7 @@ public class SquareMover
 
 			//-----------------------------------------------------------------------------------//
 			
+			Session.play.tracker.trackPageview('/play-tutorial-begin');
 			nextTutorialStep();
 		}
 		
@@ -995,11 +996,15 @@ public class SquareMover
 			}
 			
 			if(tutorialStep == 5){
+				
+				Session.play.tracker.trackPageview('/play-tutorial-step1done');
 				Session.play.tutorialContinueLabel.visible = true;
 				Session.play.tutorialMiddleLabel.visible = true;
 			}
 
 			if(tutorialStep == 6){
+				
+				Session.play.tracker.trackPageview('/play-tutorial-step2begins');
 				Session.play.tutorialContinueLabel.visible = false;
 				Session.play.tutorialMiddleLabel.visible = false;
 				
@@ -1028,6 +1033,7 @@ public class SquareMover
 			}
 			
 			if(tutorialStep > 12){
+				Session.play.tracker.trackPageview('/play-tutorial-leavetutorial');
 				Session.play.leaveTutorial();
 			}
 		}
