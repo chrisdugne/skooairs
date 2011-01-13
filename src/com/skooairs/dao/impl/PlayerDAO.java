@@ -2,7 +2,9 @@ package com.skooairs.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -192,7 +194,7 @@ public class PlayerDAO extends MainDAO implements IPlayerDAO{
 																			"&& colors == :colors");
 		
 		q.setOrdering("points descending");
-		q.setRange(0,100);
+		q.setRange(0,10);
 		
 		return (List<BoardDTO>) q.execute(time, colors);
 		
@@ -201,14 +203,12 @@ public class PlayerDAO extends MainDAO implements IPlayerDAO{
 	@SuppressWarnings("unchecked")
 	public List<BoardDTO> getBoard(String uralysUID, int time, int colors, List<String> friendUIDs) {
 		
-		
 		PersistenceManager pm = PMF.getInstance().getPersistenceManager();
 		Query q = pm.newQuery("select from " + BoardDTO.class.getName() + " where :keys.contains(uralysUID) " +
 																			"&& time == :time " +
 																			"&& colors == :colors");
 		q.setOrdering("points descending");
-		q.setRange(0,100);
-		
+		q.setRange(0,10);
 		
 		List<String> uids = new ArrayList<String>();
 		uids.addAll(friendUIDs);
@@ -222,10 +222,62 @@ public class PlayerDAO extends MainDAO implements IPlayerDAO{
 			System.out.println("problem with getBoard for friends");
 			System.out.println("friendUIDs size : " + friendUIDs.size());
 			System.out.println("-----------------------------------");
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			return new ArrayList<BoardDTO>();
 		}
 		
+	}
+	
+
+	@SuppressWarnings("unchecked")
+	public int getFriendPosition(String uralysUID, int time, int colors, List<String> friendUIDs) {
+
+		int playerpoints = getRecord(uralysUID, time, colors);
+		
+		PersistenceManager pm = PMF.getInstance().getPersistenceManager();
+		Query q = pm.newQuery("select from " + BoardDTO.class.getName());
+		
+		q.declareParameters("int time, int colors, int playerpoints, Collection keys");
+		q.setFilter("friendUIDs.contains(uralysUID) " +
+					"&& time == time " +
+					"&& colors == colors " +
+					"&& points > playerpoints");
+		
+		Map<String, Object> args = new HashMap<String, Object>();
+		
+		args.put("time", new Integer(time));
+		args.put("colors", new Integer(colors));
+		args.put("playerpoints", new Integer(playerpoints));
+		args.put("friendUIDs", friendUIDs);
+
+		
+		try{
+			return ((List<BoardDTO>) q.executeWithMap(args)).size() + 1;
+		}catch(Exception e){
+			System.out.println(q);
+			e.printStackTrace(System.out);
+			return 1;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public int getWorldPosition(String uralysUID, int time, int colors) {
+		
+		int playerpoints = getRecord(uralysUID, time, colors);
+		
+		PersistenceManager pm = PMF.getInstance().getPersistenceManager();
+		Query q = pm.newQuery("select from " + BoardDTO.class.getName() + " where time == :time " +
+																			"&& colors == :colors");
+		
+		q.setFilter("points > playerpoints");
+		q.declareParameters("int playerpoints");
+		
+		try{
+			return ((List<BoardDTO>) q.execute(playerpoints)).size() + 1;
+		}catch(Exception e){
+			e.printStackTrace();
+			return -111;
+		}
 	}
 
 	public boolean changeMusicOn(String playerUID, boolean musicOn) {
