@@ -31,10 +31,17 @@
 			import com.skooairs.core.MusicPlayer;
 			
 			/*
-			go premium - 1.99 button="8XNMNHARJDQLY"
-			go premium SANDBOX - 1.99 button="VQC33N3ATP4HG"
+				go premium - 1.99 button="8XNMNHARJDQLY"
+				go premium SANDBOX - 1.99 button="VQC33N3ATP4HG"
 			*/
 			public function buy():void{
+				
+				//securite pour joueur premium un peu con
+				if(Session.player.premium){
+					Session.game.hidebuycredits.play();
+					return;
+				}
+				
 				buyButton.visible=false;
 				loadingProgressBar.start();
 				
@@ -106,12 +113,12 @@
 					visible="{Session.LANGUAGE != 0}"
 					bottom="30"
 					right="{!Session.LOGGED_IN ? 290 : 50}"
-					click="tracker.trackPageview('/goPremiumWindow-paypalImage');"/>
+					click="tracker.trackPageview('/goPremiumWindow-paypalImage');buy(); "/>
 		<mx:Image source="webresources/images/logos/paypal_fr.png"
 					visible="{Session.LANGUAGE == 0}"
 					bottom="30"
 					right="{!Session.LOGGED_IN ? 277 : 30}"
-					click="tracker.trackPageview('/goPremiumWindow-paypalFRImage');"/>
+					click="tracker.trackPageview('/goPremiumWindow-paypalFRImage');buy(); "/>
 
 	</s:Group>
 </mx:Canvas>
