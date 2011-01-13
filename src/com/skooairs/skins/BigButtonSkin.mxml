@@ -107,7 +107,7 @@
              left="10" 
 			 right="10"
 			 color="#ffffff"
-			 color.over="#1af31a"
+			 color.over="#228b20"
 			 fontWeight="normal"
 			 fontSize="42"
 			 fontSize.over="44"

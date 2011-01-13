@@ -47,10 +47,11 @@
 
 		<!-- ========================================================================== -->
 
-
-		<s:HGroup x="4" height="100%" width="100%">
-		    <s:Label styleName="normalWhiteStyle" text="{board.surname}"/>
-		    <mx:Spacer width="100%"/>
-		    <s:Label styleName="normalWhiteStyle" text="{board.points} pts"/>
-		</s:HGroup>
+		<s:VGroup height="100%" width="100%">
+		    <mx:Spacer height="1"/>
+			<s:Group height="100%" width="100%">
+			    <s:Label styleName="normalWhiteStyle" text="{board.surname}" left="5"/>
+			    <s:Label styleName="normalWhiteStyle" text="{board.points} pts" right="5"/>
+			</s:Group>
+		</s:VGroup>
 </s:Group>

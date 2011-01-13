@@ -10,25 +10,23 @@
 
 	   <fx:Script>
 		   <![CDATA[
-			   
-			   
-			   import com.skooairs.core.Pager;
-			   import com.skooairs.core.MusicPlayer;
-			   import com.skooairs.utils.Utils;
-			   
-			   import com.skooairs.constants.Session;
+			   import com.skooairs.components.custom.BoardLine;
 			   import com.skooairs.constants.Names;
 			   import com.skooairs.constants.Numbers;
+			   import com.skooairs.constants.Session;
 			   import com.skooairs.constants.Translations;
-			   
+			   import com.skooairs.core.MusicPlayer;
+			   import com.skooairs.core.Pager;
 			   import com.skooairs.entities.Board;
+			   import com.skooairs.utils.Utils;
 			   
-			   import mx.rpc.events.ResultEvent;
+			   import mx.controls.SWFLoader;
 			   import mx.rpc.events.FaultEvent;
-			   
-			   import com.skooairs.components.custom.BoardLine;
+			   import mx.rpc.events.ResultEvent;
 			   
 			   //-----------------------------------------------------------------------------------//
+			
+			   private var loadingFlash:SWFLoader;
 			   
 			   [Bindable] private static var worldPosition:int;
 			   [Bindable] private static var friendPosition:int;
@@ -46,10 +44,18 @@
 			   public function refresh():void{
 				   lock = true;
 				   
+				   loadingFlash = new SWFLoader()
+				   loadingFlash.source = ImageContainer.LOADING;
+				   loadingFlash.x = 355;
+				   loadingFlash.y = 220;
+				   addChild(loadingFlash);
+				   
 				   playerWrapper.getBoard(Session.player.uralysUID, selectedTime, selectedColors, selectedGroup == 2 ? Session.friendPlayerUIDs : null);
 			   }
 			   
 			   private function onGetBoard(event:ResultEvent):void{
+				   
+				   removeChild(loadingFlash);
 				   boardContainer.removeAllElements();
 				   
 				   for each(var board:Board in event.result){

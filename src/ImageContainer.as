@@ -6,6 +6,11 @@ public final class ImageContainer
 {
 	//   ======================================================================//
 	
+	[Embed(source="resources/embed/loading.skooairs.swf")]
+	[Bindable] public static var LOADING:Class;
+
+	//   ======================================================================//
+
 	[Embed(source="resources/embed/images/background_preloading.png")]
 	[Bindable] public static var PRELOADER_IMAGE:Class;
 

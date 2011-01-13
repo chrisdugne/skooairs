@@ -13,6 +13,7 @@ package com.pathf.preloaders
         private var t:TextField;
         private var f:DropShadowFilter=new DropShadowFilter(2,45,0x000000,0.5)
         private var pathfLogo:DisplayObject;
+        private var loadingFlash:DisplayObject;
         private var bar:Sprite=new Sprite();
         private var barFrame:Sprite;
         private var mainColor:uint=0xffffff;
@@ -63,6 +64,13 @@ package com.pathf.preloaders
             pathfLogo.y = stageHeight/2 - pathfLogo.height/2;
             //pathfLogo.filters = [f];
             addChild(pathfLogo);
+			
+			loadingFlash = new ImageContainer.LOADING();
+			loadingFlash.width = 30;
+			loadingFlash.height = 30;
+			loadingFlash.x = 525;
+			loadingFlash.y = 530;
+            addChild(loadingFlash);
             
             //craate bar
             bar = new Sprite();
