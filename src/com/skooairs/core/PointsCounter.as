@@ -25,9 +25,14 @@ public class PointsCounter
 		}
 		
 		public function addPoints(nbCasesOfGroupToExplode:int, nbInsiders:int):void{
-			
 			var base:int = (1+nbCasesOfGroupToExplode)*nbCasesOfGroupToExplode/2;
 			var bonus:int = nbInsiders  > 0 ? (nbInsiders + Session.COLORS - 1) : 1;
+
+//			trace("nbCasesOfGroupToExplode " + nbCasesOfGroupToExplode);
+//			trace("nbInsiders " + nbInsiders);
+//			trace("base " + base);
+//			trace("bonus " + bonus);
+//			trace(base * bonus);
 			
 			Session.POINTS += base * bonus;
 			Session.play.pointsMessage(base, bonus);

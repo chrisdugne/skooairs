@@ -47,6 +47,7 @@
 					
 					playGameTimer();
 					
+					trace(Session.player.uralysUID);
 					if(Session.player.uralysUID == "NOT_CONNECTED")
 						Session.game.message(Translations.LOG_IN_TO_SEE_RECORDS.getItemAt(Session.LANGUAGE) as String, 4);
 					else

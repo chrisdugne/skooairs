@@ -52,6 +52,7 @@ package com.skooairs.managers {
 			
 			Session.player = new Player();
 			Session.player.musicOn = !Session.isLocal;
+			Session.player.uralysUID = "NOT_CONNECTED";
 			Session.player.facebookUID = null;
 		}		
 		
