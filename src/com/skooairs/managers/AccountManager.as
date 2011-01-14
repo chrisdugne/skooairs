@@ -226,10 +226,6 @@ package com.skooairs.managers {
 				if(Session.isLocal){
 					Session.WAIT_FOR_CONNECTION = false;
 					Session.CONNECTED_TO_FACEBOOK = false;
-					
-					createDummyProfile();
-					MusicPlayer.getInstance().initMusic();
-					
 					return;
 				}
 				

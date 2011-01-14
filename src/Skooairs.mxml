@@ -51,6 +51,7 @@
 				Pager.getInstance().goToPage(Game);
 				
 				AccountManager.getInstance().createDummyProfile();
+				MusicPlayer.getInstance().initMusic();
 			}
 			
 			//-----------------------------------------------------------------------------------//
