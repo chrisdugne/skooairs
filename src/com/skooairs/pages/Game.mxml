@@ -34,8 +34,6 @@
 
 			   private function init(event:FlexEvent):void {
 				   
-				   AccountManager.getInstance().autoLoginFacebook();
-				   
 				   Pager.getInstance().viewstack = viewstack;
 				   Pager.getInstance().goToView(0);
 				   

@@ -10,13 +10,13 @@
 	
 	<fx:Script>
 		<![CDATA[
-			
 			import com.skooairs.constants.Names;
 			import com.skooairs.constants.Numbers;
 			import com.skooairs.constants.Session;
 			import com.skooairs.constants.Translations;
 			import com.skooairs.core.MusicPlayer;
 			import com.skooairs.core.Pager;
+			import com.skooairs.managers.AccountManager;
 			import com.skooairs.pages.Game;
 			import com.skooairs.utils.Utils;
 			
@@ -49,6 +49,8 @@
 				
 				Pager.getInstance().setBackground(ImageContainer.BACKGROUND);
 				Pager.getInstance().goToPage(Game);
+				
+				AccountManager.getInstance().createDummyProfile();
 			}
 			
 			//-----------------------------------------------------------------------------------//

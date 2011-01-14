@@ -46,7 +46,7 @@ package com.skooairs.managers {
 		
 		//============================================================================================//
 		
-		private function createDummyProfile():void {
+		public function createDummyProfile():void {
 			Session.uralysProfile = new UralysProfile();
 			Session.uralysProfile.uralysUID = "NOT_CONNECTED";
 			
@@ -199,24 +199,6 @@ package com.skooairs.managers {
 		private var CONNECT_TO_EXISTING_LINK:int = 2;
 		private var LOGIN:int = 3;
 		
-		public function autoLoginFacebook():void{
-			
-			if(Session.isLocal){
-				Session.WAIT_FOR_CONNECTION = false;
-				Session.CONNECTED_TO_FACEBOOK = false;
-
-				createDummyProfile();
-				MusicPlayer.getInstance().initMusic();
-				
-				return;
-			}
-			
-			trace("try autoLoginFacebook");
-			Session.CONNECTED_TO_FACEBOOK = true;
-			Session.WAIT_FOR_CONNECTION = true;
-			facebookOperation = LOGIN;
-			Facebook.init("121585177900212", autoLoginFacebookHandler);
-		}
 		
 		public function loginFacebook():void{
 			if(Session.isLocal)
@@ -233,14 +215,31 @@ package com.skooairs.managers {
 				else{
 					facebookOperation = CONNECT_TO_EXISTING_LINK;
 				}
+
+				trace("facebookOperation : " + facebookOperation);
+				Facebook.login(loginFacebookHandler,{perms:"user_birthday,read_stream,publish_stream"});
 			}
 			// try to log in from the facebook account only.
 			else{
 				facebookOperation = LOGIN;
+				
+				if(Session.isLocal){
+					Session.WAIT_FOR_CONNECTION = false;
+					Session.CONNECTED_TO_FACEBOOK = false;
+					
+					createDummyProfile();
+					MusicPlayer.getInstance().initMusic();
+					
+					return;
+				}
+				
+				trace("try autoLoginFacebook");
+				Session.CONNECTED_TO_FACEBOOK = true;
+				Session.WAIT_FOR_CONNECTION = true;
+				facebookOperation = LOGIN;
+				Facebook.init("121585177900212", autoLoginFacebookHandler);
 			}	
 				
-			trace("facebookOperation : " + facebookOperation);
-			Facebook.login(loginFacebookHandler,{perms:"user_birthday,read_stream,publish_stream"});
 			
 		}
 		
@@ -249,11 +248,8 @@ package com.skooairs.managers {
 			if(success)
 				loginFacebookHandler(success, fail);
 			else{
-				trace("no success");
-				Session.WAIT_FOR_CONNECTION = false;
-				Session.CONNECTED_TO_FACEBOOK = false;
-				createDummyProfile();
-				MusicPlayer.getInstance().initMusic();
+				trace("no success : ask login data");
+				Facebook.login(loginFacebookHandler,{perms:"user_birthday,read_stream,publish_stream"});
 			}
 		}
 		

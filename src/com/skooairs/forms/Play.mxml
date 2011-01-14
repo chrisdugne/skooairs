@@ -200,6 +200,7 @@
 					baseLabel.text = "+" + base;
 					baseLabel.styleName = "normalWhiteStyle";
 					baseLabel.x = 200;
+					baseLabel.mouseEnabled = false;
 					board.addElement(baseLabel);
 					appearBaseLabelEffect.target = baseLabel;
 					appearBaseLabelEffect.play();
@@ -211,6 +212,7 @@
 						bonusLabel.styleName = "bigRedStyle";
 						bonusLabel.text = "X" + bonus;
 						bonusLabel.x = 250;
+						bonusLabel.mouseEnabled = false;
 						labels.push(bonusLabel);
 						board.addElement(bonusLabel);
 						appearBonusLabelEffect.target = bonusLabel;
