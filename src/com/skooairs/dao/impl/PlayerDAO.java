@@ -160,25 +160,28 @@ public class PlayerDAO extends MainDAO implements IPlayerDAO{
 		
 		BoardDTO boardEntry = (BoardDTO) q.execute(uralysUID, time, colors);
 		
-		if(boardEntry == null){
-			boardEntry = new BoardDTO();
-			String boardUID = Utils.generateUID();
-			Key key = KeyFactory.createKey(BoardDTO.class.getSimpleName(), boardUID);
-			
-			boardEntry.setKey(KeyFactory.keyToString(key));
-			boardEntry.setBoardUID(boardUID);
-			boardEntry.setUralysUID(uralysUID);
-			boardEntry.setTime(time);
-			boardEntry.setColors(colors);
-			boardEntry.setPoints(points);
-			boardEntry.setSurname(surname);
-			
-			pm.makePersistent(boardEntry);
+		// colors == -1 : on change juste le name (ChangeName window..)
+		if(colors != -1){
+			if(boardEntry == null){
+				boardEntry = new BoardDTO();
+				String boardUID = Utils.generateUID();
+				Key key = KeyFactory.createKey(BoardDTO.class.getSimpleName(), boardUID);
+				
+				boardEntry.setKey(KeyFactory.keyToString(key));
+				boardEntry.setBoardUID(boardUID);
+				boardEntry.setUralysUID(uralysUID);
+				boardEntry.setTime(time);
+				boardEntry.setColors(colors);
+				boardEntry.setPoints(points);
+				boardEntry.setSurname(surname);
+				
+				pm.makePersistent(boardEntry);
+			}
+			else{
+				boardEntry.setSurname(surname);
+				boardEntry.setPoints(points);
+			}
 		}
-		else{
-			boardEntry.setPoints(points);
-		}
-
 
 		PlayerDTO player =  pm.getObjectById(PlayerDTO.class, uralysUID);
 		player.setSurname(surname);
