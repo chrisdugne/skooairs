@@ -19,7 +19,7 @@
 		<link>
 			<name>bin-debug</name>
 			<type>2</type>
-			<location>/Users/mad/Projects/Java/SkooAirs/war</location>
+			<location>/Users/mad/Projects/Java/SkooAirs/war/webresources</location>
 		</link>
 	</linkedResources>
 </projectDescription>

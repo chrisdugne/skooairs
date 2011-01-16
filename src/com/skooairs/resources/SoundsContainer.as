@@ -5,7 +5,7 @@ public class SoundsContainer
 {
 	//   ======================================================================//
 	
-	[Embed(source="resources/embed/sounds/bip.mp3")]
+	[Embed(source="resources/embed/sounds/bip.mp3")] 
 	[Bindable] public static var BIP:Class;
 
 	[Embed(source="resources/embed/sounds/yeah.mp3")]

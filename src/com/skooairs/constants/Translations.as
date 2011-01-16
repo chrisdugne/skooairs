@@ -110,6 +110,11 @@ public class Translations{
 									["Jeu",
 									"Game",
 									"Game"]);
+	[Bindable]
+	public static var NICKNAME:ArrayCollection = new ArrayCollection(
+									["Surnom",
+									"Nickname",
+									"Nickname"]);
 									
 	[Bindable]
 	public static var LEVEL:ArrayCollection = new ArrayCollection(

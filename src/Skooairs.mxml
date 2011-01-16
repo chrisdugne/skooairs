@@ -38,8 +38,10 @@
 			private function applicationCompleteHandler(event:FlexEvent):void {
 				trace("Welcome to SkooAirs "+Session.VERSION+" !");
 				
-				if(url == "http://localhost:8886/Skooairs.swf")
+				if(url == "http://localhost:8886/webresources/Skooairs.swf"){
 					Session.isLocal = true;
+					trace("isLocal");
+				}
 				
 				CursorManager.setCursor(MainCursor);
 				

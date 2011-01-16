@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 width="370"
+		 height="100" 
+		 alpha="0.8">
+		
+		<s:Rect left="0" right="0" top="0" bottom="0" radiusX="5" radiusY="5">
+			<s:fill>
+				<s:SolidColor color="#000000"/>
+			</s:fill>
+		</s:Rect>
+		
+		<fx:Declarations>  
+			<analytics:FlexTracker
+				xmlns:analytics="com.google.analytics.components.*"
+				id="tracker"
+				account="UA-17389126-3"
+				mode="AS3"
+				visualDebug="false"/>
+							 
+			<mx:RemoteObject id="playerWrapper" 
+							 destination="PlayerWrapper" 
+							 endpoint="{Names.SERVER_AMF_ENDPOINT}"/>
+		</fx:Declarations>
+	
+		<fx:Script>
+			<![CDATA[
+				import com.skooairs.constants.Names;
+				import com.skooairs.constants.Session;
+				import com.skooairs.constants.Translations;
+				
+				[Bindable] private var savedEmail:String = '';
+				
+				private function changeName():void{
+					Session.player.surname = nameInput.text;
+					
+					// colors == -1 : change name only
+					playerWrapper.storeRecord(Session.player.uralysUID, nameInput.text, 0, -1, 0);
+					
+					Session.game.hideChangeName.play();
+				}	
+				
+			]]>
+		</fx:Script>
+		
+		<s:VGroup width="100%" 
+				  horizontalAlign="center">
+			<mx:Spacer width="30"/>
+			<mx:Grid>
+				<mx:GridRow >
+					<mx:GridItem >
+						<s:Label text="{Translations.NICKNAME.getItemAt(Session.LANGUAGE)} : " color="#ffffff"/>
+					</mx:GridItem>
+					<mx:GridItem>
+						<s:TextInput id="nameInput"
+									 text="{Session.player.surname}"
+									 width="200"/>
+					</mx:GridItem>
+				</mx:GridRow>
+			</mx:Grid>
+			<s:Button label="{Translations.OK.getItemAt(Session.LANGUAGE)}" 
+					  skinClass="com.skooairs.skins.LittleButtonSkin"
+					  click="{changeName();tracker.trackPageview('/changeNameWindow-Button');}"
+					  />
+		</s:VGroup>
+	</s:Group>

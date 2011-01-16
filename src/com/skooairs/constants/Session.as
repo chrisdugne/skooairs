@@ -8,12 +8,12 @@ import com.skooairs.pages.Game;
 
 import mx.collections.ArrayCollection; 
 
-public class Session{
-
+public class Session{ 
+	
 	//=====================================================//
 
-	[Bindable] public static var VERSION:String = "1.1.22";
-	[Bindable] public static var LOGGED_IN:Boolean = false;
+	[Bindable] public static var VERSION:String = "1.1.26.2";
+	[Bindable] public static var LOGGED_IN:Boolean = false; 
 	[Bindable] public static var CONNECTED_TO_FACEBOOK:Boolean = false;
 
 	//=====================================================//
