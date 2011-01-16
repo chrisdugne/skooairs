@@ -12,7 +12,7 @@ public class Session{
 	
 	//=====================================================//
 
-	[Bindable] public static var VERSION:String = "1.1.26.2";
+	[Bindable] public static var VERSION:String = "1.1.26.3";
 	[Bindable] public static var LOGGED_IN:Boolean = false; 
 	[Bindable] public static var CONNECTED_TO_FACEBOOK:Boolean = false;
 

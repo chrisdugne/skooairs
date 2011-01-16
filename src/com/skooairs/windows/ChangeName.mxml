@@ -56,6 +56,7 @@
 					<mx:GridItem>
 						<s:TextInput id="nameInput"
 									 text="{Session.player.surname}"
+									 enter="changeName();tracker.trackPageview('/changeNameWindow-enter');"
 									 width="200"/>
 					</mx:GridItem>
 				</mx:GridRow>
