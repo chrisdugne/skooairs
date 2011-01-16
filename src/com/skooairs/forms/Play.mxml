@@ -12,6 +12,7 @@
 
 	   	<fx:Script>
 			<![CDATA[
+				import com.skooairs.resources.ImageContainer;
 				import com.skooairs.constants.Names;
 				import com.skooairs.constants.Numbers;
 				import com.skooairs.constants.Session;

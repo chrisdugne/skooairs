@@ -1,7 +1,7 @@
-package
+package com.skooairs.resources
 {
 	      	 
-public final class SoundsContainer
+public class SoundsContainer
 {
 	//   ======================================================================//
 	

@@ -7,6 +7,7 @@ package com.pathf.preloaders
     import flash.geom.Matrix;
     import flash.text.TextField;
     import flash.text.TextFormat;
+    import com.skooairs.resources.ImageContainer;
     
     public class PathfinderCustomPreloader extends PreloaderDisplayBase
     {
@@ -59,13 +60,13 @@ package com.pathf.preloaders
         protected function createAssets():void
         {
             //create the logo
-            pathfLogo = new ImageContainer.PRELOADER_IMAGE();
+            pathfLogo = new com.skooairs.resources.ImageContainer.PRELOADER_IMAGE();
             pathfLogo.x = stageWidth/2 - pathfLogo.width/2;
             pathfLogo.y = stageHeight/2 - pathfLogo.height/2;
             //pathfLogo.filters = [f];
             addChild(pathfLogo);
 			
-			loadingFlash = new ImageContainer.LOADING();
+			loadingFlash = new com.skooairs.resources.ImageContainer.LOADING();
 			loadingFlash.width = 30;
 			loadingFlash.height = 30;
 			loadingFlash.x = 525;

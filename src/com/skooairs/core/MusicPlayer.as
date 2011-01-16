@@ -8,6 +8,7 @@ import flash.media.Sound;
 import flash.media.SoundChannel;
 import flash.media.SoundTransform;
 import flash.net.URLRequest;
+import com.skooairs.resources.SoundsContainer;
 
 /**
 The MusicPlayer manages the sounds
@@ -92,7 +93,7 @@ public class MusicPlayer
 			if(!Session.player.musicOn)
 				return;
 			
-			var sound:Sound = new SoundsContainer.OK() as Sound; 
+			var sound:Sound = new com.skooairs.resources.SoundsContainer() as Sound; 
 			sound.play();
 		}
 
@@ -100,7 +101,7 @@ public class MusicPlayer
 			if(!Session.player.musicOn)
 				return;	
 			
-			var sound:Sound = new SoundsContainer.EXPLOSION() as Sound; 
+			var sound:Sound = new com.skooairs.resources.SoundsContainer() as Sound; 
 			sound.play();
 		}
 
@@ -108,7 +109,7 @@ public class MusicPlayer
 			if(!Session.player.musicOn)
 				return;
 			
-			var sound:Sound = new SoundsContainer.LOAD() as Sound; 
+			var sound:Sound = new com.skooairs.resources.SoundsContainer() as Sound; 
 			sound.play();
 		}
 
@@ -116,7 +117,7 @@ public class MusicPlayer
 			if(!Session.player.musicOn)
 				return;
 				
-			var sound:Sound = new SoundsContainer.CLIC() as Sound; 
+			var sound:Sound = new com.skooairs.resources.SoundsContainer() as Sound; 
 			sound.play();
 		}
 
@@ -124,7 +125,7 @@ public class MusicPlayer
 			if(!Session.player.musicOn)
 				return;
 				
-			var sound:Sound = new SoundsContainer.YEAH() as Sound; 
+			var sound:Sound = new com.skooairs.resources.SoundsContainer() as Sound; 
 			sound.play();
 		}
 
@@ -132,7 +133,7 @@ public class MusicPlayer
 			if(!Session.player.musicOn)
 				return;
 				
-            var sound:Sound = new SoundsContainer.BIP() as Sound; 
+            var sound:Sound = new com.skooairs.resources.SoundsContainer() as Sound; 
 			sound.play();
 		}
 		

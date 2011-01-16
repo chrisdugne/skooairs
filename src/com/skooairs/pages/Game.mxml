@@ -132,6 +132,7 @@
 			
 			<s:Move id="hidetuto" target="{Pager.getInstance().tutorial}" yTo="660"/>
 			<s:Move id="showtuto" target="{Pager.getInstance().tutorial}" yTo="45"/>
+		
 		</fx:Declarations>
 		
 		<!-- ========================================================================== -->

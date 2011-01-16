@@ -10,6 +10,7 @@
 
 	   <fx:Script>
 		   <![CDATA[
+			   import com.skooairs.resources.ImageContainer;
 			   import com.skooairs.components.custom.BoardLine;
 			   import com.skooairs.constants.Names;
 			   import com.skooairs.constants.Numbers;

@@ -20,6 +20,7 @@ import mx.controls.Image;
 import spark.components.Group;
 import spark.components.Label;
 import spark.effects.Move;
+import com.skooairs.resources.ImageContainer;
 
 /**
 The SquareMover

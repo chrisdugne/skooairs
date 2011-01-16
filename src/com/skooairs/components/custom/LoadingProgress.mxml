@@ -18,6 +18,7 @@
 
 		<fx:Script>
 			<![CDATA[
+				import com.skooairs.resources.ImageContainer;
 				
 				import flash.events.TimerEvent;
 				import flash.utils.Timer;
