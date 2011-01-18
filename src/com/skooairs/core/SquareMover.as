@@ -250,7 +250,7 @@ public class SquareMover
 
 			//-----------------------------------------------------------------------------------//
 			
-			Session.play.tracker.trackPageview('/play-tutorial-begin');
+			Session.play.tracker.trackPageview('/play-tutorial-begin'); 
 			nextTutorialStep();
 		}
 		
