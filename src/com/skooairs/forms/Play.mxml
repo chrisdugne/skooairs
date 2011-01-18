@@ -3,7 +3,6 @@
 <mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
 				xmlns:s="library://ns.adobe.com/flex/spark"
-				xmlns:qs="qs.controls.*"
 				xmlns:custom="com.skooairs.components.custom.*"
 				xmlns:button="com.skooairs.components.buttons.*"
 				clipContent="false">
@@ -247,7 +246,7 @@
 					
 					if(Session.TUTORIAL){
 						Session.TUTORIAL = false;
-						tracker.trackPageview('/play-exit-tutorial');
+						try{tracker.trackPageview('/play-exit-tutorial')}catch(e:Error){};
 						Pager.getInstance().goToView(Numbers.VIEW_HOME);
 					}
 				}
@@ -398,7 +397,7 @@
 					    x="340" y="400"
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 					    skinClass="com.skooairs.skins.BigButtonSkin"
-						click="{MusicPlayer.getInstance().playOkSound();endGame();tracker.trackPageview('/play-continueButton')}"/>
+						click="{MusicPlayer.getInstance().playOkSound();endGame();try{tracker.trackPageview('/play-continueButton')}catch(e:Error){}}"/>
 						
 			<mx:ProgressBar id="boomProgressBar"
 							x="75"
@@ -414,7 +413,7 @@
 						label="{Translations.EXIT.getItemAt(Session.LANGUAGE)}" 
 						skinClass="com.skooairs.skins.LittleButtonSkin"
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						click="MusicPlayer.getInstance().playOkSound();stopGameTimer();tracker.trackPageview('/play-exitButton')" 
+						click="MusicPlayer.getInstance().playOkSound();stopGameTimer();try{tracker.trackPageview('/play-exitButton')}catch(e:Error){}" 
 						visible="{!Session.GAME_OVER}"/>
 			
 			<mx:Image id="tutorialArrowImage"
