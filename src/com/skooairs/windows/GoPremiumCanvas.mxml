@@ -63,21 +63,12 @@
 		]]>
 	</fx:Script>
 	
-	<fx:Declarations>
-		<analytics:FlexTracker
-			xmlns:analytics="com.google.analytics.components.*"
-			id="tracker"
-			account="UA-17389126-3"
-			mode="AS3"
-			visualDebug="false"/>
-	</fx:Declarations>
-	
 	<s:Group width="100%" height="100%">
 		
 		<mx:Image source="images/tutos/premium_{Session.LANGUAGE == 0 ? 'fr' : 'en'}.png"
 				  id="image"
 				  click="{!Session.LOGGED_IN ? Session.game.showLogin.play() : buy(); 
-				  tracker.trackPageview('/goPremiumWindow-buyImage');}" 
+				  Session.tracker.trackPageview('/goPremiumWindow-buyImage');}" 
 				  x="10" y="0"/>
 		
 		
@@ -88,7 +79,7 @@
 				  right="5" top="5" 
 				  mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 				  click="{MusicPlayer.getInstance().playOkSound();Session.game.hidebuycredits.play(); 
-				  tracker.trackPageview('/goPremiumWindow-closeButton');}"
+				  Session.tracker.trackPageview('/goPremiumWindow-closeButton');}"
 				  skinClass="com.skooairs.skins.LittleButtonSkin"/>
 		
 		<s:Button id="buyButton" 
@@ -96,14 +87,14 @@
 				  x="{Session.LANGUAGE == 0 ? 20 : 50}" bottom="50" 
 				  mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 				  click="{MusicPlayer.getInstance().playOkSound();buy(); 
-				  tracker.trackPageview('/goPremiumWindow-buyButton');}"
+				  Session.tracker.trackPageview('/goPremiumWindow-buyButton');}"
 				  visible="{Session.LOGGED_IN}"
 				  skinClass="com.skooairs.skins.BigButtonSkin"/>
 		
 		<s:Button id="loginButton"
 				  label="Login"
 				  click="{MusicPlayer.getInstance().playOkSound();Session.game.showLogin.play();
-				  tracker.trackPageview('/goPremiumWindow-loginButton');}" 
+				  Session.tracker.trackPageview('/goPremiumWindow-loginButton');}" 
 				  skinClass="com.skooairs.skins.LittleButtonSkin" 
 				  mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 				  x="5" top="5" 
@@ -113,12 +104,12 @@
 				  visible="{Session.LANGUAGE != 0}"
 				  bottom="30"
 				  right="{!Session.LOGGED_IN ? 290 : 50}"
-				  click="{!Session.LOGGED_IN ? Session.game.showLogin.play() : buy(); tracker.trackPageview('/goPremiumWindow-paypalImage')}"/>
+				  click="{!Session.LOGGED_IN ? Session.game.showLogin.play() : buy(); Session.tracker.trackPageview('/goPremiumWindow-paypalImage')}"/>
 		<mx:Image source="images/logos/paypal_fr.png"
 				  visible="{Session.LANGUAGE == 0}"
 				  bottom="30"
 				  right="{!Session.LOGGED_IN ? 277 : 30}"
-				  click="{!Session.LOGGED_IN ? Session.game.showLogin.play() : buy(); tracker.trackPageview('/goPremiumWindow-paypalFRImage')}"/>
+				  click="{!Session.LOGGED_IN ? Session.game.showLogin.play() : buy(); Session.tracker.trackPageview('/goPremiumWindow-paypalFRImage')}"/>
 		
 	</s:Group>
 </mx:Canvas>

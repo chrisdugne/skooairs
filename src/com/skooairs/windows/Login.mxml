@@ -12,15 +12,6 @@
 			</s:fill>
 		</s:Rect>
 		
-		<fx:Declarations>  
-			<analytics:FlexTracker
-				xmlns:analytics="com.google.analytics.components.*"
-				id="tracker"
-				account="UA-17389126-3"
-				mode="AS3"
-				visualDebug="false"/>
-		</fx:Declarations>
-	
 		<fx:Script>
 			<![CDATA[
 				import com.skooairs.constants.Names;
@@ -110,15 +101,15 @@
 				<mx:Spacer width="5"/>
 				<s:Button label="{Translations.CREATE_ACCOUNT.getItemAt(Session.LANGUAGE)}" 
 						  skinClass="com.skooairs.skins.LittleButtonSkin"
-						  click="{createAccount();tracker.trackPageview('/loginWindow-createAccountButton');}"/>
+						  click="{createAccount();Session.tracker.trackPageview('/loginWindow-createAccountButton');}"/>
 				<mx:Spacer width="100%"/>
 				<s:Button label="{Translations.LOG_IN.getItemAt(Session.LANGUAGE)}" 
 						  skinClass="com.skooairs.skins.LittleButtonSkin"
-						  click="{login();tracker.trackPageview('/loginWindow-loginButton');}"/>
+						  click="{login();Session.tracker.trackPageview('/loginWindow-loginButton');}"/>
 			</s:HGroup>
 			<s:Button label="{Translations.CANCEL.getItemAt(Session.LANGUAGE)}" 
 					  skinClass="com.skooairs.skins.LittleButtonSkin"
-					  click="{cancel();tracker.trackPageview('/loginWindow-cancelButton');}"
+					  click="{cancel();Session.tracker.trackPageview('/loginWindow-cancelButton');}"
 					  visible="{!Session.WAIT_FOR_CONNECTION}"
 					  />
 		</s:VGroup>

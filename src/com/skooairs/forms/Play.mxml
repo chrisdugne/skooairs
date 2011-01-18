@@ -246,7 +246,6 @@
 					
 					if(Session.TUTORIAL){
 						Session.TUTORIAL = false;
-						try{tracker.trackPageview('/play-exit-tutorial')}catch(e:Error){};
 						Pager.getInstance().goToView(Numbers.VIEW_HOME);
 					}
 				}
@@ -256,13 +255,6 @@
 		<!-- ========================================================================== -->
 	
 		<fx:Declarations>			
-			
-			<analytics:FlexTracker
-				xmlns:analytics="com.google.analytics.components.*"
-				id="tracker"
-				account="UA-17389126-3"
-				mode="AS3"
-				visualDebug="false"/>
 			
 			<mx:RemoteObject id="playerWrapper" 
 				        destination="PlayerWrapper" 
@@ -397,7 +389,7 @@
 					    x="340" y="400"
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}"
 					    skinClass="com.skooairs.skins.BigButtonSkin"
-						click="{MusicPlayer.getInstance().playOkSound();endGame();try{tracker.trackPageview('/play-continueButton')}catch(e:Error){}}"/>
+						click="{MusicPlayer.getInstance().playOkSound();endGame();try{Session.tracker.trackPageview('/play-continueButton')}catch(e:Error){}}"/>
 						
 			<mx:ProgressBar id="boomProgressBar"
 							x="75"
@@ -413,7 +405,7 @@
 						label="{Translations.EXIT.getItemAt(Session.LANGUAGE)}" 
 						skinClass="com.skooairs.skins.LittleButtonSkin"
 						mouseOver="{MusicPlayer.getInstance().playBipSound()}"
-						click="MusicPlayer.getInstance().playOkSound();stopGameTimer();try{tracker.trackPageview('/play-exitButton')}catch(e:Error){}" 
+						click="MusicPlayer.getInstance().playOkSound();stopGameTimer();try{Session.tracker.trackPageview('/play-exitButton')}catch(e:Error){}" 
 						visible="{!Session.GAME_OVER}"/>
 			
 			<mx:Image id="tutorialArrowImage"

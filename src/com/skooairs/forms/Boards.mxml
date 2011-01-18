@@ -3,7 +3,6 @@
 <mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
 				xmlns:mx="library://ns.adobe.com/flex/mx" 
 				xmlns:s="library://ns.adobe.com/flex/spark"
-				xmlns:qs="qs.controls.*"
 				xmlns:custom="com.skooairs.components.custom.*">
 
 		<!-- ========================================================================== -->
@@ -80,13 +79,6 @@
 			   
 		<fx:Declarations>      
 			
-			<analytics:FlexTracker
-				xmlns:analytics="com.google.analytics.components.*"
-				id="tracker"
-				account="UA-17389126-3"
-				mode="AS3"
-				visualDebug="false"/>
-			
 			<mx:RemoteObject id="playerWrapper" 
 				        destination="PlayerWrapper" 
 				        endpoint="{Names.SERVER_AMF_ENDPOINT}"
@@ -142,7 +134,7 @@
 					   click="{if(lock)return;colorsMover.yTo=135;colorsMover.play();
 					   		   selectedColors=3;
 					   		   refresh();
-							   tracker.trackPageview('/boards-3colorsButton');}"
+							   Session.tracker.trackPageview('/boards-3colorsButton');}"
 					   />
 			<mx:Spacer height="47"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="4"
@@ -150,7 +142,7 @@
 					   click="{if(lock)return;colorsMover.yTo=237;colorsMover.play();
 					   		   selectedColors=4;
 					   		   refresh();
-					  		   tracker.trackPageview('/boards-4colorsButton');}"
+					  		   Session.tracker.trackPageview('/boards-4colorsButton');}"
 					   />
 			<mx:Spacer height="47"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="5"
@@ -158,7 +150,7 @@
 					   click="{if(lock)return;colorsMover.yTo=339;colorsMover.play();
 					   		   selectedColors=5;
 					   		   refresh();
-					  		   tracker.trackPageview('/boards-5colorsButton');}"
+					  		   Session.tracker.trackPageview('/boards-5colorsButton');}"
 					   />
 			<mx:Spacer height="47"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="6"
@@ -166,7 +158,7 @@
 					   click="{if(lock)return;colorsMover.yTo=441;colorsMover.play();
 					   		   selectedColors=6;
 					   		   refresh();
-					   		   tracker.trackPageview('/boards-6colorsButton');}"
+					   		   Session.tracker.trackPageview('/boards-6colorsButton');}"
 					   />
 	    </s:VGroup>
 		
@@ -177,7 +169,7 @@
 					   click="{if(lock)return;timeBorderMover.yTo=128;timeBorderResizer.widthTo=75;timeParallel.play();
 					   		   selectedTime=2;
 					   		   refresh();
-					   		   tracker.trackPageview('/boards-2minButton');}"
+					   		   Session.tracker.trackPageview('/boards-2minButton');}"
 					   />
 			<mx:Spacer height="44"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="3 min"
@@ -185,7 +177,7 @@
 					   click="{if(lock)return;timeBorderMover.yTo=204;timeBorderResizer.widthTo=75;timeParallel.play();
 					   		   selectedTime=3;
 					   		   refresh();
-					  		   tracker.trackPageview('/boards-3minButton');}"
+					  		   Session.tracker.trackPageview('/boards-3minButton');}"
 					   />
 			<mx:Spacer height="44"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="5 min"
@@ -193,7 +185,7 @@
 					   click="{if(lock)return;timeBorderMover.yTo=280;timeBorderResizer.widthTo=75;timeParallel.play();
 					   		   selectedTime=5;
 					   		   refresh();
-							   tracker.trackPageview('/boards-5minButton');}"
+							   Session.tracker.trackPageview('/boards-5minButton');}"
 					   />
 			<mx:Spacer height="44"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="7 min"
@@ -201,7 +193,7 @@
 					   click="{if(lock)return;timeBorderMover.yTo=355;timeBorderResizer.widthTo=75;timeParallel.play();
 					   		   selectedTime=7;
 					   		   refresh();
-							   tracker.trackPageview('/boards-7minButton');}"
+							   Session.tracker.trackPageview('/boards-7minButton');}"
 					   />
 			<mx:Spacer height="44"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="10 min"
@@ -209,7 +201,7 @@
 					   click="{if(lock)return;timeBorderMover.yTo=433;timeBorderResizer.widthTo=84;timeParallel.play();
 					   		   selectedTime=10;
 					   		   refresh();
-							   tracker.trackPageview('/boards-10minButton');}"
+							   Session.tracker.trackPageview('/boards-10minButton');}"
 					   />
 		 </s:VGroup>
 		 
@@ -220,7 +212,7 @@
 					   click="{friendsBorderMover.xTo=508;friendsBorderMover.play();
 					   		   selectedGroup=1;
 					   		   refresh();
-							   tracker.trackPageview('/boards-worldButton');}"
+							   Session.tracker.trackPageview('/boards-worldButton');}"
 					   />
 			<mx:Spacer width="{Session.LANGUAGE == 0 ? 6 : -10}"/>
 			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="{Translations.FRIENDS.getItemAt(Session.LANGUAGE)}"
@@ -228,7 +220,7 @@
 					   click="{if(lock)return;friendsBorderMover.xTo=603;friendsBorderMover.play();
 					   		   selectedGroup=2;
 					   		   refresh();
-							   tracker.trackPageview('/boards-friendsButton');}"
+							   Session.tracker.trackPageview('/boards-friendsButton');}"
 					   visible="{Session.CONNECTED_TO_FACEBOOK &amp;&amp; Session.friendPlayerUIDs.length > 0}"
 					   />
 	   	 </s:HGroup>
@@ -306,7 +298,7 @@
 				  click="{MusicPlayer.getInstance().playOkSound();
 				  		  Pager.getInstance().goToView(Numbers.VIEW_HOME);
 				  		  Session.SCORE_FORM_DISPLAYED = false;
-						  tracker.trackPageview('/boards-backButton');}"/>
+						  Session.tracker.trackPageview('/boards-backButton');}"/>
 		
 		
 		

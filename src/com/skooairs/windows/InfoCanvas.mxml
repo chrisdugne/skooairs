@@ -18,22 +18,13 @@
 		]]>
 	</fx:Script>
 	
-	<fx:Declarations>  
-		<analytics:FlexTracker
-			xmlns:analytics="com.google.analytics.components.*"
-			id="tracker"
-			account="UA-17389126-3"
-			mode="AS3"
-			visualDebug="false"/>
-	</fx:Declarations>
-
 	<s:Group width="100%" height="100%">
 			
 		<s:Button id="closeButton" 
 					label="{Translations.CLOSE.getItemAt(Session.LANGUAGE)}" 
 					right="5" top="5" 
 					click="{Session.game.hideinfo.play();
-							tracker.trackPageview('/infoWindow-closeButton');}"
+							Session.tracker.trackPageview('/infoWindow-closeButton');}"
 					skinClass="com.skooairs.skins.LittleButtonSkin"/>
 		
 		<s:Label x="10" y="5" text="Skooairs !" styleName="bigGreen2Style"/>
@@ -41,33 +32,33 @@
 
 		<s:Label x="300" y="5" text="{Translations.CREATOR.getItemAt(Session.LANGUAGE)}" 
 				 styleName="bigGreen2Style"
-				 click="tracker.trackPageview('/infoWindow-creatorLabel');"/>
+				 click="Session.tracker.trackPageview('/infoWindow-creatorLabel');"/>
 		<s:Label x="263" y="35" text="Christophe Dugne-Esquevin" styleName="littleWhiteStyle" 
-				 click="tracker.trackPageview('/infoWindow-CDELabel');"/>		
+				 click="Session.tracker.trackPageview('/infoWindow-CDELabel');"/>		
 		<mx:Image source="images/logos/linkedin.png" 
-					click="navigateToURL(new URLRequest('http://fr.linkedin.com/in/christophedugne'),'_new'); tracker.trackPageview('/infoWindow-linkedInImage');"
+					click="navigateToURL(new URLRequest('http://fr.linkedin.com/in/christophedugne'),'_new'); Session.tracker.trackPageview('/infoWindow-linkedInImage');"
 					x="333" y="65"
 					width="70" height="70"/>
 
 		<s:Label x="327" y="144" text="{Translations.TOOLS.getItemAt(Session.LANGUAGE)}" styleName="normalGreen2Style"/>
 
 		<mx:Image source="images/logos/flex.png" 
-					click="navigateToURL(new URLRequest('http://www.adobe.com/fr/products/flex/?sdid=GYTRB'),'_new');tracker.trackPageview('/infoWindow-flexImage');"
+					click="navigateToURL(new URLRequest('http://www.adobe.com/fr/products/flex/?sdid=GYTRB'),'_new');Session.tracker.trackPageview('/infoWindow-flexImage');"
 					x="50" y="180"/>
 		<s:Label x="65" y="255" text="Flex 4" styleName="littleWhiteStyle"/>
 
 		<mx:Image source="images/logos/appengine.png" 
-					click="navigateToURL(new URLRequest('http://code.google.com/appengine/'),'_new'); tracker.trackPageview('/infoWindow-appengineImage');"
+					click="navigateToURL(new URLRequest('http://code.google.com/appengine/'),'_new'); Session.tracker.trackPageview('/infoWindow-appengineImage');"
 					x="160" y="180"/>
 		<s:Label x="150" y="255" text="App Engine" styleName="littleWhiteStyle"/>
 
 		<mx:Image source="images/logos/gimp.png" 
-					click="navigateToURL(new URLRequest('http://www.gimp.org/'),'_new');tracker.trackPageview('/infoWindow-gimpImage');"
+					click="navigateToURL(new URLRequest('http://www.gimp.org/'),'_new');Session.tracker.trackPageview('/infoWindow-gimpImage');"
 					x="270" y="180"/>
 		<s:Label x="272" y="255" text="Gimp 2.6" styleName="littleWhiteStyle"/>
 
 		<mx:Image source="images/logos/eclipse.png" 
-					click="navigateToURL(new URLRequest('http://www.eclipse.org/'),'_new');tracker.trackPageview('/infoWindow-eclipseImage');"
+					click="navigateToURL(new URLRequest('http://www.eclipse.org/'),'_new');Session.tracker.trackPageview('/infoWindow-eclipseImage');"
 					x="380" y="180"/>
 		<s:Label x="373" y="255" text="Eclipse 3.6" styleName="littleWhiteStyle"/>
 
@@ -84,16 +75,16 @@
 					
 		<s:Label x="307" y="300" text="{Translations.RESOURCES.getItemAt(Session.LANGUAGE)}" styleName="normalGreen2Style"/>
 		<mx:Image source="images/logos/icons.png" 
-					click="navigateToURL(new URLRequest('http://icons.mysitemyway.com/'),'_new');tracker.trackPageview('/infoWindow-iconsImage');"
+					click="navigateToURL(new URLRequest('http://icons.mysitemyway.com/'),'_new');Session.tracker.trackPageview('/infoWindow-iconsImage');"
 					x="230" y="336"/>
 		<mx:Image source="images/logos/fonts.png" 
-					click="navigateToURL(new URLRequest('http://www.1001freefonts.com/'),'_new');tracker.trackPageview('/infoWindow-fontsImage');"
+					click="navigateToURL(new URLRequest('http://www.1001freefonts.com/'),'_new');Session.tracker.trackPageview('/infoWindow-fontsImage');"
 					x="390" y="336"/>
 		
 		
 
 		<s:Label x="{Session.LANGUAGE == 0 ? 300 : 325}" y="420" text="{Translations.MUSIC.getItemAt(Session.LANGUAGE)}" styleName="bigGreen2Style"/>
 		<s:Label x="75" y="455" text="One Step - Utopian Hedonism (2009)" styleName="bigWhiteStyle"
-				 click="navigateToURL(new URLRequest('http://soundcloud.com/utopian-hedonism/'),'_new');tracker.trackPageview('/infoWindow-utopianLabel');"/>
+				 click="navigateToURL(new URLRequest('http://soundcloud.com/utopian-hedonism/'),'_new');Session.tracker.trackPageview('/infoWindow-utopianLabel');"/>
 	</s:Group>
 </mx:Canvas>

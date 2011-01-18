@@ -13,13 +13,6 @@
 		</s:Rect>
 		
 		<fx:Declarations>  
-			<analytics:FlexTracker
-				xmlns:analytics="com.google.analytics.components.*"
-				id="tracker"
-				account="UA-17389126-3"
-				mode="AS3"
-				visualDebug="false"/>
-							 
 			<mx:RemoteObject id="playerWrapper" 
 							 destination="PlayerWrapper" 
 							 endpoint="{Names.SERVER_AMF_ENDPOINT}"/>
@@ -56,14 +49,14 @@
 					<mx:GridItem>
 						<s:TextInput id="nameInput"
 									 text="{Session.player.surname}"
-									 enter="changeName();tracker.trackPageview('/changeNameWindow-enter');"
+									 enter="changeName();Session.tracker.trackPageview('/changeNameWindow-enter');"
 									 width="200"/>
 					</mx:GridItem>
 				</mx:GridRow>
 			</mx:Grid>
 			<s:Button label="{Translations.OK.getItemAt(Session.LANGUAGE)}" 
 					  skinClass="com.skooairs.skins.LittleButtonSkin"
-					  click="{changeName();tracker.trackPageview('/changeNameWindow-Button');}"
+					  click="{changeName();Session.tracker.trackPageview('/changeNameWindow-Button');}"
 					  />
 		</s:VGroup>
 	</s:Group>

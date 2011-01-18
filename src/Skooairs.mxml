@@ -49,6 +49,7 @@
 				Pager.getInstance().tutorial = tuto;
 				
 				Session.FIRST_VIEW = Numbers.VIEW_HOME;
+				Session.tracker = tracker;
 				
 				Pager.getInstance().setBackground(ImageContainer.BACKGROUND);
 				Pager.getInstance().goToPage(Game);
@@ -144,6 +145,16 @@
 			
 		]]>
 	</fx:Script>
+	
+	<fx:Declarations>  
+		<analytics:FlexTracker
+			xmlns:analytics="com.google.analytics.components.*"
+			id="tracker"
+			account="UA-17389126-3"
+			mode="AS3"
+			visualDebug="false"/>
+	</fx:Declarations>
+	
 	
 	<mx:Canvas id="window" 
 			   backgroundColor="0x07230a"  
