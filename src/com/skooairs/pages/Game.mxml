@@ -133,7 +133,7 @@
 		
 		<!-- ========================================================================== -->
 
-		<mx:Image source="images/logos/uralysminilogo.png" 
+		<mx:Image source="../images/logos/uralysminilogo.png" 
 					x="65" bottom="2"
 					click="navigateToURL(new URLRequest('http://www.uralys.com'), '_new');
 						   Session.tracker.trackPageview('/game-uralysButton');"/>
@@ -178,9 +178,9 @@
 								mouseOver="{MusicPlayer.getInstance().playBipSound()}"/>
 			<button:VolumeOffButton x="675" top="10" id="soundOffButton" click="music();Session.tracker.trackPageview('/game-soundOffButton')" visible="{!Session.player.musicOn}"/>
 			
-			<mx:Image x="620" y="35" id="frenchButton" source="images/flags/fr.png" click="french();Session.tracker.trackPageview('/game-frenchButton')" visible="{Session.LANGUAGE != 0}" width="25"/>
-			<mx:Image x="{Session.LANGUAGE == 0 ? 620 : 650}" y="35" id="englishButton" source="images/flags/en.png" click="english();Session.tracker.trackPageview('/game-englishButton')" visible="{Session.LANGUAGE != 1}" width="25"/>
-			<mx:Image x="650" y="35" id="usButton" source="images/flags/us.png" click="us();Session.tracker.trackPageview('/game-usButton')" visible="{Session.LANGUAGE != 2}" width="25"/>
+			<mx:Image x="620" y="35" id="frenchButton" source="../images/flags/fr.png" click="french();Session.tracker.trackPageview('/game-frenchButton')" visible="{Session.LANGUAGE != 0}" width="25"/>
+			<mx:Image x="{Session.LANGUAGE == 0 ? 620 : 650}" y="35" id="englishButton" source="../images/flags/en.png" click="english();Session.tracker.trackPageview('/game-englishButton')" visible="{Session.LANGUAGE != 1}" width="25"/>
+			<mx:Image x="650" y="35" id="usButton" source="../images/flags/us.png" click="us();Session.tracker.trackPageview('/game-usButton')" visible="{Session.LANGUAGE != 2}" width="25"/>
 
 		<!-- ========================================================================== -->
 			
@@ -192,7 +192,7 @@
 						 text="{Translations.LOGGED_AS.getItemAt(Session.LANGUAGE)} : {Session.player.surname}" 
 						 click="showChangeName.play();Session.tracker.trackPageview('/game-loggedAsLabel');"/>
 				</s:VGroup>
-				<mx:Image source="images/edit.png"
+				<mx:Image source="../images/edit.png"
 						  click="showChangeName.play();Session.tracker.trackPageview('/game-editNameImage');"/>
 			</s:HGroup>
 	

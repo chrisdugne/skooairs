@@ -19,7 +19,17 @@
 		<link>
 			<name>bin-debug</name>
 			<type>2</type>
-			<location>/Users/mad/Projects/Java/SkooAirs/war/webresources</location>
+			<location>/Users/mad/Projects/Java/SkooAirs/war/webresources/local</location>
+		</link>
+		<link>
+			<name>bin-release</name>
+			<type>2</type>
+			<location>/Users/mad/Projects/Java/SkooAirs/war/release</location>
+		</link>
+		<link>
+			<name>bin-release1</name>
+			<type>2</type>
+			<location>/Users/mad/Projects/Java/SkooAirs/war/webresources/release</location>
 		</link>
 	</linkedResources>
 </projectDescription>

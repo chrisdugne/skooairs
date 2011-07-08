@@ -21,4 +21,4 @@
 	<s:BitmapImage source.down="@Embed('resources/embed/images/buttons/uralysLogin_down.png')"
 				   source.up="@Embed('resources/embed/images/buttons/uralysLogin_normal.png')"
 				   source.over="@Embed('resources/embed/images/buttons/uralysLogin_over.png')"/>
-</s:Skin>
+</s:Skin> 

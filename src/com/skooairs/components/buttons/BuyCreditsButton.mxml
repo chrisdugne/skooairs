@@ -7,4 +7,4 @@
 	upSkin="@Embed(source='resources/embed/images/buttons/buy.png')"
 	overSkin="@Embed(source='resources/embed/images/buttons/buy_up.png')"
 	downSkin="@Embed(source='resources/embed/images/buttons/buy_up.png')">
-</mx:Button>
+</mx:Button> 

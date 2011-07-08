@@ -65,7 +65,7 @@
 	
 	<s:Group width="100%" height="100%">
 		
-		<mx:Image source="images/tutos/premium_{Session.LANGUAGE == 0 ? 'fr' : 'en'}.png"
+		<mx:Image source="../images/tutos/premium_{Session.LANGUAGE == 0 ? 'fr' : 'en'}.png"
 				  id="image"
 				  click="{!Session.LOGGED_IN ? Session.game.showLogin.play() : buy(); 
 				  Session.tracker.trackPageview('/goPremiumWindow-buyImage');}" 
@@ -100,12 +100,12 @@
 				  x="5" top="5" 
 				  visible="{!Session.LOGGED_IN}"/>
 		
-		<mx:Image source="images/logos/paypal.png"
+		<mx:Image source="../images/logos/paypal.png"
 				  visible="{Session.LANGUAGE != 0}"
 				  bottom="30"
 				  right="{!Session.LOGGED_IN ? 290 : 50}"
 				  click="{!Session.LOGGED_IN ? Session.game.showLogin.play() : buy(); Session.tracker.trackPageview('/goPremiumWindow-paypalImage')}"/>
-		<mx:Image source="images/logos/paypal_fr.png"
+		<mx:Image source="../images/logos/paypal_fr.png"
 				  visible="{Session.LANGUAGE == 0}"
 				  bottom="30"
 				  right="{!Session.LOGGED_IN ? 277 : 30}"

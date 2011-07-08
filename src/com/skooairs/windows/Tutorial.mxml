@@ -78,7 +78,7 @@
 
 	<!--  ================================================================================================== -->
 	
-	<mx:Image source="images/tutos/tuto_{Session.LANGUAGE == 0 ? 'fr' : 'en'}_{step}.png"
+	<mx:Image source="../images/tutos/tuto_{Session.LANGUAGE == 0 ? 'fr' : 'en'}_{step}.png"
 			 id="image"
 			 click="{Session.tracker.trackPageview('/tutorialWindow-imageStep'+step);}"
 			 y="{step > 1 ? 40 : 0}"/>

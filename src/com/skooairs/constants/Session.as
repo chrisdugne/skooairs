@@ -1,7 +1,7 @@
 package com.skooairs.constants
 {
 
-import com.google.analytics.components.FlexTracker;
+import com.google.analytics.GATracker;
 import com.skooairs.entities.Player;
 import com.skooairs.entities.UralysProfile;
 import com.skooairs.forms.Play;
@@ -13,7 +13,7 @@ public class Session{
 	
 	//=====================================================//
 
-	[Bindable] public static var VERSION:String = "1.1.26.5";
+	[Bindable] public static var VERSION:String = "1.1.27";
 	[Bindable] public static var LOGGED_IN:Boolean = false; 
 	[Bindable] public static var CONNECTED_TO_FACEBOOK:Boolean = false;
 
@@ -66,7 +66,7 @@ public class Session{
 	//public static var session: FacebookSessionUtil;
 	//public static var fbook:Facebook;
 	
-	[Bindable] public static var tracker:FlexTracker;
+	[Bindable] public static var tracker:GATracker;
 
 	[Bindable] public static var isLocal:Boolean = false;
 	[Bindable] public static var LANGUAGE:int;

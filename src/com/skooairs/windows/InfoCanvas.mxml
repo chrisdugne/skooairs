@@ -35,38 +35,38 @@
 				 click="Session.tracker.trackPageview('/infoWindow-creatorLabel');"/>
 		<s:Label x="263" y="35" text="Christophe Dugne-Esquevin" styleName="littleWhiteStyle" 
 				 click="Session.tracker.trackPageview('/infoWindow-CDELabel');"/>		
-		<mx:Image source="images/logos/linkedin.png" 
+		<mx:Image source="../images/logos/linkedin.png" 
 					click="navigateToURL(new URLRequest('http://fr.linkedin.com/in/christophedugne'),'_new'); Session.tracker.trackPageview('/infoWindow-linkedInImage');"
 					x="333" y="65"
 					width="70" height="70"/>
 
 		<s:Label x="327" y="144" text="{Translations.TOOLS.getItemAt(Session.LANGUAGE)}" styleName="normalGreen2Style"/>
 
-		<mx:Image source="images/logos/flex.png" 
+		<mx:Image source="../images/logos/flex.png" 
 					click="navigateToURL(new URLRequest('http://www.adobe.com/fr/products/flex/?sdid=GYTRB'),'_new');Session.tracker.trackPageview('/infoWindow-flexImage');"
 					x="50" y="180"/>
 		<s:Label x="65" y="255" text="Flex 4" styleName="littleWhiteStyle"/>
 
-		<mx:Image source="images/logos/appengine.png" 
+		<mx:Image source="../images/logos/appengine.png" 
 					click="navigateToURL(new URLRequest('http://code.google.com/appengine/'),'_new'); Session.tracker.trackPageview('/infoWindow-appengineImage');"
 					x="160" y="180"/>
 		<s:Label x="150" y="255" text="App Engine" styleName="littleWhiteStyle"/>
 
-		<mx:Image source="images/logos/gimp.png" 
+		<mx:Image source="../images/logos/gimp.png" 
 					click="navigateToURL(new URLRequest('http://www.gimp.org/'),'_new');Session.tracker.trackPageview('/infoWindow-gimpImage');"
 					x="270" y="180"/>
 		<s:Label x="272" y="255" text="Gimp 2.6" styleName="littleWhiteStyle"/>
 
-		<mx:Image source="images/logos/eclipse.png" 
+		<mx:Image source="../images/logos/eclipse.png" 
 					click="navigateToURL(new URLRequest('http://www.eclipse.org/'),'_new');Session.tracker.trackPageview('/infoWindow-eclipseImage');"
 					x="380" y="180"/>
 		<s:Label x="373" y="255" text="Eclipse 3.6" styleName="littleWhiteStyle"/>
 
-		<mx:Image source="images/logos/mac.png" 
+		<mx:Image source="../images/logos/mac.png" 
 					x="490" y="180"/>
 		<s:Label x="490" y="255" text="Mac OSX" styleName="littleWhiteStyle"/>
 
-		<mx:Image source="images/logos/facebook.png" 
+		<mx:Image source="../images/logos/facebook.png" 
 					x="600" y="180"/>
 		<s:Label x="597" y="255" text="Facebook" styleName="littleWhiteStyle"/>
 					
@@ -74,10 +74,10 @@
 					
 					
 		<s:Label x="307" y="300" text="{Translations.RESOURCES.getItemAt(Session.LANGUAGE)}" styleName="normalGreen2Style"/>
-		<mx:Image source="images/logos/icons.png" 
+		<mx:Image source="../images/logos/icons.png" 
 					click="navigateToURL(new URLRequest('http://icons.mysitemyway.com/'),'_new');Session.tracker.trackPageview('/infoWindow-iconsImage');"
 					x="230" y="336"/>
-		<mx:Image source="images/logos/fonts.png" 
+		<mx:Image source="../images/logos/fonts.png" 
 					click="navigateToURL(new URLRequest('http://www.1001freefonts.com/'),'_new');Session.tracker.trackPageview('/infoWindow-fontsImage');"
 					x="390" y="336"/>
 		
