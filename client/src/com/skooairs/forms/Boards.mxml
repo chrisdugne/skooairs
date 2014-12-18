@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:custom="com.skooairs.components.custom.*">
+
+		<!-- ========================================================================== -->
+
+	   <fx:Script>
+		   <![CDATA[
+			   import com.skooairs.resources.ImageContainer;
+			   import com.skooairs.components.custom.BoardLine;
+			   import com.skooairs.constants.Names;
+			   import com.skooairs.constants.Numbers;
+			   import com.skooairs.constants.Session;
+			   import com.skooairs.constants.Translations;
+			   import com.skooairs.core.MusicPlayer;
+			   import com.skooairs.core.Pager;
+			   import com.skooairs.entities.Board;
+			   import com.skooairs.utils.Utils;
+			   
+			   import mx.controls.SWFLoader;
+			   import mx.rpc.events.FaultEvent;
+			   import mx.rpc.events.ResultEvent;
+			   
+			   //-----------------------------------------------------------------------------------//
+			
+			   private var loadingFlash:SWFLoader;
+			   
+			   [Bindable] private static var worldPosition:int;
+			   [Bindable] private static var friendPosition:int;
+			   
+			   //-----------------------------------------------------------------------------------//
+			   
+			   [Bindable] private var selectedTime:int = 2;
+			   [Bindable] private var selectedColors:int = 3;
+			   [Bindable] private var selectedGroup:int = 1;
+			   
+			   [Bindable] private var lock:Boolean = false;
+			   
+			   //-----------------------------------------------------------------------------------//
+			   
+			   public function refresh():void{
+				   lock = true;
+				   
+				   loadingFlash = new SWFLoader()
+				   loadingFlash.source = ImageContainer.LOADING;
+				   loadingFlash.x = 355;
+				   loadingFlash.y = 220;
+				   addChild(loadingFlash);
+				   
+				   playerWrapper.getBoard(Session.player.uralysUID, selectedTime, selectedColors, selectedGroup == 2 ? Session.friendPlayerUIDs : null);
+			   }
+			   
+			   private function onGetBoard(event:ResultEvent):void{
+				   
+				   removeChild(loadingFlash);
+				   boardContainer.removeAllElements();
+				   
+				   for each(var board:Board in event.result){
+					   
+					   var boardLine:BoardLine = new BoardLine();
+					   boardLine.board = board;
+					   
+					   boardContainer.addElement(boardLine);
+				   }
+				   
+				   lock = false;
+			   }
+			   
+			   private function faultGetBoard(event:FaultEvent):void{
+				   trace(event.fault);
+			   }
+
+		   ]]>
+	   </fx:Script>
+			   
+			   
+		<fx:Declarations>      
+			
+			<mx:RemoteObject id="playerWrapper" 
+				        destination="PlayerWrapper" 
+				        endpoint="{Names.SERVER_AMF_ENDPOINT}"
+				        showBusyCursor="true">
+				         
+				         <mx:method name="getBoard"
+				         			result="onGetBoard(event)"
+				         			fault="faultGetBoard(event)"/>
+
+			</mx:RemoteObject>
+
+			<s:Elastic id="elasticEasing"/>
+			<mx:Parallel id="timeParallel">
+				<s:Move id="timeBorderMover"
+						target="{timeBorder}"
+						duration="300"
+			            easer="{elasticEasing}"/>
+				<s:Resize id="timeBorderResizer"
+						target="{timeBorder}"
+						duration="100"/>
+			</mx:Parallel>	
+			<s:Move id="colorsMover"
+					target="{colorsBorder}"
+					duration="300"
+		            easer="{elasticEasing}"/>
+			<s:Move id="friendsBorderMover"
+					target="{friendsBorder}"
+					duration="300"
+		            easer="{elasticEasing}"/>
+		</fx:Declarations>
+		
+		<!-- ========================================================================== -->
+	
+		<s:Scroller width="380" height="410" 
+					x="240" y="80">
+			<s:Group width="100%" height="100%" 
+				 	 id="boardContainer">
+				 	
+					<s:layout>
+	                    <s:VerticalLayout/>
+	                </s:layout>
+			</s:Group>
+		</s:Scroller>
+	
+		<s:Label text="{Translations.COLORS.getItemAt(Session.LANGUAGE)}"
+					x="80"
+					y="80"
+					styleName="normalGreenStyle"/>
+		<s:VGroup x="95" y="125">
+			<mx:Spacer height="10"/>
+			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="3"
+					   skinClass="com.skooairs.skins.BigButtonSkin"
+					   click="{if(lock)return;colorsMover.yTo=135;colorsMover.play();
+					   		   selectedColors=3;
+					   		   refresh();
+							   Session.tracker.trackPageview('/boards-3colorsButton');}"
+					   />
+			<mx:Spacer height="47"/>
+			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="4"
+					   skinClass="com.skooairs.skins.BigButtonSkin"
+					   click="{if(lock)return;colorsMover.yTo=237;colorsMover.play();
+					   		   selectedColors=4;
+					   		   refresh();
+					  		   Session.tracker.trackPageview('/boards-4colorsButton');}"
+					   />
+			<mx:Spacer height="47"/>
+			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="5"
+					   skinClass="com.skooairs.skins.BigButtonSkin"
+					   click="{if(lock)return;colorsMover.yTo=339;colorsMover.play();
+					   		   selectedColors=5;
+					   		   refresh();
+					  		   Session.tracker.trackPageview('/boards-5colorsButton');}"
+					   />
+			<mx:Spacer height="47"/>
+			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="6"
+					   skinClass="com.skooairs.skins.BigButtonSkin"
+					   click="{if(lock)return;colorsMover.yTo=441;colorsMover.play();
+					   		   selectedColors=6;
+					   		   refresh();
+					   		   Session.tracker.trackPageview('/boards-6colorsButton');}"
+					   />
+	    </s:VGroup>
+		
+		<s:VGroup x="605" y="115">
+			<mx:Spacer height="13"/>
+			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="2 min"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
+					   click="{if(lock)return;timeBorderMover.yTo=128;timeBorderResizer.widthTo=75;timeParallel.play();
+					   		   selectedTime=2;
+					   		   refresh();
+					   		   Session.tracker.trackPageview('/boards-2minButton');}"
+					   />
+			<mx:Spacer height="44"/>
+			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="3 min"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
+					   click="{if(lock)return;timeBorderMover.yTo=204;timeBorderResizer.widthTo=75;timeParallel.play();
+					   		   selectedTime=3;
+					   		   refresh();
+					  		   Session.tracker.trackPageview('/boards-3minButton');}"
+					   />
+			<mx:Spacer height="44"/>
+			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="5 min"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
+					   click="{if(lock)return;timeBorderMover.yTo=280;timeBorderResizer.widthTo=75;timeParallel.play();
+					   		   selectedTime=5;
+					   		   refresh();
+							   Session.tracker.trackPageview('/boards-5minButton');}"
+					   />
+			<mx:Spacer height="44"/>
+			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="7 min"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
+					   click="{if(lock)return;timeBorderMover.yTo=355;timeBorderResizer.widthTo=75;timeParallel.play();
+					   		   selectedTime=7;
+					   		   refresh();
+							   Session.tracker.trackPageview('/boards-7minButton');}"
+					   />
+			<mx:Spacer height="44"/>
+			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="10 min"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
+					   click="{if(lock)return;timeBorderMover.yTo=433;timeBorderResizer.widthTo=84;timeParallel.play();
+					   		   selectedTime=10;
+					   		   refresh();
+							   Session.tracker.trackPageview('/boards-10minButton');}"
+					   />
+		 </s:VGroup>
+		 
+		 <s:HGroup x="500" y="17">
+			<mx:Spacer width="{Session.LANGUAGE == 0 ? 0 : 10}"/>
+			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="{Translations.WORLD.getItemAt(Session.LANGUAGE)}"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
+					   click="{friendsBorderMover.xTo=508;friendsBorderMover.play();
+					   		   selectedGroup=1;
+					   		   refresh();
+							   Session.tracker.trackPageview('/boards-worldButton');}"
+					   />
+			<mx:Spacer width="{Session.LANGUAGE == 0 ? 6 : -10}"/>
+			<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" label="{Translations.FRIENDS.getItemAt(Session.LANGUAGE)}"
+					   skinClass="com.skooairs.skins.LittleButtonSkin"
+					   click="{if(lock)return;friendsBorderMover.xTo=603;friendsBorderMover.play();
+					   		   selectedGroup=2;
+					   		   refresh();
+							   Session.tracker.trackPageview('/boards-friendsButton');}"
+					   visible="{Session.CONNECTED_TO_FACEBOOK &amp;&amp; Session.friendPlayerUIDs.length > 0}"
+					   />
+	   	 </s:HGroup>
+					
+		<s:Group id="timeBorder"
+				 x="604" y="128" 
+				 height="45" width="75">
+				
+			<s:Graphic x="0" y="0">
+		        <!-- Draw rectangle with rounded corners. -->
+		        <s:Rect height="{timeBorder.height}" width="{timeBorder.width}" radiusX="15" radiusY="15">
+		            <s:stroke>
+		                <s:SolidColorStroke color="{Numbers.WHITE}" weight="3"/>
+		            </s:stroke>
+		            <s:fill>
+		            	<mx:LinearGradient>
+					  		<mx:entries>
+					  			<mx:GradientEntry color="0x00000" ratio="1" alpha="0.2"/>
+					  		</mx:entries>
+					  	</mx:LinearGradient>
+		            </s:fill>
+		        </s:Rect>
+		    </s:Graphic>
+		
+		</s:Group>  
+
+		<s:Group id="colorsBorder"
+				 x="90" y="135" 
+				 height="50" width="50">
+				
+			<s:Graphic x="0" y="0">
+		        <!-- Draw rectangle with rounded corners. -->
+		        <s:Rect height="{colorsBorder.height}" width="{colorsBorder.width}" radiusX="15" radiusY="15">
+		            <s:stroke>
+		                <s:SolidColorStroke color="{Numbers.WHITE}" weight="3"/>
+		            </s:stroke>
+		            <s:fill>
+		            	<mx:LinearGradient>
+					  		<mx:entries>
+					  			<mx:GradientEntry color="0x00000" ratio="1" alpha="0.2"/>
+					  		</mx:entries>
+					  	</mx:LinearGradient>
+		            </s:fill>
+		        </s:Rect>
+		    </s:Graphic>
+		
+		</s:Group>  
+
+		<s:Group id="friendsBorder"
+				 x="508" y="12" 
+				 height="30" width="{Session.LANGUAGE == 0 ? 80 : 97}">
+				
+			<s:Graphic x="0" y="0">
+		        <!-- Draw rectangle with rounded corners. -->
+		        <s:Rect height="{friendsBorder.height}" width="{friendsBorder.width}" radiusX="15" radiusY="15">
+		            <s:stroke>
+		                <s:SolidColorStroke color="{Numbers.WHITE}" weight="2"/>
+		            </s:stroke>
+		            <s:fill>
+		            	<mx:LinearGradient>
+					  		<mx:entries>
+					  			<mx:GradientEntry color="0x00000" ratio="1" alpha="0.2"/>
+					  		</mx:entries>
+					  	</mx:LinearGradient>
+		            </s:fill>
+		        </s:Rect>
+		    </s:Graphic>
+		
+		</s:Group>  
+		
+		<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+				  label="{Translations.BACK.getItemAt(Session.LANGUAGE)}"
+				  skinClass="com.skooairs.skins.BigButtonSkin"
+				  x="95" y="10"
+				  click="{MusicPlayer.getInstance().playOkSound();
+				  		  Pager.getInstance().goToView(Numbers.VIEW_HOME);
+				  		  Session.SCORE_FORM_DISPLAYED = false;
+						  Session.tracker.trackPageview('/boards-backButton');}"/>
+		
+		
+		
+</mx:Canvas>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+     
+<s:Group	xmlns:fx="http://ns.adobe.com/mxml/2009"  
+			xmlns:mx="library://ns.adobe.com/flex/mx"  
+			xmlns:s="library://ns.adobe.com/flex/spark"
+			xmlns:custom="custom.*" 
+			width="720"
+			height="560">
+							
+	<!--  ================================================================================================== -->
+	
+	<s:Rect height="100%" width="100%" radiusX="5" radiusY="5">
+	      <s:stroke>
+	          <s:SolidColorStroke id="borderStroke" color="{Numbers.BLACK}" weight="2"/>
+	      </s:stroke>
+	      <s:fill>
+	      	<mx:LinearGradient>
+				<mx:entries>
+					<mx:GradientEntry color="0x00000" ratio="1" alpha="0.9"/>
+				</mx:entries>
+			</mx:LinearGradient>
+	      </s:fill>
+	</s:Rect>
+	
+
+	<fx:Script>
+		<![CDATA[
+			
+			import com.skooairs.constants.Translations;
+			import com.skooairs.constants.Session;
+			import com.skooairs.constants.Numbers;
+			
+			import mx.collections.ArrayCollection;
+			
+			import com.skooairs.core.MusicPlayer;
+			
+			//-----------------------------------------------------------------------------------//
+			
+			[Bindable] private var step:int = 1;
+			
+			//-----------------------------------------------------------------------------------//
+			
+			private function changeStep():void{
+				fadeEffect.play();
+			}
+			
+			private function continueTuto():void{
+				if(step < 3)
+					changeStep();
+				else{
+					step = 0;
+					fadeEffect.play();
+					Session.game.hideTuto();			
+				}
+			}
+			
+			private function skip():void{
+				step = 0;
+				fadeEffect.play();
+				Session.game.hideTuto();
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>  
+		<s:Fade id="fadeEffect"
+			alphaFrom="1" alphaTo="0"
+			effectStart="{continueButton.enabled=false}"
+			effectEnd="{step++; appearEffect.play()}"
+			target="{image}"
+            duration="450" />		
+		<s:Fade id="appearEffect"
+			alphaFrom="0" alphaTo="1"
+			effectEnd="{continueButton.enabled=true}"
+			target="{image}"
+            duration="450" />		
+	</fx:Declarations>
+
+	<!--  ================================================================================================== -->
+	
+	<mx:Image source="../images/tutos/tuto_{Session.LANGUAGE == 0 ? 'fr' : 'en'}_{step}.png"
+			 id="image"
+			 click="{Session.tracker.trackPageview('/tutorialWindow-imageStep'+step);}"
+			 y="{step > 1 ? 40 : 0}"/>
+	
+	<s:Button id="continueButton" 
+				label="{Translations.CONTINUE.getItemAt(Session.LANGUAGE)}" 
+				mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+				right="5" top="5" 
+				click="{MusicPlayer.getInstance().playOkSound();continueTuto();Session.tracker.trackPageview('/tutorialWindow-continue');}"
+				skinClass="com.skooairs.skins.LittleButtonSkin"/>
+	
+	<s:Button id="skipButton" 
+				label="{Translations.SKIP.getItemAt(Session.LANGUAGE)}" 
+				mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+				x="30" top="5" 
+				click="{MusicPlayer.getInstance().playOkSound();skip();Session.tracker.trackPageview('/tutorialWindow-skip');}"
+				skinClass="com.skooairs.skins.LittleButtonSkin"/>
+	
+</s:Group>

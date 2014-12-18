@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:custom="custom.*"
+		 creationComplete="init()">
+
+		<!-- ========================================================================== -->
+
+	   <fx:Script>
+		   <![CDATA[
+			   import com.skooairs.resources.ImageContainer;
+			   import com.skooairs.constants.Names;
+			   import com.skooairs.constants.Numbers;
+			   import com.skooairs.constants.Session;
+			   import com.skooairs.constants.Translations;
+			   import com.skooairs.core.MusicPlayer;
+			   import com.skooairs.core.Pager;
+			   import com.skooairs.utils.Utils;
+			   
+			   import mx.core.UIComponent;
+			   
+			   //-----------------------------------------------------------------------------------//
+			   
+			   private function init():void {
+			   }
+			   
+			   private function newGame():void {
+				   Pager.getInstance().goToView(Numbers.VIEW_SELECTIONS);
+			   }
+			   
+			   private function scores():void {
+				   Session.SCORE_FORM_DISPLAYED = true;
+				   Pager.getInstance().goToView(Numbers.VIEW_BOARDS);
+			   }
+			   
+			   private function howToPlay():void {
+				   Session.TUTORIAL = true;
+				   Pager.getInstance().goToView(Numbers.VIEW_PLAY);
+			   }
+			   
+			   //-----------------------------------------------------------------------------------//
+		   ]]>
+	   </fx:Script>
+		
+		<fx:Declarations> 
+			<s:Scale3D id="scale" scaleXBy="-.25" scaleYBy="-.35"
+						duration="360"
+						repeatCount="2"
+            			repeatBehavior="reverse"/>
+		</fx:Declarations>
+		
+		<!-- ========================================================================== -->
+		
+		<mx:Image 	source="{ImageContainer.SKOOAIRS_TITLE}" 
+					x="120" y="75"
+					click="Session.tracker.trackPageview('/home-skooairsImage');"/>
+					
+			<s:Button label="{Translations.NEW_GAME.getItemAt(Session.LANGUAGE)}"
+					  skinClass="com.skooairs.skins.BigButtonSkin"
+					  mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+					  click="MusicPlayer.getInstance().playOkSound();newGame();Session.tracker.trackPageview('/home-newGameButton')"
+					  x="180" y="190"
+					  visible="{!Session.WAIT_FOR_CONNECTION}"/>
+			
+			<s:Button label="{Translations.BOARD.getItemAt(Session.LANGUAGE)}" 
+					 skinClass="com.skooairs.skins.BigButtonSkin"
+					 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+					 click="MusicPlayer.getInstance().playOkSound();scores();Session.tracker.trackPageview('/home-scoresButton')"
+					 x="230" y="240"
+					 visible="{!Session.WAIT_FOR_CONNECTION}"/>
+			
+			<s:Button label="{Translations.HOW_TO_PLAY.getItemAt(Session.LANGUAGE)}" 
+					 skinClass="com.skooairs.skins.BigButtonSkin"
+					 mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+					 click="MusicPlayer.getInstance().playOkSound();howToPlay();Session.tracker.trackPageview('/home-howToPlayButton')"
+					 x="300" y="400"
+					 visible="{!Session.WAIT_FOR_CONNECTION}"/>
+	
+		<s:Label text="{Translations.CONNECTION.getItemAt(Session.LANGUAGE)}"
+				 left="75"
+				 visible="{Session.WAIT_FOR_CONNECTION}"/>
+</s:Group>

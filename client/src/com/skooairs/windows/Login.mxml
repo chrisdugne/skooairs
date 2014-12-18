@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 width="370"
+		 height="150" 
+		 alpha="0.8">
+		
+		<s:Rect left="0" right="0" top="0" bottom="0" radiusX="5" radiusY="5">
+			<s:fill>
+				<s:SolidColor color="#000000"/>
+			</s:fill>
+		</s:Rect>
+		
+		<fx:Script>
+			<![CDATA[
+				import com.skooairs.constants.Names;
+				import com.skooairs.constants.Session;
+				import com.skooairs.constants.Translations;
+				import com.skooairs.core.Pager;
+				import com.skooairs.managers.AccountManager;
+				import com.skooairs.utils.SHA1;
+				import com.skooairs.utils.Utils;
+				
+				[Bindable] private var savedEmail:String = '';
+				
+				private function initForm():void{
+					var sharedObject:SharedObject = SharedObject.getLocal(Names.SHARED_OBJECT_NAME);
+					savedEmail = sharedObject.data.lastEmail;
+				}
+				
+				private function cancel():void{
+					Session.game.hideLogin.play();
+				}
+				
+				private function login():void{
+					Session.WAIT_FOR_CONNECTION = true;
+					if(formChecked()){
+						var sharedObject:SharedObject = SharedObject.getLocal(Names.SHARED_OBJECT_NAME);
+						sharedObject.data.lastEmail = emailInput.text;
+						
+						AccountManager.getInstance().login(emailInput.text, SHA1.encrypt(passwordInput.text));
+					}
+					else
+						Session.WAIT_FOR_CONNECTION = false;
+				}	
+				
+				private function createAccount():void{
+					Session.WAIT_FOR_CONNECTION = true;
+					if(formChecked()){
+						var sharedObject:SharedObject = SharedObject.getLocal(Names.SHARED_OBJECT_NAME);
+						sharedObject.data.lastEmail = emailInput.text;
+						
+						AccountManager.getInstance().register(emailInput.text, SHA1.encrypt(passwordInput.text));
+					}
+					else
+						Session.WAIT_FOR_CONNECTION = false;
+				}
+				
+				private function formChecked():Boolean{
+					if(!Utils.isValidEmail(emailInput.text))
+						mx.controls.Alert.show('Check your email', 'Oops');
+					else if(passwordInput.text.length < 3)
+						mx.controls.Alert.show('Password must be at least 3 characters', 'Oops');
+					else
+						return true;
+					
+					return false;
+				}
+			]]>
+		</fx:Script>
+		
+		<s:VGroup width="100%" 
+				  horizontalAlign="center"
+				  creationComplete="initForm()">
+			<mx:Spacer width="30"/>
+			<mx:Grid>
+				<mx:GridRow >
+					<mx:GridItem >
+						<s:Label text="email" color="#ffffff"/>
+					</mx:GridItem>
+					<mx:GridItem>
+						<s:TextInput id="emailInput"
+									 text="{savedEmail}"
+									 width="200"/>
+					</mx:GridItem>
+				</mx:GridRow>
+				<mx:GridRow >
+					<mx:GridItem >
+						<s:Label text="password" color="#ffffff"/>
+					</mx:GridItem>
+					<mx:GridItem>
+						<s:TextInput id="passwordInput" 		
+									 displayAsPassword="true"
+									 width="200"/>
+					</mx:GridItem>
+				</mx:GridRow>
+			</mx:Grid>
+			<s:HGroup visible="{!Session.WAIT_FOR_CONNECTION}"
+					  width="100%">
+				<mx:Spacer width="5"/>
+				<s:Button label="{Translations.CREATE_ACCOUNT.getItemAt(Session.LANGUAGE)}" 
+						  skinClass="com.skooairs.skins.LittleButtonSkin"
+						  click="{createAccount();Session.tracker.trackPageview('/loginWindow-createAccountButton');}"/>
+				<mx:Spacer width="100%"/>
+				<s:Button label="{Translations.LOG_IN.getItemAt(Session.LANGUAGE)}" 
+						  skinClass="com.skooairs.skins.LittleButtonSkin"
+						  click="{login();Session.tracker.trackPageview('/loginWindow-loginButton');}"/>
+			</s:HGroup>
+			<s:Button label="{Translations.CANCEL.getItemAt(Session.LANGUAGE)}" 
+					  skinClass="com.skooairs.skins.LittleButtonSkin"
+					  click="{cancel();Session.tracker.trackPageview('/loginWindow-cancelButton');}"
+					  visible="{!Session.WAIT_FOR_CONNECTION}"
+					  />
+		</s:VGroup>
+	</s:Group>

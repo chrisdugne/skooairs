@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/mx" height="34" width="320">
+		
+		<!-- ========================================================================== -->
+
+	    <fx:Script>
+			<![CDATA[
+				
+				import com.skooairs.entities.Board;
+				
+				//-----------------------------------------------------------------------------------//
+				[Bindable]
+				public function get board():Board {
+					return _board;
+				}
+				
+				public function set board(o:Board):void {
+					_board = o;
+				}
+				
+				protected var _board:Board;
+
+			]]>
+		</fx:Script>
+	    		
+		<!-- ========================================================================== -->
+		
+		<s:Graphic x="0" y="0">
+	        <!-- Draw rectangle with rounded corners. -->
+	        <s:Rect height="30" width="320" radiusX="15" radiusY="15">
+	            <s:stroke>
+	                <s:SolidColorStroke id="borderStroke"/>
+	            </s:stroke>
+	            <s:fill>
+	            	<mx:LinearGradient>
+				  		<mx:entries>
+				  			<mx:GradientEntry color="0x00000" ratio="1" alpha="0.7"/>
+				  		</mx:entries>
+				  	</mx:LinearGradient>
+	            </s:fill>
+	        </s:Rect>
+	    </s:Graphic>
+
+		<!-- ========================================================================== -->
+
+		<s:VGroup height="100%" width="100%">
+		    <mx:Spacer height="1"/>
+			<s:Group height="100%" width="100%">
+			    <s:Label styleName="normalWhiteStyle" text="{board.surname}" left="5"/>
+			    <s:Label styleName="normalWhiteStyle" text="{board.points} pts" right="5"/>
+			</s:Group>
+		</s:VGroup>
+</s:Group>

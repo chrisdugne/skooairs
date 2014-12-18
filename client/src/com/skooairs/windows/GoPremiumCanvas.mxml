@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mx:Canvas	xmlns:fx="http://ns.adobe.com/mxml/2009"  
+			xmlns:mx="library://ns.adobe.com/flex/mx"  
+			xmlns:s="library://ns.adobe.com/flex/spark"
+			xmlns:button="com.skooairs.components.buttons.*" 
+			xmlns:custom="com.skooairs.components.custom.*" 
+			width="720"
+			height="590"
+			backgroundColor="0x000000"
+			alpha="0.85">
+	
+	<fx:Declarations>
+		<mx:RemoteObject id="playerWrapper" 
+						 destination="PlayerWrapper" 
+						 endpoint="{Names.SERVER_AMF_ENDPOINT}">
+			
+		</mx:RemoteObject>
+	</fx:Declarations>
+	
+	<!--  ================================================================================================== -->
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import com.skooairs.constants.Session;
+			import com.skooairs.constants.Numbers;
+			import com.skooairs.constants.Names;
+			import com.skooairs.constants.Translations;
+			
+			import com.skooairs.core.MusicPlayer;
+			
+			/*
+			go premium - 1.99 button="8XNMNHARJDQLY"
+			go premium SANDBOX - 1.99 button="VQC33N3ATP4HG"
+			*/
+			public function buy():void{
+				
+				//securite pour joueur premium un peu con
+				if(Session.player.premium){
+					Session.game.hidebuycredits.play();
+					return;
+				}
+				
+				buyButton.visible=false;
+				loadingProgressBar.start();
+				
+				var dateMillis:Number = new Date().getTime();
+				playerWrapper.setTransactionMillis(Session.player.uralysUID, dateMillis);
+				
+				var url:String = "https://www.paypal.com/cgi-bin/webscr";
+				var request:URLRequest = new URLRequest(url);
+				var variables:URLVariables = new URLVariables();
+				variables.cmd = "_s-xclick";
+				variables.hosted_button_id = "8XNMNHARJDQLY";
+				variables.custom = Session.player.uralysUID + "___" + dateMillis;
+				
+				request.data = variables;
+				request.method = URLRequestMethod.POST;
+				navigateToURL(request,"_parent");
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Group width="100%" height="100%">
+		
+		<mx:Image source="../images/tutos/premium_{Session.LANGUAGE == 0 ? 'fr' : 'en'}.png"
+				  id="image"
+				  click="{!Session.LOGGED_IN ? Session.game.showLogin.play() : buy(); 
+				  Session.tracker.trackPageview('/goPremiumWindow-buyImage');}" 
+				  x="10" y="0"/>
+		
+		
+		<custom:LoadingProgress x="310" y="470" id="loadingProgressBar"/>
+		
+		<s:Button id="closeButton" 
+				  label="{Translations.CLOSE.getItemAt(Session.LANGUAGE)}" 
+				  right="5" top="5" 
+				  mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+				  click="{MusicPlayer.getInstance().playOkSound();Session.game.hidebuycredits.play(); 
+				  Session.tracker.trackPageview('/goPremiumWindow-closeButton');}"
+				  skinClass="com.skooairs.skins.LittleButtonSkin"/>
+		
+		<s:Button id="buyButton" 
+				  label="{Translations.GO_PREMIUM.getItemAt(Session.LANGUAGE)}" 
+				  x="{Session.LANGUAGE == 0 ? 20 : 50}" bottom="50" 
+				  mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+				  click="{MusicPlayer.getInstance().playOkSound();buy(); 
+				  Session.tracker.trackPageview('/goPremiumWindow-buyButton');}"
+				  visible="{Session.LOGGED_IN}"
+				  skinClass="com.skooairs.skins.BigButtonSkin"/>
+		
+		<s:Button id="loginButton"
+				  label="Login"
+				  click="{MusicPlayer.getInstance().playOkSound();Session.game.showLogin.play();
+				  Session.tracker.trackPageview('/goPremiumWindow-loginButton');}" 
+				  skinClass="com.skooairs.skins.LittleButtonSkin" 
+				  mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+				  x="5" top="5" 
+				  visible="{!Session.LOGGED_IN}"/>
+		
+		<mx:Image source="../images/logos/paypal.png"
+				  visible="{Session.LANGUAGE != 0}"
+				  bottom="30"
+				  right="{!Session.LOGGED_IN ? 290 : 50}"
+				  click="{!Session.LOGGED_IN ? Session.game.showLogin.play() : buy(); Session.tracker.trackPageview('/goPremiumWindow-paypalImage')}"/>
+		<mx:Image source="../images/logos/paypal_fr.png"
+				  visible="{Session.LANGUAGE == 0}"
+				  bottom="30"
+				  right="{!Session.LOGGED_IN ? 277 : 30}"
+				  click="{!Session.LOGGED_IN ? Session.game.showLogin.play() : buy(); Session.tracker.trackPageview('/goPremiumWindow-paypalFRImage')}"/>
+		
+	</s:Group>
+</mx:Canvas>

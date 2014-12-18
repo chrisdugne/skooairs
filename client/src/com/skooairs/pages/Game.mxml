@@ -1,0 +1,253 @@
+<?xml version="1.0"?>
+
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:forms="com.skooairs.forms.*"
+				xmlns:windows="com.skooairs.windows.*"
+				xmlns:custom="com.skooairs.components.custom.*"
+				xmlns:button="com.skooairs.components.buttons.*"
+				clipContent="false"
+				width="100%" height="100%"
+				creationComplete="init(event)">
+
+		<!-- ========================================================================== -->
+
+	   <fx:Script>
+		   <![CDATA[
+			   import com.skooairs.constants.Names;
+			   import com.skooairs.constants.Numbers;
+			   import com.skooairs.constants.Session;
+			   import com.skooairs.constants.Translations;
+			   import com.skooairs.core.MusicPlayer;
+			   import com.skooairs.core.Pager;
+			   import com.skooairs.entities.Player;
+			   import com.skooairs.entities.UralysProfile;
+			   import com.skooairs.managers.AccountManager;
+			   
+			   import mx.collections.ArrayCollection;
+			   import mx.events.FlexEvent;
+			   import mx.rpc.events.FaultEvent;
+			   import mx.rpc.events.ResultEvent;
+
+			   //==================================================================================================//
+
+			   private function init(event:FlexEvent):void {
+				   
+				   Pager.getInstance().viewstack = viewstack;
+				   Pager.getInstance().goToView(0);
+				   
+				   Session.game = this;
+				   Session.play = play;
+				   
+				   if(Session.newPlayer)
+					   showTuto(0);
+			   }
+			   
+			   //-----------------------------------------------------------------------------------//
+			   
+			   public function message(message:String, time:int):void {
+				   displayMessage.message = message;
+				   displayMessage.time = time;
+				   displayMessage.showMessage();
+			   }
+			   
+			   public function invite():void {
+				   ExternalInterface.call("showInvite()");
+			   }
+			   
+			   //==================================================================================================//
+			   
+			   private function french():void {
+				   
+				   if(Session.LOGGED_IN)
+					   AccountManager.getInstance().changeLanguage(Session.player.uralysUID, 0);
+				   
+				   Session.LANGUAGE = 0;
+			   }
+			   
+			   private function english():void {
+				   
+				   if(Session.LOGGED_IN)
+					   AccountManager.getInstance().changeLanguage(Session.player.uralysUID, 1);
+				   
+				   Session.LANGUAGE = 1;
+			   }
+			   
+			   private function us():void {
+				   
+				   if(Session.LOGGED_IN)
+					   AccountManager.getInstance().changeLanguage(Session.player.uralysUID, 2);
+				   
+				   Session.LANGUAGE = 2;
+			   }
+			   
+			   private function music():void {
+				   MusicPlayer.getInstance().switchState();
+				   
+				   if(Session.LOGGED_IN)
+					   AccountManager.getInstance().changeMusicOn(Session.uralysProfile.uralysUID, Session.player.musicOn);
+			   }
+			   
+			   //==================================================================================================//
+			   
+			   public function showTuto(step:int):void {
+				   showtuto.play();
+			   }
+			   
+			   public function hideTuto():void {
+				   hidetuto.play();
+			   }
+			   
+			   
+			   
+		   ]]>
+	   </fx:Script>
+	
+	<fx:Declarations>
+			<mx:RemoteObject id="playerWrapper" 
+				        destination="PlayerWrapper" 
+				        endpoint="{Names.SERVER_AMF_ENDPOINT}"
+				        showBusyCursor="true"/>
+
+
+			<s:Move id="hidebuycredits" target="{goPremiumCanvas}" yTo="-600"/>
+			<s:Move id="showbuycredits" target="{goPremiumCanvas}" yTo="0"/>
+			
+			<s:Move id="hideinfo" target="{infoCanvas}" yTo="-640"/>
+			<s:Move id="showinfo" target="{infoCanvas}" yTo="0"/>
+			
+			<s:Move id="hideLogin" target="{loginWindow}" xTo="-375"/>
+			<s:Move id="showLogin" target="{loginWindow}" xTo="0"/>
+
+			<s:Move id="hideChangeName" target="{changeNameWindow}" xTo="-375"/>
+			<s:Move id="showChangeName" target="{changeNameWindow}" xTo="0"/>
+			
+			<s:Move id="hidedisplaymessage" target="{displayMessage}" yTo="-50"/>
+			<s:Move id="showdisplaymessage" target="{displayMessage}" yTo="0"/>
+			
+			<s:Move id="hidetuto" target="{Pager.getInstance().tutorial}" yTo="660"/>
+			<s:Move id="showtuto" target="{Pager.getInstance().tutorial}" yTo="45"/>
+		
+		</fx:Declarations>
+		
+		<!-- ========================================================================== -->
+
+		<mx:Image source="../images/logos/uralysminilogo.png" 
+					x="65" bottom="2"
+					click="navigateToURL(new URLRequest('http://www.uralys.com'), '_new');
+						   Session.tracker.trackPageview('/game-uralysButton');"/>
+
+		<!-- ========================================================================== -->
+
+			
+			<button:MiniInviteFriendsButton id="inviteButton" 
+								right="320"
+								top="10"
+								toolTip="{Translations.INVITE_FRIENDS.getItemAt(Session.LANGUAGE)} !"
+								visible="{Session.GAME_OVER 
+											&amp;&amp; Session.CONNECTED_TO_FACEBOOK
+											&amp;&amp; Session.LOGGED_IN}"
+								mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+								click="MusicPlayer.getInstance().playOkSound();invite();Session.tracker.trackPageview('/game-inviteFriendsButton')"/>
+									
+			<button:BuyCreditsButton right="260" 
+									top="10"
+									id="buyCreditsButton" 
+									toolTip="{Translations.GO_PREMIUM.getItemAt(Session.LANGUAGE)} !" 
+									click="{MusicPlayer.getInstance().playOkSound();showbuycredits.play();Session.tracker.trackPageview('/game-buyCreditsButton')}"
+						 			mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+									visible="{Session.GAME_OVER &amp;&amp; !Session.player.premium}"/>
+								
+			<button:AboutButton right="200" 
+								top="10"
+									id="infoButton" 
+									toolTip="{Translations.ABOUT_FOOLS.getItemAt(Session.LANGUAGE)}" 
+									click="MusicPlayer.getInstance().playOkSound();showinfo.play();Session.tracker.trackPageview('/game-infoButton')"
+						 			mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+									visible="{Session.GAME_OVER}"/>
+									
+			<button:HelpButton right="140" 
+									top="10"
+									id="helpButton" 
+									toolTip="{Translations.HELP.getItemAt(Session.LANGUAGE)}" 
+						 			mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+									click="MusicPlayer.getInstance().playOkSound();showTuto(Session.CURRENT_TUTO_AVAILABLE);Session.tracker.trackPageview('/game-helpButton')"/>
+
+			<button:VolumeOnButton x="675" top="10" id="soundOnButton" click="music();Session.tracker.trackPageview('/game-soundOnButton')" visible="{Session.player.musicOn}"
+								mouseOver="{MusicPlayer.getInstance().playBipSound()}"/>
+			<button:VolumeOffButton x="675" top="10" id="soundOffButton" click="music();Session.tracker.trackPageview('/game-soundOffButton')" visible="{!Session.player.musicOn}"/>
+			
+			<mx:Image x="620" y="35" id="frenchButton" source="../images/flags/fr.png" click="french();Session.tracker.trackPageview('/game-frenchButton')" visible="{Session.LANGUAGE != 0}" width="25"/>
+			<mx:Image x="{Session.LANGUAGE == 0 ? 620 : 650}" y="35" id="englishButton" source="../images/flags/en.png" click="english();Session.tracker.trackPageview('/game-englishButton')" visible="{Session.LANGUAGE != 1}" width="25"/>
+			<mx:Image x="650" y="35" id="usButton" source="../images/flags/us.png" click="us();Session.tracker.trackPageview('/game-usButton')" visible="{Session.LANGUAGE != 2}" width="25"/>
+
+		<!-- ========================================================================== -->
+			
+			<s:HGroup left="80" top="65"
+					  visible="{Session.LOGGED_IN}">
+				<s:VGroup>
+					<mx:Spacer height="2"/>
+					<s:Label id="labelName"
+						 text="{Translations.LOGGED_AS.getItemAt(Session.LANGUAGE)} : {Session.player.surname}" 
+						 click="showChangeName.play();Session.tracker.trackPageview('/game-loggedAsLabel');"/>
+				</s:VGroup>
+				<mx:Image source="../images/edit.png"
+						  click="showChangeName.play();Session.tracker.trackPageview('/game-editNameImage');"/>
+			</s:HGroup>
+	
+			<s:Button  right="70" top="90" 
+						mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+						click="showLogin.play();Session.tracker.trackPageview('/game-uralysLoginButton')"
+						skinClass="com.skooairs.skins.UralysLoginButtonSkin"
+						visible="{Session.GAME_OVER 
+									&amp;&amp; !Session.SCORE_FORM_DISPLAYED
+									&amp;&amp; !Session.LOGGED_IN
+									&amp;&amp; !Session.CONNECTED_TO_FACEBOOK}"/>
+
+			<s:Button right="70" top="90" 
+						mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+						click="{AccountManager.getInstance().loginFacebook();Session.tracker.trackPageview('/game-facebookLoginButton')}"
+						skinClass="com.skooairs.skins.FBLoginButtonSkin"
+						visible="{Session.GAME_OVER 
+								  &amp;&amp; !Session.SCORE_FORM_DISPLAYED
+							      &amp;&amp; Session.LOGGED_IN
+								  &amp;&amp; !Session.CONNECTED_TO_FACEBOOK
+							 	  &amp;&amp; !Session.CONNECTED_TO_FACEBOOK}"/>
+
+			<s:Button right="70" top="90" 
+						mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+						click="{AccountManager.getInstance().logoutFacebook();Session.tracker.trackPageview('/game-facebookLogoutButton')}"
+						skinClass="com.skooairs.skins.FBLogoutButtonSkin"
+						visible="{Session.GAME_OVER 
+									&amp;&amp; !Session.SCORE_FORM_DISPLAYED
+									&amp;&amp; Session.CONNECTED_TO_FACEBOOK
+									&amp;&amp; Session.LOGGED_IN}"/>
+		
+		<!-- ========================================================================== -->
+		
+         <mx:ViewStack y="75" id="viewstack" width="100%" height="100%"
+             backgroundAlpha="0"
+             historyManagementEnabled="true">
+             
+           	  <s:NavigatorContent>
+				  <forms:Home id="home"/>
+			  </s:NavigatorContent>
+           	  <forms:Selections id="selections"/>
+           	  <forms:Play id="play" show="play.reset();"/>
+           	  <forms:Boards id="boards" show="boards.refresh();"/>
+           	  
+        </mx:ViewStack>
+		
+        <!--<custom:LoadingProgress id="loadingProgressBar" x="180" y="190" visible="{!initDone}"/>-->
+
+		<!-- ========================================================================== -->
+		<!-- windows -->
+
+		<windows:SimpleMessageCanvas id="displayMessage" x="50" y="-90"/>
+		<windows:GoPremiumCanvas id="goPremiumCanvas" x="20" y="-600"/>
+		<windows:InfoCanvas id="infoCanvas" x="20" y="-640"/>
+		<windows:Login id="loginWindow" x="-375" y="100"/>
+		<windows:ChangeName id="changeNameWindow" x="-375" y="100"/>
+
+</mx:Canvas>

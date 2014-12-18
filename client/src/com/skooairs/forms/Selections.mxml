@@ -1,0 +1,295 @@
+<?xml version="1.0"?>
+
+<mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:custom="custom.*"
+				creationComplete="init()">
+
+		<!-- ========================================================================== -->
+
+	   <fx:Script>
+		   <![CDATA[
+			   
+			   import com.skooairs.core.Pager;
+			   import com.skooairs.core.MusicPlayer;
+			   
+			   import com.skooairs.constants.Session;
+			   import com.skooairs.constants.Numbers;
+			   import com.skooairs.constants.Translations;
+			   
+			   //-----------------------------------------------------------------------------------//
+			   
+			   [Bindable] private var initDone:Boolean = false;
+			   
+			   [Bindable] private var selectedTime:String = "2 min";
+			   [Bindable] private var selectedColors:String = "3";
+			   [Bindable] private var selectedSpeed:String = "1";
+			   
+			   //-----------------------------------------------------------------------------------//
+			   
+			   private function init():void {
+				   initDone = true;
+			   }
+			   
+			   private function go():void {
+				   Session.SPEED = parseInt(selectedSpeed);
+				   Session.COLORS = parseInt(selectedColors);
+				   needPremiumLabel.visible = false;
+				   
+				   switch(selectedTime){
+					   case "2 min":
+						   Session.TIME = Numbers.TIME_2_MIN;
+						   break;
+					   case "3 min":
+						   Session.TIME = Numbers.TIME_3_MIN;
+						   break;
+					   case "5 min":
+						   Session.TIME = Numbers.TIME_5_MIN;
+						   break;
+					   case "7 min":
+						   Session.TIME = Numbers.TIME_7_MIN;
+						   break;
+					   case "10 min":
+						   Session.TIME = Numbers.TIME_10_MIN;
+						   break;
+					   default:
+						   //no limit
+						   Session.TIME = Numbers.TIME_NO_LIMIT;
+				   }
+				   
+				   
+				   if(!Session.player.premium 
+					   && (Session.TIME != Numbers.TIME_2_MIN
+						   || Session.COLORS != 3	
+						   || Session.SPEED != 1)){
+					   
+					   timeBorderMover.xTo=92;
+					   timeBorderResizer.widthTo=75;
+					   timeParallel.play();
+					   selectedTime='2 min';
+					   
+					   colorsMover.xTo=167;
+					   colorsMover.play();
+					   selectedColors='3';
+					   
+					   needPremiumLabel.visible = true;
+					   Session.tracker.trackPageview('/selection-notPremiumGoAsked');
+					   
+					   return;
+				   }
+				   else{
+					   Session.tracker.trackPageview('/selection-availableGoAsked');
+					   newGame();
+				   }
+				   
+			   }
+			   
+			   private function newGame():void {
+				   Pager.getInstance().goToView(Numbers.VIEW_PLAY);
+			   }
+
+		   ]]>
+	   </fx:Script>
+		
+		<fx:Declarations>  
+			<s:Elastic id="elasticEasing"/>
+			<mx:Parallel id="timeParallel">
+				<s:Move id="timeBorderMover"
+						target="{timeBorder}"
+						duration="300"
+			            easer="{elasticEasing}"/>
+				<s:Resize id="timeBorderResizer"
+						target="{timeBorder}"
+						duration="150"/>
+			</mx:Parallel>	
+			<s:Move id="colorsMover"
+					target="{colorsBorder}"
+					duration="300"
+		            easer="{elasticEasing}"/>
+		</fx:Declarations>
+		
+		<!-- ========================================================================== -->
+	
+		
+		<s:VGroup x="12" y="92">
+			<s:HGroup><mx:Spacer width="55"/><s:Label styleName="bigGreenStyle" text="{Translations.TIME.getItemAt(Session.LANGUAGE)}"/></s:HGroup>
+			<mx:Spacer height="5"/>
+			<s:HGroup>
+				<mx:Spacer width="77"/>
+				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+						   label="2 min"
+						   skinClass="com.skooairs.skins.LittleButtonSkin"
+						   click="{timeBorderMover.xTo=92;timeBorderResizer.widthTo=75;timeParallel.play();
+						   		   selectedTime='2 min';
+								   Session.tracker.trackPageview('/selection-2minButton')}"
+						   />
+				<mx:Spacer width="3"/>
+				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+							label="3 min"
+						   skinClass="com.skooairs.skins.LittleButtonSkin"
+						   click="{timeBorderMover.xTo=170;timeBorderResizer.widthTo=75;timeParallel.play();
+						   		   selectedTime='3 min';
+						 		   Session.tracker.trackPageview('/selection-3minButton')}"
+						   />
+				<mx:Spacer width="3"/>
+				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+				label="5 min"
+						   skinClass="com.skooairs.skins.LittleButtonSkin"
+						   click="{timeBorderMover.xTo=252;timeBorderResizer.widthTo=75;timeParallel.play();
+						   		   selectedTime='5 min';
+						   		   Session.tracker.trackPageview('/selection-5minButton')}"
+						   />
+				<mx:Spacer width="3"/>
+				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}"
+							label="7 min"
+						   skinClass="com.skooairs.skins.LittleButtonSkin"
+						   click="{timeBorderMover.xTo=334;timeBorderResizer.widthTo=75;timeParallel.play();
+						   		   selectedTime='7 min';
+						  		   Session.tracker.trackPageview('/selection-7minButton')}"
+						   />
+				<mx:Spacer width="3"/>
+				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+							label="10 min"
+						   skinClass="com.skooairs.skins.LittleButtonSkin"
+						   click="{timeBorderMover.xTo=412;timeBorderResizer.widthTo=84;timeParallel.play();
+						   		   selectedTime='10 min';
+						  		   Session.tracker.trackPageview('/selection-10minButton')}"
+						   />
+		    </s:HGroup>
+			<mx:Spacer height="20"/>
+			<s:HGroup><mx:Spacer width="55"/><s:Label styleName="bigGreenStyle" text="{Translations.COLORS.getItemAt(Session.LANGUAGE)}"/></s:HGroup>
+			<mx:Spacer height="20"/>
+			<s:HGroup>
+				<mx:Spacer width="153"/>
+				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+						 label="3"
+						  skinClass="com.skooairs.skins.BigButtonSkin"
+						   click="{colorsMover.xTo=167;colorsMover.play();
+						   		   selectedColors='3';
+						   		   Session.tracker.trackPageview('/selection-3colorsButton')}"
+						   />
+				<mx:Spacer width="70"/>
+				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+						 label="4"
+						  skinClass="com.skooairs.skins.BigButtonSkin"
+						   click="{colorsMover.xTo=293;colorsMover.play();
+						   		   selectedColors='4';
+						  		   Session.tracker.trackPageview('/selection-4colorsButton')}"
+						   />
+				<mx:Spacer width="70"/>
+				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+						 label="5"
+						  skinClass="com.skooairs.skins.BigButtonSkin"
+						   click="{colorsMover.xTo=422;colorsMover.play();
+						   		   selectedColors='5';
+						  		   Session.tracker.trackPageview('/selection-5colorsButton')}"
+						   />
+				<mx:Spacer width="70"/>
+				<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+						 label="6"
+						  skinClass="com.skooairs.skins.BigButtonSkin"
+						   click="{colorsMover.xTo=547;colorsMover.play();
+						   		   selectedColors='6';
+						   		   Session.tracker.trackPageview('/selection-6colorsButton')}"
+						   />
+		    </s:HGroup>
+		</s:VGroup>
+		
+		<s:Group id="timeBorder"
+				 x="92" y="122" 
+				 height="45" width="75">
+				
+			<s:Graphic x="0" y="0">
+		        <!-- Draw rectangle with rounded corners. -->
+		        <s:Rect height="{timeBorder.height}" width="{timeBorder.width}" radiusX="15" radiusY="15">
+		            <s:stroke>
+		                <s:SolidColorStroke color="{Numbers.WHITE}" weight="3"/>
+		            </s:stroke>
+		            <s:fill>
+		            	<mx:LinearGradient>
+					  		<mx:entries>
+					  			<mx:GradientEntry color="0x00000" ratio="1" alpha="0.2"/>
+					  		</mx:entries>
+					  	</mx:LinearGradient>
+		            </s:fill>
+		        </s:Rect>
+		    </s:Graphic>
+		
+		</s:Group>  
+
+		<s:Group id="colorsBorder"
+				 x="167" y="242" 
+				 height="50" width="50">
+				
+			<s:Graphic x="0" y="0">
+		        <!-- Draw rectangle with rounded corners. -->
+		        <s:Rect height="{colorsBorder.height}" width="{colorsBorder.width}" radiusX="15" radiusY="15">
+		            <s:stroke>
+		                <s:SolidColorStroke color="{Numbers.WHITE}" weight="3"/>
+		            </s:stroke>
+		            <s:fill>
+		            	<mx:LinearGradient>
+					  		<mx:entries>
+					  			<mx:GradientEntry color="0x00000" ratio="1" alpha="0.2"/>
+					  		</mx:entries>
+					  	</mx:LinearGradient>
+		            </s:fill>
+		        </s:Rect>
+		    </s:Graphic>
+		
+		</s:Group>  
+ 		
+		<s:Group id="resultBorder"
+				 x="350" y="332" 
+				 height="150" width="200">
+				
+			<s:Graphic x="0" y="0">
+		        <!-- Draw rectangle with rounded corners. -->
+		        <s:Rect height="{resultBorder.height}" width="{resultBorder.width}" radiusX="15" radiusY="15">
+		            <s:stroke>
+		                <s:SolidColorStroke color="{Numbers.WHITE}" weight="2"/>
+		            </s:stroke>
+		            <s:fill>
+		            	<mx:LinearGradient>
+					  		<mx:entries>
+					  			<mx:GradientEntry color="0x00000" ratio="1" alpha="0.4"/>
+					  		</mx:entries>
+					  	</mx:LinearGradient>
+		            </s:fill>
+		        </s:Rect>
+		    </s:Graphic>
+		</s:Group>  
+		
+		<s:Label text="{Translations.TIME.getItemAt(Session.LANGUAGE)}  :   {selectedTime.indexOf( 'min', 0 ) != -1 ? selectedTime : '-'}"
+				  x="355" y="340" 
+				  styleName="normalGreen2Style"/>
+		<s:Label text="{Translations.COLORS.getItemAt(Session.LANGUAGE)}  :   {selectedColors}"
+				  x="355" y="380" 
+				  styleName="normalGreen2Style"/>
+				  
+		<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+					label="Go!" 
+					skinClass="com.skooairs.skins.BigButtonSkin"
+					x="405" y="420"
+					click="MusicPlayer.getInstance().playOkSound(); go(); "/>
+
+		<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+					label="{Translations.BACK.getItemAt(Session.LANGUAGE)}" 
+					skinClass="com.skooairs.skins.BigButtonSkin"
+					x="85" y="20"
+					click="{MusicPlayer.getInstance().playOkSound();Pager.getInstance().goToView(Numbers.VIEW_HOME); Session.tracker.trackPageview('/selection-backButton')}"/>
+
+		<s:Button mouseOver="{MusicPlayer.getInstance().playBipSound()}" 
+					label="{Translations.GO_PREMIUM.getItemAt(Session.LANGUAGE)}" 
+					skinClass="com.skooairs.skins.BigButtonSkin"
+					left="80"
+					bottom="218"
+					id="needPremiumLabel"
+					visible="false"
+					click="{Session.game.showbuycredits.play(); Session.tracker.trackPageview('/selection-premiumButton')}"/>
+		<s:Label text="{Translations.WHAT_IS_FREE.getItemAt(Session.LANGUAGE)}"
+				 left="80"
+				 bottom="180"/>
+		
+</mx:Canvas>
